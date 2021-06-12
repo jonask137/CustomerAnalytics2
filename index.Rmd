@@ -1,0 +1,18 @@
+---
+title: "Customer Analytics" #appear to be mandatory
+site: bookdown::bookdown_site #appear to be mandatory
+---
+# setup {-}
+
+
+```{r setup1,include=FALSE}
+knitr::opts_chunk$set(echo = TRUE
+                      ,message = FALSE
+                      ,error = FALSE
+                      ,warning = FALSE
+                      ,strip.white = TRUE #To remove white space before and after chunk in output
+                      ,fig.align = 'center'
+                      ,fig.width = 7.5
+                      ,cache = TRUE
+                      )
+```
