@@ -159,7 +159,7 @@ diagnostic-backward-inference
 application-2-identifying-populations-with-positive-expected-lift-in-profit-elp-and-targeting
 application-3-product-recommendation-using-probabilistic-models-bn
 method-1-learn-the-probabilistic-relationships-using-a-bayesian-network-learning
-method-2-it-works-on-the-assumption-that-the-active-user-belongs-to
+method-2-finding-latent-segments
 latent-models-for-cross-selling-and-acquisition-sequence
 latent-trait-model---applying-the-ltm-package-in-r
 the-latent-hidden-markov-model

@@ -456,7 +456,7 @@ cpt <- list(Fuse = Fuse.prob,
             Atti = Atti.prob, 
             Comm = Comm.prob)
 #  Relate the DAG and CPT and define a fully-specified BN
-bn <- custom.fit (dag, cpt)
+bn <- custom.fit(dag, cpt)
 bn
 ```
 
@@ -821,7 +821,7 @@ Plotting **ROC and AUC**
 *Notice that ROC and AUC is made for a two class scenario, hence it returns nine lines, one for each line.*
 
 ```{r,results='hold'}
-library(caTools) 
+library(caTools)
 colAUC(predComm, retention_test[ ,4], plotROC = TRUE) #requires the predicted probabilities, not the predicted class
 ```
 
@@ -1045,6 +1045,8 @@ The probability of attitude high and commitment low was set to 1.00.
 
 The results imply that FUSE is 0.3 likely to be low but a significant proportion is still likely to be high (0.62); instead, PLEA is most likely to be low (0.7) and unlikelly to be high (0%). This reveals that customers interact primarily because of fun, and they do not perceive the VC to be sufficiently useful to them to commit to.
 
+
+
 ## Application 2: Identifying populations with Positive Expected Lift in Profit (ELP) and targeting
 
 The idea is to use BN to identify segments of customers that will most *likely purchase* when sending the ad (persuadable segments) and **avoid** sending the ad to the rest: 1) to the ones who will not buy the advertised product ever, 2) to the ones who will be offended by receiving an unwanted advertisement or call, 3) or to the ones who will always buy)
@@ -1055,224 +1057,340 @@ If historical data is available, we start learning the relationships between the
 targeted.adv <- read.csv("Data/Probabilistic Models for Customer Analytics/targeted.adv.csv"
                          ,header = T, colClasses = "factor")
 head(targeted.adv)
-str(targeted.adv)  
+str(targeted.adv)
+```
 
+We see that the table contains 5 columns, ID, Buy, Income, Sex and Mailed. All the variables are factor variables 
+
+```{r,results='hold',include=TRUE}
 # Build the structure
 dagTA <- model2network("[Income][Sex][Mailed][Buy|Income:Sex:Mailed]")
 plot(dagTA)
 ```
 
-
+We see that the all variables leads towards buy.
 
 ```{r,results='hold',include=TRUE}
-# Learn the ctp
-bnTA.mle <- bn.fit (dagTA, data = targeted.adv[, c(2:5)], method = "mle")
+# Learn the cpt (conditional probability table)
+bnTA.mle <- bn.fit(dagTA, data = targeted.adv[, c(2:5)], method = "mle")
 bnTA.mle
+```
+
+We know that the whole network is based upon the conditional probabilities.
+
+Now we want to calculate the **ELP (Expected Lift in Profit)**
+
+The function is basically
+
+$$ELP = P(Buy = Yes| Mailed = yes) * r_s  - P(Buy = Yes| Mailed = no) r_u - c$$
+
+That applies for any given population Y. We see that we have the following notations:
+
++ $c$ = cost of mailing the ad to a give person
++ $r_u$ = the income obtained from a sale to en unsolicited customer
++ $r_c$ = the income obtained from a sale to en solicited customer
++ $r_u$ and $r_s$ = are different because we may offer some discount in the ad
+
+We can take the following assumptions.
 
 
-# ELP
-# ELP = P(Buy = Yes| Mailed = yes) * r_s  - P(Buy = Yes| Mailed = no) r_u - c, for any given population Y
-# where:
-#  - c = cost of mailing the ad to a give person
-#  - r_u = the income obtained from a sale to en unsolicited customer
-#  - r_c = the income obtained from a sale to en solicited customer
-#  - r_u and r_s are different because we may offer some discount in the ad
+Now we need to do three different scenarios:
 
+a. Compute the ELP for the population consisting of individuals with medium income who are male. Should we mail an ad to this population?
 
-# Asumming 
-c=0.5
-r_s = 8
-r_u = 10
+b. Compute the ELP for the population consisting of individuals with medium income who are female. Should we mail the ad to this population?
 
-# a. ) Compute the ELP for the population consisting of individuals with medium income who are male.
-#      Should we mail an ad to this population?
+c. Compute the ELP for the population consisting of individuals with low income. Should we mail an ad this population?
 
-# set evidence and get the ctp 
+**Scenario 1**
+
+We are going to evaluate males with high income. First we see the probability of buying when mailed and when not.
+
+```{r,results='hold',include=TRUE}
+c = 0.5 #Cost
+r_s = 8 #Income with discount
+r_u = 10 #Income obtained from a sale to en unsolicited customer
+```
+
+```{r,results='hold',include=TRUE}
+# set evidence and get the cpt 
 library (gRain)
-junctionTA <- compile (as.grain(bnTA.mle))
-Med_male_yes <- setEvidence (junctionTA, nodes = c("Income", "Sex", "Mailed"), states = c("medium", "male", "yes"))
-querygrain(Med_male_yes, nodes = "Buy")
-# p(buy) = 0.4
-Med_male_no <- setEvidence (junctionTA, nodes = c("Income", "Sex", "Mailed"), states = c("medium", "male", "no"))
-querygrain(Med_male_no, nodes = "Buy")
-# p(buy) = 0.2
+junctionTA <- compile(as.grain(bnTA.mle))
 
-options(digits=2)
+#We have mailed
+Med_male_yes <- setEvidence(junctionTA, nodes = c("Income", "Sex", "Mailed")
+                             , states = c("medium", "male", "yes"))
+querygrain(Med_male_yes, nodes = "Buy")
+```
+
+Probability of buying when mailed = 41.46%.
+
+```{r,results='hold',include=TRUE}
+#Not mailed
+Med_male_no <- setEvidence(junctionTA, nodes = c("Income", "Sex", "Mailed")
+                            , states = c("medium", "male", "no"))
+querygrain(Med_male_no, nodes = "Buy")
+```
+
+Probability of buying when not mailed = 19.56%
+
+Calculate expected lift.
+
+```{r,results='hold',include=TRUE}
+options(digits = 2)
 ELP = querygrain(Med_male_yes, nodes = "Buy")$Buy[[2]] * r_s -
      querygrain(Med_male_no, nodes = "Buy")$Buy[[2]] * r_u - c
 ELP
-# Since the ELP is positive, we mail to this population
+```
 
+We see that the expected lift (ELP) is positive hence, we should mail the high income males.
 
+**Scenario 2**
 
-# Asumming 
-c=0.6
-r_s = 7
-r_u = 9
+In this examplle we basically do the same, just with females instead.
 
-# b. ) Compute the ELP for the population consisting of individuals with medium income who are female
-# Should we mail the ad to this population?
+```{r,results='hold',include=TRUE}
+#Assumptions
+c = 0.6 #Cost
+r_s = 7 #Income with discount
+r_u = 9 #Income obtained from a sale to en unsolicited customer
 
-Med_fem_yes <- setEvidence (junctionTA, nodes = c("Income", "Sex", "Mailed"), states = c("medium", "female", "yes"))
+Med_fem_yes <- setEvidence(junctionTA, nodes = c("Income", "Sex", "Mailed")
+                           ,states = c("medium", "female", "yes"))
 querygrain(Med_fem_yes, nodes = "Buy")
-# p(buy) = 0.7
-Med_fem_no <- setEvidence (junctionTA, nodes = c("Income", "Sex", "Mailed"), states = c("medium", "female", "no"))
-querygrain(Med_fem_no, nodes = "Buy")
-# p(buy) = 0.4
+```
 
-options(digits=2)
+We see the probability of buying = 72% when they are mailed.
+
+```{r,results='hold',include=TRUE}
+Med_fem_no <- setEvidence(junctionTA, nodes = c("Income", "Sex", "Mailed")
+                          ,states = c("medium", "female", "no"))
+querygrain(Med_fem_no, nodes = "Buy")
+```
+
+We see that the probability of buying = 44% when mailed.
+
+```{r,results='hold',include=TRUE}
 ELP = querygrain(Med_fem_yes, nodes = "Buy")$Buy[[2]] * r_s -
  querygrain(Med_fem_no, nodes = "Buy")$Buy[[2]] * r_u - c
 ELP
-# Since the ELP is positive, we mail to this population
-
-
-
-# c. ) Finally, let us compute the ELP for the population consisting of individuals with low income. 
-# Should we mail an ad this population?
- 
-Low_yes <- setEvidence (junctionTA, nodes = c("Income", "Mailed"), states = c("low", "yes"))
-querygrain( Low_yes, nodes = "Buy")
-# 0.6
-Low_no <- setEvidence (junctionTA, nodes = c("Income", "Mailed"), states = c("low", "no"))
-querygrain( Low_no, nodes = "Buy")
-# 0.5
-
-options(digits=2)
-ELP =  querygrain( Low_yes, nodes = "Buy")$Buy[[2]] * r_s -
- querygrain( Low_no, nodes = "Buy")$Buy[[2]] * r_u - c
-ELP
-# Since the ELP is negative, we do not mail to this population
-
-
-# Discussion: 
-# Using BN in this application allows to identify persuadable segments of individuals 
-# who would buy only if they are sent an ad. It avoids sending ads to those who will never buy
-# those who always buy (thus avoid wasting the ad), and 
-# those who are turned off by the advertisement when they receive it.
-# the network can be extended with more nodes according to the characteritics of the pop. in the dataset
 ```
+
+We see that the ELP = 0.48, hence positive. Meaning that we should mail the medium income females as well, because we see that we earn more on these.
+
+**Scenario 3**
+
+We go with the same assumptions this time.
+
+We are going to look at low income customers.
+
+```{r,results='hold',include=TRUE}
+Low_yes <- setEvidence (junctionTA, nodes = c("Income", "Mailed")
+                        ,states = c("low", "yes"))
+querygrain( Low_yes, nodes = "Buy")
+```
+
+We see that the probability of buying = 60%
+
+```{r,results='hold',include=TRUE}
+Low_no <- setEvidence (junctionTA, nodes = c("Income", "Mailed")
+                       ,states = c("low", "no"))
+querygrain(Low_no, nodes = "Buy")
+```
+
+Now we see that there is 47% probability of buying when they are mailed.
+
+```{r,results='hold',include=TRUE}
+ELP = querygrain(Low_yes, nodes = "Buy")$Buy[[2]] * r_s -
+ querygrain(Low_no, nodes = "Buy")$Buy[[2]] * r_u - c
+ELP
+```
+
+We see that it is negative, hence we should not email the low income people.
+
+Discussion: 
+
+Using BN in this application allows to identify persuadable segments of individuals who would buy only if they are sent an ad. It avoids sending ads to those who will never buy those who always buy (thus avoid wasting the ad), and those who are turned off by the advertisement when they receive it. The network can be extended with more nodes according to the characteritics of the pop. in the dataset
 
 
 ## Application 3: Product Recommendation using Probabilistic Models (BN)
 
-```{r,results='hold',eval=FALSE,include=TRUE}
-######################################################################################
-# Application 3: Product Recommendation using Probabilistic Models (BN)
-######################################################################################
-```
 
 ### Method 1: Learn the probabilistic relationships using a Bayesian network learning
 
-```{r,results='hold',eval=FALSE,include=TRUE}
-# Method 1. Learn the probabilistic relationships using a Bayesian network learning 
-   # algorithm and select the best model. Below we used Hill-climbing algorithm which
-   # is the best structure based on BIC criterion, given the data. 
-   # ********************************************************************************************
-   # Bayesian Networks as a Model-Based Method for Collaborative Filtering
-   # ********************************************************************************************
-   
-   library(bnlearn)
-   library(Rgraphviz)
-   data = read.csv("~/Documents/Alina Tudoran/TEACHING/Postgraduate/BN/BN 2020/Lectures/Databases/Coll Filtering/CollFilforR.csv", header = T, colClasses = "factor", sep = ";")
-   View(data)
-   
-   # Structural expectation-maximization function learns with mising data
-   # a Hill-Climbing structure and further predict the missing values, which
-   # will be the recommendations
-   mystructural<- structural.em (data, maximize = "hc", return.all = TRUE) 
-   graphviz.plot (mystructural$dag)
-   mystructural$dag # the structure
-   mystructural$fitted # the parameters
-   mystructural$imputed # the predictions based on the probabilistic structure
-   
-   # Alternatively, BN model is trained with any other algorithm using
-   # non-missing registers, and used afterwards for making inference;
-   # inpute () function allow us to make inferennce in a new datasset
-   # of customers for which we want to make recommendations.
-   data_wNA = na.omit(data)
-   dag = tree.bayes(data_wNA, "V4") # a tree bayes
-   graphviz.plot(dag)
-   myBN = bn.fit(dag, data_wNA)
-   # assuming the model was trained and tested through a 
-   # cross-validation procedure (as in App 1), one can further
-   # use it for making recommendations with impute() function 
-   # in a new dataset
-   dataimputed = bnlearn::impute(myBN, data, method = "parents", debug = TRUE)
-   table(is.na(dataimputed))
-   
-   # compare the recommendations made by the two methods
-   table(mystructural$imputed$V1, dataimputed$V1)
-   table(mystructural$imputed$V2, dataimputed$V2)
-   table(mystructural$imputed$V3, dataimputed$V3)
-   table(mystructural$imputed$V4, dataimputed$V4)
-   # as seen, the recommendations made by the two methods are almost the same
+Now we are going to use the Hill+Climbing algorithm to estimate the model.
+
+We are going to use the Bayesian Network for Collaborative Filtering.
+
+```{r,results='hold',include=TRUE}
+library(bnlearn)
+library(Rgraphviz)
+data = read.csv("Data/Probabilistic Models for Customer Analytics/CollFilforR.csv"
+               ,header = T,colClasses = "factor",sep = ";")
+head(data)
 ```
 
+We see that we have information on four different items.
 
-### Method 2: It works on the assumption that the active user belongs to 
+Structural expectation-maximization function learns with mising data a Hill-Climbing structure and further predict the missing values, which will be the recommendations
 
-```{r,results='hold',eval=FALSE,include=TRUE}
-# Method 2. It works on the assumption that the active user belongs to 
-   # a latent class (segment) that can accurately predict the ratings for 
-   # the user on all items. The advantages of thiss method is that is considers
-   # both the similarities between users, items and their interaction 
-   
-   library(poLCA)
-   # Define the variables used for (the model ~1 means without covariates)
-   f <- cbind(V1, V2, V3, V3)~1
-   # Run several models with a for() function
-   # and display the model with the lowest BIC (other optionns: AIC, G^2, X^)
-   min_bic <- 100000
-   for(i in 2:10){
-     lc <- poLCA(f, data, nclass=i, maxiter=3000, 
-                 tol=1e-5, na.rm=FALSE,  
-                 nrep=1, verbose=TRUE, calc.se=TRUE)
-     
-     if(lc$bic < min_bic){
-       min_bic <- lc$bic
-       LCA_best_model<-lc
-     }
-   }    	
-   LCA_best_model
-   
-   
-   LCA_best_model$posterior # matrix of posterior class membership probabilities
-   LCA_best_model$predclass # class membership
-   table(LCA_best_model$predclass)
-   LCA_best_model$P # size of each class
-
-   
-   # The estimated class-conditional response probabilities
-   LCA_best_model$probs
-   # Ploting (graph=TRUE) them for better interpretation
-   ch2 <- poLCA(f, data, nclass = 2, graph = TRUE)
-
-   # save the class
-   data_copy <- data
-   data_copy$class <- factor(LCA_best_model$predclass)
-   View (data_copy)
-   
-   # learn a BN classifier considering the class as the root node
-   mystructural<- structural.em (data_copy, maximize = "hc", return.all = TRUE) 
-   graphviz.plot (mystructural$dag)
-   mystructural$dag <- set.arc(mystructural$dag, from = "class", to = "V3")
-   graphviz.plot (mystructural$dag)
-   bn.mle <- bn.fit (mystructural$dag, data = data_copy, method = "mle")
-   
-   # now we can make inference for any user
-   # e.g. Given a customer has reported the following preferences 
-   # for V1=1, V2=5, V3=5, what is the estimated preference for V4=??
-   library (gRain)
-   junction <- compile (as.grain(bn.mle))
-   V1V2V3 <- setEvidence (junction, nodes = c("V1", "V2", "V3"), states = c("1", "5", "5"))
-   querygrain(V1V2V3, nodes = "class")
-   querygrain(V1V2V3, nodes = "V4")
-   # most likely belongs to class 1
-   # estimated preference: 0.12*4 + 0.88*5 = 4.88
-   
+```{r,results='hold',include=TRUE}
+mystructural <- structural.em(data, maximize = "hc", return.all = TRUE) 
+graphviz.plot(mystructural$dag)
 ```
 
+We see the structure.
+
+```{r,results='hold',include=TRUE}
+mystructural$dag # the structure
+```
+
+In the following see the conditional probabilities.
+
+```{r,results='hold',include=TRUE}
+mystructural$fitted # the parameters
+```
+
+Now we see that the method imputed the NA that we had in row 6.
+
+```{r,results='hold',include=TRUE}
+head(data)
+head(mystructural$imputed) # the predictions based on the probabilistic structure
+```
+
+**Alternatively**, BN model is trained with any other algorithm using non-missing registers, and used afterwards for making inference; `impute()` function allow us to make inference in a new data set of customers for which we want to make recommendations.
+
+```{r,results='hold',include=TRUE}
+data_wNA = na.omit(data)
+dag = tree.bayes(data_wNA, "V4") # a tree bayes
+graphviz.plot(dag)
+myBN = bn.fit(dag, data_wNA)
+```
+
+Assuming the model was trained and tested through a cross-validation procedure (as in App 1), one can further use it for making recommendations with impute() function in a new dataset
+
+```{r,results='hold',include=TRUE}
+dataimputed = bnlearn::impute(myBN, data, method = "parents", debug = TRUE)
+table(is.na(dataimputed))
+```
+
+compare the recommendations made by the two methods. We make confusion matrices.
+
+```{r,results='hold',include=TRUE}
+table(mystructural$imputed$V1, dataimputed$V1)
+table(mystructural$imputed$V2, dataimputed$V2)
+table(mystructural$imputed$V3, dataimputed$V3)
+table(mystructural$imputed$V4, dataimputed$V4)
+```
+
+as seen, the recommendations made by the two methods are almost the same
+
+### Method 2: Finding latent segments
+
+A latent class (segment) that can accurately predict the ratings for the user on all items. The advantages of this method is that is considers both the similarities between users, items and their interaction.
+
+Hence we want to use Bayesian Networks to identify segments / or clusters. These are latent, hence we cannot directly measure them. Therefore we are going to test different number of latent segments and see which has the lowest best performance according to the log likelihood.
+
+Notice that the data consists of four different variables, these could for instance be movies.
+
+```{r,results='hold',include=TRUE}
+library(poLCA)
+# Define the variables used for (the model ~1 means without covariates)
+f <- cbind(V1, V2, V3, V4)~1
+```
+
+We are going to run several models with the for() function. We are going to evaluate BIC. One also have used AIC, $G^2$, $X^2$.
+
+```{r,results='hold',include=TRUE}
+min_bic <- 100000
+for(i in 2:10){ #We test from 2 to 10 segments.
+ lc <- poLCA(f, data, nclass=i #We iterate through no. of classes.
+             , maxiter=3000,
+             tol=1e-5, na.rm=FALSE,
+             nrep=1, verbose=TRUE, calc.se=TRUE)
+ 
+ if(lc$bic < min_bic){
+   min_bic <- lc$bic
+   LCA_best_model<-lc
+ }
+}
+LCA_best_model
+```
+
+We see that the best model is with 2 segments.
+
+For the best model we can look at the posterior probabilities.
+
+```{r,results='hold',include=TRUE}
+head(LCA_best_model$posterior) # matrix of posterior class membership probabilities
+```
+
+Instead of looking at the probabilities we can also look at the actual class predictions.
+
+```{r,results='hold',include=TRUE}
+LCA_best_model$predclass %>% head() # class membership
+table(LCA_best_model$predclass)
+LCA_best_model$P # size of each class
+```
+
+We see the different predictions, and the table shows the distribution. Lastly we have the proportions for each class.
+
+```{r,results='hold',include=TRUE}
+options(scipen = 0)
+# The estimated class-conditional response probabilities
+LCA_best_model$probs
+# Ploting (graph=TRUE) them for better interpretation
+ch2 <- poLCA(f, data, nclass = 2, graph = TRUE)
+```
+
+We see the values for each variable, e.g., in class 1 V2, we primarily have 1's and 2's. Where the class 2 vector 2 has only values 1 and 5.
+
+```{r,results='hold',include=TRUE}
+# save the class
+data_copy <- data
+data_copy$class <- factor(LCA_best_model$predclass)
+head(data_copy)
+```
+
+Now we see that the class that we estimate the observation to be within is added.
+
+```{r,results='hold',include=TRUE}
+# learn a BN classifier considering the class as the root node
+mystructural <- structural.em(data_copy, maximize = "hc", return.all = TRUE) 
+graphviz.plot(mystructural$dag)
+```
+
+We see that the hill climbing method actually sets V3 as an ancestor and not class. This we want to correct.
+
+```{r,results='hold',include=TRUE}
+mystructural$dag <- set.arc(mystructural$dag, from = "class", to = "V3")
+graphviz.plot (mystructural$dag)
+bn.mle <- bn.fit (mystructural$dag, data = data_copy, method = "mle")
+```
+
+Now we have corrected the DAG that is not correct. Hence, we are able to start making inference.
+
+*Lets say we have a customer who has reported the following: V1 = 1, V2=5, V3=5. Then what would the rating for V4 be?*
+
+```{r,results='hold',include=TRUE}
+library(gRain)
+junction <- compile(as.grain(bn.mle))
+
+#We set evidance
+V1V2V3 <- setEvidence(junction, nodes = c("V1", "V2", "V3")
+                      ,states = c("1", "5", "5"))
+querygrain(V1V2V3, nodes = "class")
+```
+
+It is most likely that this person is in class 1.
+
+```{r,results='hold',include=TRUE}
+querygrain(V1V2V3, nodes = "V4") #estimated preference: 0.12*4 + 0.88*5 = 4.88
+```
+
+We see that there is 12% probability of rating 4, and 88% probability of rating 5, hence we can aggregate on those.
+
+$0.12 * 4 + 0.88 * 5 = 4.88$
 
 ## Latent models for cross selling and acquisition sequence
 

@@ -380,7 +380,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#application-3-product-recommendation-using-probabilistic-models-bn"><i class="fa fa-check"></i><b>4.4</b> Application 3: Product Recommendation using Probabilistic Models (BN)</a>
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-1-learn-the-probabilistic-relationships-using-a-bayesian-network-learning"><i class="fa fa-check"></i><b>4.4.1</b> Method 1: Learn the probabilistic relationships using a Bayesian network learning</a></li>
-<li class="chapter" data-level="4.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-2-it-works-on-the-assumption-that-the-active-user-belongs-to"><i class="fa fa-check"></i><b>4.4.2</b> Method 2: It works on the assumption that the active user belongs to</a></li>
+<li class="chapter" data-level="4.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-2-finding-latent-segments"><i class="fa fa-check"></i><b>4.4.2</b> Method 2: Finding latent segments</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#latent-models-for-cross-selling-and-acquisition-sequence"><i class="fa fa-check"></i><b>4.5</b> Latent models for cross selling and acquisition sequence</a>
 <ul>
@@ -940,7 +940,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb553-4"><a href="probabilistic-models-for-customer-analytics.html#cb553-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">Atti =</span> Atti.prob, </span>
 <span id="cb553-5"><a href="probabilistic-models-for-customer-analytics.html#cb553-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Comm =</span> Comm.prob)</span>
 <span id="cb553-6"><a href="probabilistic-models-for-customer-analytics.html#cb553-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  Relate the DAG and CPT and define a fully-specified BN</span></span>
-<span id="cb553-7"><a href="probabilistic-models-for-customer-analytics.html#cb553-7" aria-hidden="true" tabindex="-1"></a>bn <span class="ot">&lt;-</span> <span class="fu">custom.fit</span> (dag, cpt)</span>
+<span id="cb553-7"><a href="probabilistic-models-for-customer-analytics.html#cb553-7" aria-hidden="true" tabindex="-1"></a>bn <span class="ot">&lt;-</span> <span class="fu">custom.fit</span>(dag, cpt)</span>
 <span id="cb553-8"><a href="probabilistic-models-for-customer-analytics.html#cb553-8" aria-hidden="true" tabindex="-1"></a>bn</span></code></pre></div>
 <pre><code>## 
 ##   Bayesian network parameters
@@ -1924,7 +1924,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   Med   250    1 1123</code></pre>
 <p>Plotting <strong>ROC and AUC</strong></p>
 <p><em>Notice that ROC and AUC is made for a two class scenario, hence it returns nine lines, one for each line.</em></p>
-<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="probabilistic-models-for-customer-analytics.html#cb594-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caTools) </span>
+<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="probabilistic-models-for-customer-analytics.html#cb594-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caTools)</span>
 <span id="cb594-2"><a href="probabilistic-models-for-customer-analytics.html#cb594-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colAUC</span>(predComm, retention_test[ ,<span class="dv">4</span>], <span class="at">plotROC =</span> <span class="cn">TRUE</span>) <span class="co">#requires the predicted probabilities, not the predicted class</span></span></code></pre></div>
 <p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-292-1.png" width="720" style="display: block; margin: auto;" /></p>
 <pre><code>##                   High       Low       Med
@@ -2270,12 +2270,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb615-1"><a href="probabilistic-models-for-customer-analytics.html#cb615-1" aria-hidden="true" tabindex="-1"></a>targeted.adv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Data/Probabilistic Models for Customer Analytics/targeted.adv.csv&quot;</span></span>
 <span id="cb615-2"><a href="probabilistic-models-for-customer-analytics.html#cb615-2" aria-hidden="true" tabindex="-1"></a>                         ,<span class="at">header =</span> T, <span class="at">colClasses =</span> <span class="st">&quot;factor&quot;</span>)</span>
 <span id="cb615-3"><a href="probabilistic-models-for-customer-analytics.html#cb615-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(targeted.adv)</span>
-<span id="cb615-4"><a href="probabilistic-models-for-customer-analytics.html#cb615-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(targeted.adv)  </span>
-<span id="cb615-5"><a href="probabilistic-models-for-customer-analytics.html#cb615-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb615-6"><a href="probabilistic-models-for-customer-analytics.html#cb615-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the structure</span></span>
-<span id="cb615-7"><a href="probabilistic-models-for-customer-analytics.html#cb615-7" aria-hidden="true" tabindex="-1"></a>dagTA <span class="ot">&lt;-</span> <span class="fu">model2network</span>(<span class="st">&quot;[Income][Sex][Mailed][Buy|Income:Sex:Mailed]&quot;</span>)</span>
-<span id="cb615-8"><a href="probabilistic-models-for-customer-analytics.html#cb615-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dagTA)</span></code></pre></div>
-<img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-304-1.png" width="720" style="display: block; margin: auto;" />
+<span id="cb615-4"><a href="probabilistic-models-for-customer-analytics.html#cb615-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(targeted.adv)</span></code></pre></div>
 <div class="kable-table">
 <table>
 <thead>
@@ -2339,92 +2334,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  $ Income: Factor w/ 3 levels &quot;high&quot;,&quot;low&quot;,&quot;medium&quot;: 1 2 2 2 2 2 1 3 1 3 ...
 ##  $ Sex   : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 2 1 1 1 1 1 1 2 1 ...
 ##  $ Mailed: Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 2 2 1 1 2 2 2 1 ...</code></pre>
-<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="probabilistic-models-for-customer-analytics.html#cb617-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Learn the ctp</span></span>
-<span id="cb617-2"><a href="probabilistic-models-for-customer-analytics.html#cb617-2" aria-hidden="true" tabindex="-1"></a>bnTA.mle <span class="ot">&lt;-</span> <span class="fu">bn.fit</span> (dagTA, <span class="at">data =</span> targeted.adv[, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)], <span class="at">method =</span> <span class="st">&quot;mle&quot;</span>)</span>
-<span id="cb617-3"><a href="probabilistic-models-for-customer-analytics.html#cb617-3" aria-hidden="true" tabindex="-1"></a>bnTA.mle</span>
-<span id="cb617-4"><a href="probabilistic-models-for-customer-analytics.html#cb617-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-5"><a href="probabilistic-models-for-customer-analytics.html#cb617-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-6"><a href="probabilistic-models-for-customer-analytics.html#cb617-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ELP</span></span>
-<span id="cb617-7"><a href="probabilistic-models-for-customer-analytics.html#cb617-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ELP = P(Buy = Yes| Mailed = yes) * r_s  - P(Buy = Yes| Mailed = no) r_u - c, for any given population Y</span></span>
-<span id="cb617-8"><a href="probabilistic-models-for-customer-analytics.html#cb617-8" aria-hidden="true" tabindex="-1"></a><span class="co"># where:</span></span>
-<span id="cb617-9"><a href="probabilistic-models-for-customer-analytics.html#cb617-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  - c = cost of mailing the ad to a give person</span></span>
-<span id="cb617-10"><a href="probabilistic-models-for-customer-analytics.html#cb617-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  - r_u = the income obtained from a sale to en unsolicited customer</span></span>
-<span id="cb617-11"><a href="probabilistic-models-for-customer-analytics.html#cb617-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  - r_c = the income obtained from a sale to en solicited customer</span></span>
-<span id="cb617-12"><a href="probabilistic-models-for-customer-analytics.html#cb617-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  - r_u and r_s are different because we may offer some discount in the ad</span></span>
-<span id="cb617-13"><a href="probabilistic-models-for-customer-analytics.html#cb617-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-14"><a href="probabilistic-models-for-customer-analytics.html#cb617-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-15"><a href="probabilistic-models-for-customer-analytics.html#cb617-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumming </span></span>
-<span id="cb617-16"><a href="probabilistic-models-for-customer-analytics.html#cb617-16" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span><span class="fl">0.5</span></span>
-<span id="cb617-17"><a href="probabilistic-models-for-customer-analytics.html#cb617-17" aria-hidden="true" tabindex="-1"></a>r_s <span class="ot">=</span> <span class="dv">8</span></span>
-<span id="cb617-18"><a href="probabilistic-models-for-customer-analytics.html#cb617-18" aria-hidden="true" tabindex="-1"></a>r_u <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb617-19"><a href="probabilistic-models-for-customer-analytics.html#cb617-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-20"><a href="probabilistic-models-for-customer-analytics.html#cb617-20" aria-hidden="true" tabindex="-1"></a><span class="co"># a. ) Compute the ELP for the population consisting of individuals with medium income who are male.</span></span>
-<span id="cb617-21"><a href="probabilistic-models-for-customer-analytics.html#cb617-21" aria-hidden="true" tabindex="-1"></a><span class="co">#      Should we mail an ad to this population?</span></span>
-<span id="cb617-22"><a href="probabilistic-models-for-customer-analytics.html#cb617-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-23"><a href="probabilistic-models-for-customer-analytics.html#cb617-23" aria-hidden="true" tabindex="-1"></a><span class="co"># set evidence and get the ctp </span></span>
-<span id="cb617-24"><a href="probabilistic-models-for-customer-analytics.html#cb617-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (gRain)</span>
-<span id="cb617-25"><a href="probabilistic-models-for-customer-analytics.html#cb617-25" aria-hidden="true" tabindex="-1"></a>junctionTA <span class="ot">&lt;-</span> <span class="fu">compile</span> (<span class="fu">as.grain</span>(bnTA.mle))</span>
-<span id="cb617-26"><a href="probabilistic-models-for-customer-analytics.html#cb617-26" aria-hidden="true" tabindex="-1"></a>Med_male_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
-<span id="cb617-27"><a href="probabilistic-models-for-customer-analytics.html#cb617-27" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_male_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-28"><a href="probabilistic-models-for-customer-analytics.html#cb617-28" aria-hidden="true" tabindex="-1"></a><span class="co"># p(buy) = 0.4</span></span>
-<span id="cb617-29"><a href="probabilistic-models-for-customer-analytics.html#cb617-29" aria-hidden="true" tabindex="-1"></a>Med_male_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
-<span id="cb617-30"><a href="probabilistic-models-for-customer-analytics.html#cb617-30" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_male_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-31"><a href="probabilistic-models-for-customer-analytics.html#cb617-31" aria-hidden="true" tabindex="-1"></a><span class="co"># p(buy) = 0.2</span></span>
-<span id="cb617-32"><a href="probabilistic-models-for-customer-analytics.html#cb617-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-33"><a href="probabilistic-models-for-customer-analytics.html#cb617-33" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits=</span><span class="dv">2</span>)</span>
-<span id="cb617-34"><a href="probabilistic-models-for-customer-analytics.html#cb617-34" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span> <span class="fu">querygrain</span>(Med_male_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
-<span id="cb617-35"><a href="probabilistic-models-for-customer-analytics.html#cb617-35" aria-hidden="true" tabindex="-1"></a>     <span class="fu">querygrain</span>(Med_male_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
-<span id="cb617-36"><a href="probabilistic-models-for-customer-analytics.html#cb617-36" aria-hidden="true" tabindex="-1"></a>ELP</span>
-<span id="cb617-37"><a href="probabilistic-models-for-customer-analytics.html#cb617-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Since the ELP is positive, we mail to this population</span></span>
-<span id="cb617-38"><a href="probabilistic-models-for-customer-analytics.html#cb617-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-39"><a href="probabilistic-models-for-customer-analytics.html#cb617-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-40"><a href="probabilistic-models-for-customer-analytics.html#cb617-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-41"><a href="probabilistic-models-for-customer-analytics.html#cb617-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Asumming </span></span>
-<span id="cb617-42"><a href="probabilistic-models-for-customer-analytics.html#cb617-42" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span><span class="fl">0.6</span></span>
-<span id="cb617-43"><a href="probabilistic-models-for-customer-analytics.html#cb617-43" aria-hidden="true" tabindex="-1"></a>r_s <span class="ot">=</span> <span class="dv">7</span></span>
-<span id="cb617-44"><a href="probabilistic-models-for-customer-analytics.html#cb617-44" aria-hidden="true" tabindex="-1"></a>r_u <span class="ot">=</span> <span class="dv">9</span></span>
-<span id="cb617-45"><a href="probabilistic-models-for-customer-analytics.html#cb617-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-46"><a href="probabilistic-models-for-customer-analytics.html#cb617-46" aria-hidden="true" tabindex="-1"></a><span class="co"># b. ) Compute the ELP for the population consisting of individuals with medium income who are female</span></span>
-<span id="cb617-47"><a href="probabilistic-models-for-customer-analytics.html#cb617-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Should we mail the ad to this population?</span></span>
-<span id="cb617-48"><a href="probabilistic-models-for-customer-analytics.html#cb617-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-49"><a href="probabilistic-models-for-customer-analytics.html#cb617-49" aria-hidden="true" tabindex="-1"></a>Med_fem_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
-<span id="cb617-50"><a href="probabilistic-models-for-customer-analytics.html#cb617-50" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_fem_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-51"><a href="probabilistic-models-for-customer-analytics.html#cb617-51" aria-hidden="true" tabindex="-1"></a><span class="co"># p(buy) = 0.7</span></span>
-<span id="cb617-52"><a href="probabilistic-models-for-customer-analytics.html#cb617-52" aria-hidden="true" tabindex="-1"></a>Med_fem_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
-<span id="cb617-53"><a href="probabilistic-models-for-customer-analytics.html#cb617-53" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_fem_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-54"><a href="probabilistic-models-for-customer-analytics.html#cb617-54" aria-hidden="true" tabindex="-1"></a><span class="co"># p(buy) = 0.4</span></span>
-<span id="cb617-55"><a href="probabilistic-models-for-customer-analytics.html#cb617-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-56"><a href="probabilistic-models-for-customer-analytics.html#cb617-56" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits=</span><span class="dv">2</span>)</span>
-<span id="cb617-57"><a href="probabilistic-models-for-customer-analytics.html#cb617-57" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span> <span class="fu">querygrain</span>(Med_fem_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
-<span id="cb617-58"><a href="probabilistic-models-for-customer-analytics.html#cb617-58" aria-hidden="true" tabindex="-1"></a> <span class="fu">querygrain</span>(Med_fem_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
-<span id="cb617-59"><a href="probabilistic-models-for-customer-analytics.html#cb617-59" aria-hidden="true" tabindex="-1"></a>ELP</span>
-<span id="cb617-60"><a href="probabilistic-models-for-customer-analytics.html#cb617-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Since the ELP is positive, we mail to this population</span></span>
-<span id="cb617-61"><a href="probabilistic-models-for-customer-analytics.html#cb617-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-62"><a href="probabilistic-models-for-customer-analytics.html#cb617-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-63"><a href="probabilistic-models-for-customer-analytics.html#cb617-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-64"><a href="probabilistic-models-for-customer-analytics.html#cb617-64" aria-hidden="true" tabindex="-1"></a><span class="co"># c. ) Finally, let us compute the ELP for the population consisting of individuals with low income. </span></span>
-<span id="cb617-65"><a href="probabilistic-models-for-customer-analytics.html#cb617-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Should we mail an ad this population?</span></span>
-<span id="cb617-66"><a href="probabilistic-models-for-customer-analytics.html#cb617-66" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb617-67"><a href="probabilistic-models-for-customer-analytics.html#cb617-67" aria-hidden="true" tabindex="-1"></a>Low_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
-<span id="cb617-68"><a href="probabilistic-models-for-customer-analytics.html#cb617-68" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>( Low_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-69"><a href="probabilistic-models-for-customer-analytics.html#cb617-69" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.6</span></span>
-<span id="cb617-70"><a href="probabilistic-models-for-customer-analytics.html#cb617-70" aria-hidden="true" tabindex="-1"></a>Low_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Mailed&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
-<span id="cb617-71"><a href="probabilistic-models-for-customer-analytics.html#cb617-71" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>( Low_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span>
-<span id="cb617-72"><a href="probabilistic-models-for-customer-analytics.html#cb617-72" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.5</span></span>
-<span id="cb617-73"><a href="probabilistic-models-for-customer-analytics.html#cb617-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-74"><a href="probabilistic-models-for-customer-analytics.html#cb617-74" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits=</span><span class="dv">2</span>)</span>
-<span id="cb617-75"><a href="probabilistic-models-for-customer-analytics.html#cb617-75" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span>  <span class="fu">querygrain</span>( Low_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
-<span id="cb617-76"><a href="probabilistic-models-for-customer-analytics.html#cb617-76" aria-hidden="true" tabindex="-1"></a> <span class="fu">querygrain</span>( Low_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
-<span id="cb617-77"><a href="probabilistic-models-for-customer-analytics.html#cb617-77" aria-hidden="true" tabindex="-1"></a>ELP</span>
-<span id="cb617-78"><a href="probabilistic-models-for-customer-analytics.html#cb617-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Since the ELP is negative, we do not mail to this population</span></span>
-<span id="cb617-79"><a href="probabilistic-models-for-customer-analytics.html#cb617-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-80"><a href="probabilistic-models-for-customer-analytics.html#cb617-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb617-81"><a href="probabilistic-models-for-customer-analytics.html#cb617-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Discussion: </span></span>
-<span id="cb617-82"><a href="probabilistic-models-for-customer-analytics.html#cb617-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Using BN in this application allows to identify persuadable segments of individuals </span></span>
-<span id="cb617-83"><a href="probabilistic-models-for-customer-analytics.html#cb617-83" aria-hidden="true" tabindex="-1"></a><span class="co"># who would buy only if they are sent an ad. It avoids sending ads to those who will never buy</span></span>
-<span id="cb617-84"><a href="probabilistic-models-for-customer-analytics.html#cb617-84" aria-hidden="true" tabindex="-1"></a><span class="co"># those who always buy (thus avoid wasting the ad), and </span></span>
-<span id="cb617-85"><a href="probabilistic-models-for-customer-analytics.html#cb617-85" aria-hidden="true" tabindex="-1"></a><span class="co"># those who are turned off by the advertisement when they receive it.</span></span>
-<span id="cb617-86"><a href="probabilistic-models-for-customer-analytics.html#cb617-86" aria-hidden="true" tabindex="-1"></a><span class="co"># the network can be extended with more nodes according to the characteritics of the pop. in the dataset</span></span></code></pre></div>
+<p>We see that the table contains 5 columns, ID, Buy, Income, Sex and Mailed. All the variables are factor variables</p>
+<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="probabilistic-models-for-customer-analytics.html#cb617-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the structure</span></span>
+<span id="cb617-2"><a href="probabilistic-models-for-customer-analytics.html#cb617-2" aria-hidden="true" tabindex="-1"></a>dagTA <span class="ot">&lt;-</span> <span class="fu">model2network</span>(<span class="st">&quot;[Income][Sex][Mailed][Buy|Income:Sex:Mailed]&quot;</span>)</span>
+<span id="cb617-3"><a href="probabilistic-models-for-customer-analytics.html#cb617-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dagTA)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-305-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p>We see that the all variables leads towards buy.</p>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="probabilistic-models-for-customer-analytics.html#cb618-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Learn the cpt (conditional probability table)</span></span>
+<span id="cb618-2"><a href="probabilistic-models-for-customer-analytics.html#cb618-2" aria-hidden="true" tabindex="-1"></a>bnTA.mle <span class="ot">&lt;-</span> <span class="fu">bn.fit</span>(dagTA, <span class="at">data =</span> targeted.adv[, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)], <span class="at">method =</span> <span class="st">&quot;mle&quot;</span>)</span>
+<span id="cb618-3"><a href="probabilistic-models-for-customer-analytics.html#cb618-3" aria-hidden="true" tabindex="-1"></a>bnTA.mle</span></code></pre></div>
 <pre><code>## 
 ##   Bayesian network parameters
 ## 
@@ -2477,151 +2395,1192 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Conditional probability table:
 ##  female   male 
-##  0.473  0.527 
-## 
-## $Buy
+##  0.473  0.527</code></pre>
+<p>We know that the whole network is based upon the conditional probabilities.</p>
+<p>Now we want to calculate the <strong>ELP (Expected Lift in Profit)</strong></p>
+<p>The function is basically</p>
+<p><span class="math display">\[ELP = P(Buy = Yes| Mailed = yes) * r_s  - P(Buy = Yes| Mailed = no) r_u - c\]</span></p>
+<p>That applies for any given population Y. We see that we have the following notations:</p>
+<ul>
+<li><span class="math inline">\(c\)</span> = cost of mailing the ad to a give person</li>
+<li><span class="math inline">\(r_u\)</span> = the income obtained from a sale to en unsolicited customer</li>
+<li><span class="math inline">\(r_c\)</span> = the income obtained from a sale to en solicited customer</li>
+<li><span class="math inline">\(r_u\)</span> and <span class="math inline">\(r_s\)</span> = are different because we may offer some discount in the ad</li>
+</ul>
+<p>We can take the following assumptions.</p>
+<p>Now we need to do three different scenarios:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Compute the ELP for the population consisting of individuals with medium income who are male. Should we mail an ad to this population?</p></li>
+<li><p>Compute the ELP for the population consisting of individuals with medium income who are female. Should we mail the ad to this population?</p></li>
+<li><p>Compute the ELP for the population consisting of individuals with low income. Should we mail an ad this population?</p></li>
+</ol>
+<p><strong>Scenario 1</strong></p>
+<p>We are going to evaluate males with high income. First we see the probability of buying when mailed and when not.</p>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="probabilistic-models-for-customer-analytics.html#cb620-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">=</span> <span class="fl">0.5</span> <span class="co">#Cost</span></span>
+<span id="cb620-2"><a href="probabilistic-models-for-customer-analytics.html#cb620-2" aria-hidden="true" tabindex="-1"></a>r_s <span class="ot">=</span> <span class="dv">8</span> <span class="co">#Income with discount</span></span>
+<span id="cb620-3"><a href="probabilistic-models-for-customer-analytics.html#cb620-3" aria-hidden="true" tabindex="-1"></a>r_u <span class="ot">=</span> <span class="dv">10</span> <span class="co">#Income obtained from a sale to en unsolicited customer</span></span></code></pre></div>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="probabilistic-models-for-customer-analytics.html#cb621-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set evidence and get the cpt </span></span>
+<span id="cb621-2"><a href="probabilistic-models-for-customer-analytics.html#cb621-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (gRain)</span>
+<span id="cb621-3"><a href="probabilistic-models-for-customer-analytics.html#cb621-3" aria-hidden="true" tabindex="-1"></a>junctionTA <span class="ot">&lt;-</span> <span class="fu">compile</span>(<span class="fu">as.grain</span>(bnTA.mle))</span>
+<span id="cb621-4"><a href="probabilistic-models-for-customer-analytics.html#cb621-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb621-5"><a href="probabilistic-models-for-customer-analytics.html#cb621-5" aria-hidden="true" tabindex="-1"></a><span class="co">#We have mailed</span></span>
+<span id="cb621-6"><a href="probabilistic-models-for-customer-analytics.html#cb621-6" aria-hidden="true" tabindex="-1"></a>Med_male_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span>(junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb621-7"><a href="probabilistic-models-for-customer-analytics.html#cb621-7" aria-hidden="true" tabindex="-1"></a>                             , <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
+<span id="cb621-8"><a href="probabilistic-models-for-customer-analytics.html#cb621-8" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_male_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##        no       yes 
-## 0.5853659 0.4146341 
-## 
-## $Buy
+## 0.5853659 0.4146341</code></pre>
+<p>Probability of buying when mailed = 41.46%.</p>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="probabilistic-models-for-customer-analytics.html#cb623-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Not mailed</span></span>
+<span id="cb623-2"><a href="probabilistic-models-for-customer-analytics.html#cb623-2" aria-hidden="true" tabindex="-1"></a>Med_male_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span>(junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb623-3"><a href="probabilistic-models-for-customer-analytics.html#cb623-3" aria-hidden="true" tabindex="-1"></a>                            , <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
+<span id="cb623-4"><a href="probabilistic-models-for-customer-analytics.html#cb623-4" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_male_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##        no       yes 
-## 0.8043478 0.1956522 
-## 
-## [1] 0.86
-## $Buy
+## 0.8043478 0.1956522</code></pre>
+<p>Probability of buying when not mailed = 19.56%</p>
+<p>Calculate expected lift.</p>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="probabilistic-models-for-customer-analytics.html#cb625-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb625-2"><a href="probabilistic-models-for-customer-analytics.html#cb625-2" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span> <span class="fu">querygrain</span>(Med_male_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
+<span id="cb625-3"><a href="probabilistic-models-for-customer-analytics.html#cb625-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">querygrain</span>(Med_male_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
+<span id="cb625-4"><a href="probabilistic-models-for-customer-analytics.html#cb625-4" aria-hidden="true" tabindex="-1"></a>ELP</span></code></pre></div>
+<pre><code>## [1] 0.86</code></pre>
+<p>We see that the expected lift (ELP) is positive hence, we should mail the high income males.</p>
+<p><strong>Scenario 2</strong></p>
+<p>In this examplle we basically do the same, just with females instead.</p>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="probabilistic-models-for-customer-analytics.html#cb627-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Assumptions</span></span>
+<span id="cb627-2"><a href="probabilistic-models-for-customer-analytics.html#cb627-2" aria-hidden="true" tabindex="-1"></a>c <span class="ot">=</span> <span class="fl">0.6</span> <span class="co">#Cost</span></span>
+<span id="cb627-3"><a href="probabilistic-models-for-customer-analytics.html#cb627-3" aria-hidden="true" tabindex="-1"></a>r_s <span class="ot">=</span> <span class="dv">7</span> <span class="co">#Income with discount</span></span>
+<span id="cb627-4"><a href="probabilistic-models-for-customer-analytics.html#cb627-4" aria-hidden="true" tabindex="-1"></a>r_u <span class="ot">=</span> <span class="dv">9</span> <span class="co">#Income obtained from a sale to en unsolicited customer</span></span>
+<span id="cb627-5"><a href="probabilistic-models-for-customer-analytics.html#cb627-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb627-6"><a href="probabilistic-models-for-customer-analytics.html#cb627-6" aria-hidden="true" tabindex="-1"></a>Med_fem_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span>(junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb627-7"><a href="probabilistic-models-for-customer-analytics.html#cb627-7" aria-hidden="true" tabindex="-1"></a>                           ,<span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
+<span id="cb627-8"><a href="probabilistic-models-for-customer-analytics.html#cb627-8" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_fem_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##   no  yes 
-## 0.28 0.72 
-## 
-## $Buy
+## 0.28 0.72</code></pre>
+<p>We see the probability of buying = 72% when they are mailed.</p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="probabilistic-models-for-customer-analytics.html#cb629-1" aria-hidden="true" tabindex="-1"></a>Med_fem_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span>(junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb629-2"><a href="probabilistic-models-for-customer-analytics.html#cb629-2" aria-hidden="true" tabindex="-1"></a>                          ,<span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
+<span id="cb629-3"><a href="probabilistic-models-for-customer-analytics.html#cb629-3" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Med_fem_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##   no  yes 
-## 0.56 0.44 
-## 
-## [1] 0.48
-## $Buy
+## 0.56 0.44</code></pre>
+<p>We see that the probability of buying = 44% when mailed.</p>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="probabilistic-models-for-customer-analytics.html#cb631-1" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span> <span class="fu">querygrain</span>(Med_fem_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
+<span id="cb631-2"><a href="probabilistic-models-for-customer-analytics.html#cb631-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">querygrain</span>(Med_fem_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
+<span id="cb631-3"><a href="probabilistic-models-for-customer-analytics.html#cb631-3" aria-hidden="true" tabindex="-1"></a>ELP</span></code></pre></div>
+<pre><code>## [1] 0.48</code></pre>
+<p>We see that the ELP = 0.48, hence positive. Meaning that we should mail the medium income females as well, because we see that we earn more on these.</p>
+<p><strong>Scenario 3</strong></p>
+<p>We go with the same assumptions this time.</p>
+<p>We are going to look at low income customers.</p>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="probabilistic-models-for-customer-analytics.html#cb633-1" aria-hidden="true" tabindex="-1"></a>Low_yes <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb633-2"><a href="probabilistic-models-for-customer-analytics.html#cb633-2" aria-hidden="true" tabindex="-1"></a>                        ,<span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span>
+<span id="cb633-3"><a href="probabilistic-models-for-customer-analytics.html#cb633-3" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>( Low_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##  no yes 
-## 0.4 0.6 
-## 
-## $Buy
+## 0.4 0.6</code></pre>
+<p>We see that the probability of buying = 60%</p>
+<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb635-1"><a href="probabilistic-models-for-customer-analytics.html#cb635-1" aria-hidden="true" tabindex="-1"></a>Low_no <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junctionTA, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Mailed&quot;</span>)</span>
+<span id="cb635-2"><a href="probabilistic-models-for-customer-analytics.html#cb635-2" aria-hidden="true" tabindex="-1"></a>                       ,<span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;no&quot;</span>))</span>
+<span id="cb635-3"><a href="probabilistic-models-for-customer-analytics.html#cb635-3" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(Low_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)</span></code></pre></div>
+<pre><code>## $Buy
 ## Buy
 ##   no  yes 
-## 0.53 0.47 
-## 
-## [1] -0.62</code></pre>
+## 0.53 0.47</code></pre>
+<p>Now we see that there is 47% probability of buying when they are mailed.</p>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb637-1"><a href="probabilistic-models-for-customer-analytics.html#cb637-1" aria-hidden="true" tabindex="-1"></a>ELP <span class="ot">=</span> <span class="fu">querygrain</span>(Low_yes, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_s <span class="sc">-</span></span>
+<span id="cb637-2"><a href="probabilistic-models-for-customer-analytics.html#cb637-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">querygrain</span>(Low_no, <span class="at">nodes =</span> <span class="st">&quot;Buy&quot;</span>)<span class="sc">$</span>Buy[[<span class="dv">2</span>]] <span class="sc">*</span> r_u <span class="sc">-</span> c</span>
+<span id="cb637-3"><a href="probabilistic-models-for-customer-analytics.html#cb637-3" aria-hidden="true" tabindex="-1"></a>ELP</span></code></pre></div>
+<pre><code>## [1] -0.62</code></pre>
+<p>We see that it is negative, hence we should not email the low income people.</p>
+<p>Discussion:</p>
+<p>Using BN in this application allows to identify persuadable segments of individuals who would buy only if they are sent an ad. It avoids sending ads to those who will never buy those who always buy (thus avoid wasting the ad), and those who are turned off by the advertisement when they receive it. The network can be extended with more nodes according to the characteritics of the pop. in the dataset</p>
 </div>
 <div id="application-3-product-recommendation-using-probabilistic-models-bn" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Application 3: Product Recommendation using Probabilistic Models (BN)</h2>
-<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="probabilistic-models-for-customer-analytics.html#cb619-1" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################################</span></span>
-<span id="cb619-2"><a href="probabilistic-models-for-customer-analytics.html#cb619-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Application 3: Product Recommendation using Probabilistic Models (BN)</span></span>
-<span id="cb619-3"><a href="probabilistic-models-for-customer-analytics.html#cb619-3" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################################</span></span></code></pre></div>
 <div id="method-1-learn-the-probabilistic-relationships-using-a-bayesian-network-learning" class="section level3" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Method 1: Learn the probabilistic relationships using a Bayesian network learning</h3>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="probabilistic-models-for-customer-analytics.html#cb620-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 1. Learn the probabilistic relationships using a Bayesian network learning </span></span>
-<span id="cb620-2"><a href="probabilistic-models-for-customer-analytics.html#cb620-2" aria-hidden="true" tabindex="-1"></a>   <span class="co"># algorithm and select the best model. Below we used Hill-climbing algorithm which</span></span>
-<span id="cb620-3"><a href="probabilistic-models-for-customer-analytics.html#cb620-3" aria-hidden="true" tabindex="-1"></a>   <span class="co"># is the best structure based on BIC criterion, given the data. </span></span>
-<span id="cb620-4"><a href="probabilistic-models-for-customer-analytics.html#cb620-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># ********************************************************************************************</span></span>
-<span id="cb620-5"><a href="probabilistic-models-for-customer-analytics.html#cb620-5" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Bayesian Networks as a Model-Based Method for Collaborative Filtering</span></span>
-<span id="cb620-6"><a href="probabilistic-models-for-customer-analytics.html#cb620-6" aria-hidden="true" tabindex="-1"></a>   <span class="co"># ********************************************************************************************</span></span>
-<span id="cb620-7"><a href="probabilistic-models-for-customer-analytics.html#cb620-7" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb620-8"><a href="probabilistic-models-for-customer-analytics.html#cb620-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(bnlearn)</span>
-<span id="cb620-9"><a href="probabilistic-models-for-customer-analytics.html#cb620-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(Rgraphviz)</span>
-<span id="cb620-10"><a href="probabilistic-models-for-customer-analytics.html#cb620-10" aria-hidden="true" tabindex="-1"></a>   data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;~/Documents/Alina Tudoran/TEACHING/Postgraduate/BN/BN 2020/Lectures/Databases/Coll Filtering/CollFilforR.csv&quot;</span>, <span class="at">header =</span> T, <span class="at">colClasses =</span> <span class="st">&quot;factor&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb620-11"><a href="probabilistic-models-for-customer-analytics.html#cb620-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">View</span>(data)</span>
-<span id="cb620-12"><a href="probabilistic-models-for-customer-analytics.html#cb620-12" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb620-13"><a href="probabilistic-models-for-customer-analytics.html#cb620-13" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Structural expectation-maximization function learns with mising data</span></span>
-<span id="cb620-14"><a href="probabilistic-models-for-customer-analytics.html#cb620-14" aria-hidden="true" tabindex="-1"></a>   <span class="co"># a Hill-Climbing structure and further predict the missing values, which</span></span>
-<span id="cb620-15"><a href="probabilistic-models-for-customer-analytics.html#cb620-15" aria-hidden="true" tabindex="-1"></a>   <span class="co"># will be the recommendations</span></span>
-<span id="cb620-16"><a href="probabilistic-models-for-customer-analytics.html#cb620-16" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="ot">&lt;-</span> <span class="fu">structural.em</span> (data, <span class="at">maximize =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">return.all =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb620-17"><a href="probabilistic-models-for-customer-analytics.html#cb620-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">graphviz.plot</span> (mystructural<span class="sc">$</span>dag)</span>
-<span id="cb620-18"><a href="probabilistic-models-for-customer-analytics.html#cb620-18" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="sc">$</span>dag <span class="co"># the structure</span></span>
-<span id="cb620-19"><a href="probabilistic-models-for-customer-analytics.html#cb620-19" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="sc">$</span>fitted <span class="co"># the parameters</span></span>
-<span id="cb620-20"><a href="probabilistic-models-for-customer-analytics.html#cb620-20" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="sc">$</span>imputed <span class="co"># the predictions based on the probabilistic structure</span></span>
-<span id="cb620-21"><a href="probabilistic-models-for-customer-analytics.html#cb620-21" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb620-22"><a href="probabilistic-models-for-customer-analytics.html#cb620-22" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Alternatively, BN model is trained with any other algorithm using</span></span>
-<span id="cb620-23"><a href="probabilistic-models-for-customer-analytics.html#cb620-23" aria-hidden="true" tabindex="-1"></a>   <span class="co"># non-missing registers, and used afterwards for making inference;</span></span>
-<span id="cb620-24"><a href="probabilistic-models-for-customer-analytics.html#cb620-24" aria-hidden="true" tabindex="-1"></a>   <span class="co"># inpute () function allow us to make inferennce in a new datasset</span></span>
-<span id="cb620-25"><a href="probabilistic-models-for-customer-analytics.html#cb620-25" aria-hidden="true" tabindex="-1"></a>   <span class="co"># of customers for which we want to make recommendations.</span></span>
-<span id="cb620-26"><a href="probabilistic-models-for-customer-analytics.html#cb620-26" aria-hidden="true" tabindex="-1"></a>   data_wNA <span class="ot">=</span> <span class="fu">na.omit</span>(data)</span>
-<span id="cb620-27"><a href="probabilistic-models-for-customer-analytics.html#cb620-27" aria-hidden="true" tabindex="-1"></a>   dag <span class="ot">=</span> <span class="fu">tree.bayes</span>(data_wNA, <span class="st">&quot;V4&quot;</span>) <span class="co"># a tree bayes</span></span>
-<span id="cb620-28"><a href="probabilistic-models-for-customer-analytics.html#cb620-28" aria-hidden="true" tabindex="-1"></a>   <span class="fu">graphviz.plot</span>(dag)</span>
-<span id="cb620-29"><a href="probabilistic-models-for-customer-analytics.html#cb620-29" aria-hidden="true" tabindex="-1"></a>   myBN <span class="ot">=</span> <span class="fu">bn.fit</span>(dag, data_wNA)</span>
-<span id="cb620-30"><a href="probabilistic-models-for-customer-analytics.html#cb620-30" aria-hidden="true" tabindex="-1"></a>   <span class="co"># assuming the model was trained and tested through a </span></span>
-<span id="cb620-31"><a href="probabilistic-models-for-customer-analytics.html#cb620-31" aria-hidden="true" tabindex="-1"></a>   <span class="co"># cross-validation procedure (as in App 1), one can further</span></span>
-<span id="cb620-32"><a href="probabilistic-models-for-customer-analytics.html#cb620-32" aria-hidden="true" tabindex="-1"></a>   <span class="co"># use it for making recommendations with impute() function </span></span>
-<span id="cb620-33"><a href="probabilistic-models-for-customer-analytics.html#cb620-33" aria-hidden="true" tabindex="-1"></a>   <span class="co"># in a new dataset</span></span>
-<span id="cb620-34"><a href="probabilistic-models-for-customer-analytics.html#cb620-34" aria-hidden="true" tabindex="-1"></a>   dataimputed <span class="ot">=</span> bnlearn<span class="sc">::</span><span class="fu">impute</span>(myBN, data, <span class="at">method =</span> <span class="st">&quot;parents&quot;</span>, <span class="at">debug =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb620-35"><a href="probabilistic-models-for-customer-analytics.html#cb620-35" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(<span class="fu">is.na</span>(dataimputed))</span>
-<span id="cb620-36"><a href="probabilistic-models-for-customer-analytics.html#cb620-36" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb620-37"><a href="probabilistic-models-for-customer-analytics.html#cb620-37" aria-hidden="true" tabindex="-1"></a>   <span class="co"># compare the recommendations made by the two methods</span></span>
-<span id="cb620-38"><a href="probabilistic-models-for-customer-analytics.html#cb620-38" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V1, dataimputed<span class="sc">$</span>V1)</span>
-<span id="cb620-39"><a href="probabilistic-models-for-customer-analytics.html#cb620-39" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V2, dataimputed<span class="sc">$</span>V2)</span>
-<span id="cb620-40"><a href="probabilistic-models-for-customer-analytics.html#cb620-40" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V3, dataimputed<span class="sc">$</span>V3)</span>
-<span id="cb620-41"><a href="probabilistic-models-for-customer-analytics.html#cb620-41" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V4, dataimputed<span class="sc">$</span>V4)</span>
-<span id="cb620-42"><a href="probabilistic-models-for-customer-analytics.html#cb620-42" aria-hidden="true" tabindex="-1"></a>   <span class="co"># as seen, the recommendations made by the two methods are almost the same</span></span></code></pre></div>
+<p>Now we are going to use the Hill+Climbing algorithm to estimate the model.</p>
+<p>We are going to use the Bayesian Network for Collaborative Filtering.</p>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb639-1"><a href="probabilistic-models-for-customer-analytics.html#cb639-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bnlearn)</span>
+<span id="cb639-2"><a href="probabilistic-models-for-customer-analytics.html#cb639-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rgraphviz)</span>
+<span id="cb639-3"><a href="probabilistic-models-for-customer-analytics.html#cb639-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;Data/Probabilistic Models for Customer Analytics/CollFilforR.csv&quot;</span></span>
+<span id="cb639-4"><a href="probabilistic-models-for-customer-analytics.html#cb639-4" aria-hidden="true" tabindex="-1"></a>               ,<span class="at">header =</span> T,<span class="at">colClasses =</span> <span class="st">&quot;factor&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb639-5"><a href="probabilistic-models-for-customer-analytics.html#cb639-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="left">V2</th>
+<th align="left">V3</th>
+<th align="left">V4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">5</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="method-2-it-works-on-the-assumption-that-the-active-user-belongs-to" class="section level3" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> Method 2: It works on the assumption that the active user belongs to</h3>
-<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="probabilistic-models-for-customer-analytics.html#cb621-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 2. It works on the assumption that the active user belongs to </span></span>
-<span id="cb621-2"><a href="probabilistic-models-for-customer-analytics.html#cb621-2" aria-hidden="true" tabindex="-1"></a>   <span class="co"># a latent class (segment) that can accurately predict the ratings for </span></span>
-<span id="cb621-3"><a href="probabilistic-models-for-customer-analytics.html#cb621-3" aria-hidden="true" tabindex="-1"></a>   <span class="co"># the user on all items. The advantages of thiss method is that is considers</span></span>
-<span id="cb621-4"><a href="probabilistic-models-for-customer-analytics.html#cb621-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># both the similarities between users, items and their interaction </span></span>
-<span id="cb621-5"><a href="probabilistic-models-for-customer-analytics.html#cb621-5" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-6"><a href="probabilistic-models-for-customer-analytics.html#cb621-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(poLCA)</span>
-<span id="cb621-7"><a href="probabilistic-models-for-customer-analytics.html#cb621-7" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Define the variables used for (the model ~1 means without covariates)</span></span>
-<span id="cb621-8"><a href="probabilistic-models-for-customer-analytics.html#cb621-8" aria-hidden="true" tabindex="-1"></a>   f <span class="ot">&lt;-</span> <span class="fu">cbind</span>(V1, V2, V3, V3)<span class="sc">~</span><span class="dv">1</span></span>
-<span id="cb621-9"><a href="probabilistic-models-for-customer-analytics.html#cb621-9" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Run several models with a for() function</span></span>
-<span id="cb621-10"><a href="probabilistic-models-for-customer-analytics.html#cb621-10" aria-hidden="true" tabindex="-1"></a>   <span class="co"># and display the model with the lowest BIC (other optionns: AIC, G^2, X^)</span></span>
-<span id="cb621-11"><a href="probabilistic-models-for-customer-analytics.html#cb621-11" aria-hidden="true" tabindex="-1"></a>   min_bic <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb621-12"><a href="probabilistic-models-for-customer-analytics.html#cb621-12" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>){</span>
-<span id="cb621-13"><a href="probabilistic-models-for-customer-analytics.html#cb621-13" aria-hidden="true" tabindex="-1"></a>     lc <span class="ot">&lt;-</span> <span class="fu">poLCA</span>(f, data, <span class="at">nclass=</span>i, <span class="at">maxiter=</span><span class="dv">3000</span>, </span>
-<span id="cb621-14"><a href="probabilistic-models-for-customer-analytics.html#cb621-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tol=</span><span class="fl">1e-5</span>, <span class="at">na.rm=</span><span class="cn">FALSE</span>,  </span>
-<span id="cb621-15"><a href="probabilistic-models-for-customer-analytics.html#cb621-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nrep=</span><span class="dv">1</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>, <span class="at">calc.se=</span><span class="cn">TRUE</span>)</span>
-<span id="cb621-16"><a href="probabilistic-models-for-customer-analytics.html#cb621-16" aria-hidden="true" tabindex="-1"></a>     </span>
-<span id="cb621-17"><a href="probabilistic-models-for-customer-analytics.html#cb621-17" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span>(lc<span class="sc">$</span>bic <span class="sc">&lt;</span> min_bic){</span>
-<span id="cb621-18"><a href="probabilistic-models-for-customer-analytics.html#cb621-18" aria-hidden="true" tabindex="-1"></a>       min_bic <span class="ot">&lt;-</span> lc<span class="sc">$</span>bic</span>
-<span id="cb621-19"><a href="probabilistic-models-for-customer-analytics.html#cb621-19" aria-hidden="true" tabindex="-1"></a>       LCA_best_model<span class="ot">&lt;-</span>lc</span>
-<span id="cb621-20"><a href="probabilistic-models-for-customer-analytics.html#cb621-20" aria-hidden="true" tabindex="-1"></a>     }</span>
-<span id="cb621-21"><a href="probabilistic-models-for-customer-analytics.html#cb621-21" aria-hidden="true" tabindex="-1"></a>   }        </span>
-<span id="cb621-22"><a href="probabilistic-models-for-customer-analytics.html#cb621-22" aria-hidden="true" tabindex="-1"></a>   LCA_best_model</span>
-<span id="cb621-23"><a href="probabilistic-models-for-customer-analytics.html#cb621-23" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-24"><a href="probabilistic-models-for-customer-analytics.html#cb621-24" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-25"><a href="probabilistic-models-for-customer-analytics.html#cb621-25" aria-hidden="true" tabindex="-1"></a>   LCA_best_model<span class="sc">$</span>posterior <span class="co"># matrix of posterior class membership probabilities</span></span>
-<span id="cb621-26"><a href="probabilistic-models-for-customer-analytics.html#cb621-26" aria-hidden="true" tabindex="-1"></a>   LCA_best_model<span class="sc">$</span>predclass <span class="co"># class membership</span></span>
-<span id="cb621-27"><a href="probabilistic-models-for-customer-analytics.html#cb621-27" aria-hidden="true" tabindex="-1"></a>   <span class="fu">table</span>(LCA_best_model<span class="sc">$</span>predclass)</span>
-<span id="cb621-28"><a href="probabilistic-models-for-customer-analytics.html#cb621-28" aria-hidden="true" tabindex="-1"></a>   LCA_best_model<span class="sc">$</span>P <span class="co"># size of each class</span></span>
-<span id="cb621-29"><a href="probabilistic-models-for-customer-analytics.html#cb621-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb621-30"><a href="probabilistic-models-for-customer-analytics.html#cb621-30" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-31"><a href="probabilistic-models-for-customer-analytics.html#cb621-31" aria-hidden="true" tabindex="-1"></a>   <span class="co"># The estimated class-conditional response probabilities</span></span>
-<span id="cb621-32"><a href="probabilistic-models-for-customer-analytics.html#cb621-32" aria-hidden="true" tabindex="-1"></a>   LCA_best_model<span class="sc">$</span>probs</span>
-<span id="cb621-33"><a href="probabilistic-models-for-customer-analytics.html#cb621-33" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Ploting (graph=TRUE) them for better interpretation</span></span>
-<span id="cb621-34"><a href="probabilistic-models-for-customer-analytics.html#cb621-34" aria-hidden="true" tabindex="-1"></a>   ch2 <span class="ot">&lt;-</span> <span class="fu">poLCA</span>(f, data, <span class="at">nclass =</span> <span class="dv">2</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb621-35"><a href="probabilistic-models-for-customer-analytics.html#cb621-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb621-36"><a href="probabilistic-models-for-customer-analytics.html#cb621-36" aria-hidden="true" tabindex="-1"></a>   <span class="co"># save the class</span></span>
-<span id="cb621-37"><a href="probabilistic-models-for-customer-analytics.html#cb621-37" aria-hidden="true" tabindex="-1"></a>   data_copy <span class="ot">&lt;-</span> data</span>
-<span id="cb621-38"><a href="probabilistic-models-for-customer-analytics.html#cb621-38" aria-hidden="true" tabindex="-1"></a>   data_copy<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(LCA_best_model<span class="sc">$</span>predclass)</span>
-<span id="cb621-39"><a href="probabilistic-models-for-customer-analytics.html#cb621-39" aria-hidden="true" tabindex="-1"></a>   <span class="fu">View</span> (data_copy)</span>
-<span id="cb621-40"><a href="probabilistic-models-for-customer-analytics.html#cb621-40" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-41"><a href="probabilistic-models-for-customer-analytics.html#cb621-41" aria-hidden="true" tabindex="-1"></a>   <span class="co"># learn a BN classifier considering the class as the root node</span></span>
-<span id="cb621-42"><a href="probabilistic-models-for-customer-analytics.html#cb621-42" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="ot">&lt;-</span> <span class="fu">structural.em</span> (data_copy, <span class="at">maximize =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">return.all =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb621-43"><a href="probabilistic-models-for-customer-analytics.html#cb621-43" aria-hidden="true" tabindex="-1"></a>   <span class="fu">graphviz.plot</span> (mystructural<span class="sc">$</span>dag)</span>
-<span id="cb621-44"><a href="probabilistic-models-for-customer-analytics.html#cb621-44" aria-hidden="true" tabindex="-1"></a>   mystructural<span class="sc">$</span>dag <span class="ot">&lt;-</span> <span class="fu">set.arc</span>(mystructural<span class="sc">$</span>dag, <span class="at">from =</span> <span class="st">&quot;class&quot;</span>, <span class="at">to =</span> <span class="st">&quot;V3&quot;</span>)</span>
-<span id="cb621-45"><a href="probabilistic-models-for-customer-analytics.html#cb621-45" aria-hidden="true" tabindex="-1"></a>   <span class="fu">graphviz.plot</span> (mystructural<span class="sc">$</span>dag)</span>
-<span id="cb621-46"><a href="probabilistic-models-for-customer-analytics.html#cb621-46" aria-hidden="true" tabindex="-1"></a>   bn.mle <span class="ot">&lt;-</span> <span class="fu">bn.fit</span> (mystructural<span class="sc">$</span>dag, <span class="at">data =</span> data_copy, <span class="at">method =</span> <span class="st">&quot;mle&quot;</span>)</span>
-<span id="cb621-47"><a href="probabilistic-models-for-customer-analytics.html#cb621-47" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb621-48"><a href="probabilistic-models-for-customer-analytics.html#cb621-48" aria-hidden="true" tabindex="-1"></a>   <span class="co"># now we can make inference for any user</span></span>
-<span id="cb621-49"><a href="probabilistic-models-for-customer-analytics.html#cb621-49" aria-hidden="true" tabindex="-1"></a>   <span class="co"># e.g. Given a customer has reported the following preferences </span></span>
-<span id="cb621-50"><a href="probabilistic-models-for-customer-analytics.html#cb621-50" aria-hidden="true" tabindex="-1"></a>   <span class="co"># for V1=1, V2=5, V3=5, what is the estimated preference for V4=??</span></span>
-<span id="cb621-51"><a href="probabilistic-models-for-customer-analytics.html#cb621-51" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span> (gRain)</span>
-<span id="cb621-52"><a href="probabilistic-models-for-customer-analytics.html#cb621-52" aria-hidden="true" tabindex="-1"></a>   junction <span class="ot">&lt;-</span> <span class="fu">compile</span> (<span class="fu">as.grain</span>(bn.mle))</span>
-<span id="cb621-53"><a href="probabilistic-models-for-customer-analytics.html#cb621-53" aria-hidden="true" tabindex="-1"></a>   V1V2V3 <span class="ot">&lt;-</span> <span class="fu">setEvidence</span> (junction, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;V1&quot;</span>, <span class="st">&quot;V2&quot;</span>, <span class="st">&quot;V3&quot;</span>), <span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;5&quot;</span>))</span>
-<span id="cb621-54"><a href="probabilistic-models-for-customer-analytics.html#cb621-54" aria-hidden="true" tabindex="-1"></a>   <span class="fu">querygrain</span>(V1V2V3, <span class="at">nodes =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb621-55"><a href="probabilistic-models-for-customer-analytics.html#cb621-55" aria-hidden="true" tabindex="-1"></a>   <span class="fu">querygrain</span>(V1V2V3, <span class="at">nodes =</span> <span class="st">&quot;V4&quot;</span>)</span>
-<span id="cb621-56"><a href="probabilistic-models-for-customer-analytics.html#cb621-56" aria-hidden="true" tabindex="-1"></a>   <span class="co"># most likely belongs to class 1</span></span>
-<span id="cb621-57"><a href="probabilistic-models-for-customer-analytics.html#cb621-57" aria-hidden="true" tabindex="-1"></a>   <span class="co"># estimated preference: 0.12*4 + 0.88*5 = 4.88</span></span></code></pre></div>
+<p>We see that we have information on four different items.</p>
+<p>Structural expectation-maximization function learns with mising data a Hill-Climbing structure and further predict the missing values, which will be the recommendations</p>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="probabilistic-models-for-customer-analytics.html#cb640-1" aria-hidden="true" tabindex="-1"></a>mystructural <span class="ot">&lt;-</span> <span class="fu">structural.em</span>(data, <span class="at">maximize =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">return.all =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb640-2"><a href="probabilistic-models-for-customer-analytics.html#cb640-2" aria-hidden="true" tabindex="-1"></a><span class="fu">graphviz.plot</span>(mystructural<span class="sc">$</span>dag)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-318-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p>We see the structure.</p>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb641-1"><a href="probabilistic-models-for-customer-analytics.html#cb641-1" aria-hidden="true" tabindex="-1"></a>mystructural<span class="sc">$</span>dag <span class="co"># the structure</span></span></code></pre></div>
+<pre><code>## 
+##   Bayesian network learned from Missing Data
+## 
+##   model:
+##    [V1][V2][V4|V1][V3|V4] 
+##   nodes:                                 4 
+##   arcs:                                  2 
+##     undirected arcs:                     0 
+##     directed arcs:                       2 
+##   average markov blanket size:           1.00 
+##   average neighbourhood size:            1.00 
+##   average branching factor:              0.50 
+## 
+##   learning algorithm:                    Structural EM 
+##   score-based method:                    Hill-Climbing 
+##   parameter learning method:             Maximum Likelihood 
+##   imputation method:                     
+##                                      Posterior Expectation (Likelihood Weighting) 
+##   penalization coefficient:              2.3 
+##   tests used in the learning procedure:  34 
+##   optimized:                             TRUE</code></pre>
+<p>In the following see the conditional probabilities.</p>
+<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb643-1"><a href="probabilistic-models-for-customer-analytics.html#cb643-1" aria-hidden="true" tabindex="-1"></a>mystructural<span class="sc">$</span>fitted <span class="co"># the parameters</span></span></code></pre></div>
+<pre><code>## 
+##   Bayesian network parameters
+## 
+##   Parameters of node V1 (multinomial distribution)
+## 
+## Conditional probability table:
+##     1    2    3    4    5 
+## 0.67 0.06 0.03 0.07 0.17 
+## 
+##   Parameters of node V2 (multinomial distribution)
+## 
+## Conditional probability table:
+##     1    2    3    4    5 
+## 0.58 0.17 0.03 0.03 0.19 
+## 
+##   Parameters of node V3 (multinomial distribution)
+## 
+## Conditional probability table:
+##  
+##    V4
+## V3      1     2     4     5
+##   1 0.600 0.556 0.000 0.045
+##   2 0.400 0.444 0.000 0.061
+##   3 0.000 0.000 0.000 0.015
+##   4 0.000 0.000 0.000 0.061
+##   5 0.000 0.000 1.000 0.818
+## 
+##   Parameters of node V4 (multinomial distribution)
+## 
+## Conditional probability table:
+##  
+##    V1
+## V4      1     2     3     4     5
+##   1 0.000 0.000 1.000 0.571 0.176
+##   2 0.075 0.500 0.000 0.000 0.588
+##   4 0.090 0.000 0.000 0.000 0.000
+##   5 0.836 0.500 0.000 0.429 0.235</code></pre>
+<p>Now we see that the method imputed the NA that we had in row 6.</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="probabilistic-models-for-customer-analytics.html#cb645-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span>
+<span id="cb645-2"><a href="probabilistic-models-for-customer-analytics.html#cb645-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mystructural<span class="sc">$</span>imputed) <span class="co"># the predictions based on the probabilistic structure</span></span></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="left">V2</th>
+<th align="left">V3</th>
+<th align="left">V4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">5</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="left">V2</th>
+<th align="left">V3</th>
+<th align="left">V4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">5</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Alternatively</strong>, BN model is trained with any other algorithm using non-missing registers, and used afterwards for making inference; <code>impute()</code> function allow us to make inference in a new data set of customers for which we want to make recommendations.</p>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb646-1"><a href="probabilistic-models-for-customer-analytics.html#cb646-1" aria-hidden="true" tabindex="-1"></a>data_wNA <span class="ot">=</span> <span class="fu">na.omit</span>(data)</span>
+<span id="cb646-2"><a href="probabilistic-models-for-customer-analytics.html#cb646-2" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">=</span> <span class="fu">tree.bayes</span>(data_wNA, <span class="st">&quot;V4&quot;</span>) <span class="co"># a tree bayes</span></span>
+<span id="cb646-3"><a href="probabilistic-models-for-customer-analytics.html#cb646-3" aria-hidden="true" tabindex="-1"></a><span class="fu">graphviz.plot</span>(dag)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-322-1.png" width="720" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="probabilistic-models-for-customer-analytics.html#cb647-1" aria-hidden="true" tabindex="-1"></a>myBN <span class="ot">=</span> <span class="fu">bn.fit</span>(dag, data_wNA)</span></code></pre></div>
+<p>Assuming the model was trained and tested through a cross-validation procedure (as in App 1), one can further use it for making recommendations with impute() function in a new dataset</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="probabilistic-models-for-customer-analytics.html#cb648-1" aria-hidden="true" tabindex="-1"></a>dataimputed <span class="ot">=</span> bnlearn<span class="sc">::</span><span class="fu">impute</span>(myBN, data, <span class="at">method =</span> <span class="st">&quot;parents&quot;</span>, <span class="at">debug =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb648-2"><a href="probabilistic-models-for-customer-analytics.html#cb648-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">is.na</span>(dataimputed))</span></code></pre></div>
+<pre><code>## * checking node V4 .
+##   &gt; found 16 missing value(s).
+## * checking node V1 .
+##   &gt; found 7 missing value(s).
+## * checking node V3 .
+##   &gt; found 13 missing value(s).
+## * checking node V2 .
+##   &gt; found 10 missing value(s).
+## 
+## FALSE 
+##   400</code></pre>
+<p>compare the recommendations made by the two methods. We make confusion matrices.</p>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="probabilistic-models-for-customer-analytics.html#cb650-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V1, dataimputed<span class="sc">$</span>V1)</span>
+<span id="cb650-2"><a href="probabilistic-models-for-customer-analytics.html#cb650-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V2, dataimputed<span class="sc">$</span>V2)</span>
+<span id="cb650-3"><a href="probabilistic-models-for-customer-analytics.html#cb650-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V3, dataimputed<span class="sc">$</span>V3)</span>
+<span id="cb650-4"><a href="probabilistic-models-for-customer-analytics.html#cb650-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mystructural<span class="sc">$</span>imputed<span class="sc">$</span>V4, dataimputed<span class="sc">$</span>V4)</span></code></pre></div>
+<pre><code>##    
+##      1  2  3  4  5
+##   1 67  0  0  0  0
+##   2  0  6  0  0  0
+##   3  0  0  3  0  0
+##   4  0  0  0  7  0
+##   5  0  0  0  0 17
+##    
+##      1  2  3  4  5
+##   1 51  2  3  1  1
+##   2  0 17  0  0  0
+##   3  0  0  3  0  0
+##   4  0  0  0  3  0
+##   5  0  0  0  0 19
+##    
+##      1  2  3  4  5
+##   1 19  0  0  0  0
+##   2  0 16  0  0  0
+##   3  0  0  1  0  0
+##   4  0  0  0  4  0
+##   5  0  0  0  1 59
+##    
+##      1  2  4  5
+##   1 10  0  0  0
+##   2  0 15  0  3
+##   4  0  0  6  0
+##   5  0  0  0 66</code></pre>
+<p>as seen, the recommendations made by the two methods are almost the same</p>
+</div>
+<div id="method-2-finding-latent-segments" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Method 2: Finding latent segments</h3>
+<p>A latent class (segment) that can accurately predict the ratings for the user on all items. The advantages of this method is that is considers both the similarities between users, items and their interaction.</p>
+<p>Hence we want to use Bayesian Networks to identify segments / or clusters. These are latent, hence we cannot directly measure them. Therefore we are going to test different number of latent segments and see which has the lowest best performance according to the log likelihood.</p>
+<p>Notice that the data consists of four different variables, these could for instance be movies.</p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="probabilistic-models-for-customer-analytics.html#cb652-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(poLCA)</span>
+<span id="cb652-2"><a href="probabilistic-models-for-customer-analytics.html#cb652-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the variables used for (the model ~1 means without covariates)</span></span>
+<span id="cb652-3"><a href="probabilistic-models-for-customer-analytics.html#cb652-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">cbind</span>(V1, V2, V3, V4)<span class="sc">~</span><span class="dv">1</span></span></code></pre></div>
+<p>We are going to run several models with the for() function. We are going to evaluate BIC. One also have used AIC, <span class="math inline">\(G^2\)</span>, <span class="math inline">\(X^2\)</span>.</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="probabilistic-models-for-customer-analytics.html#cb653-1" aria-hidden="true" tabindex="-1"></a>min_bic <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb653-2"><a href="probabilistic-models-for-customer-analytics.html#cb653-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>){ <span class="co">#We test from 2 to 10 segments.</span></span>
+<span id="cb653-3"><a href="probabilistic-models-for-customer-analytics.html#cb653-3" aria-hidden="true" tabindex="-1"></a> lc <span class="ot">&lt;-</span> <span class="fu">poLCA</span>(f, data, <span class="at">nclass=</span>i <span class="co">#We iterate through no. of classes.</span></span>
+<span id="cb653-4"><a href="probabilistic-models-for-customer-analytics.html#cb653-4" aria-hidden="true" tabindex="-1"></a>             , <span class="at">maxiter=</span><span class="dv">3000</span>,</span>
+<span id="cb653-5"><a href="probabilistic-models-for-customer-analytics.html#cb653-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">tol=</span><span class="fl">1e-5</span>, <span class="at">na.rm=</span><span class="cn">FALSE</span>,</span>
+<span id="cb653-6"><a href="probabilistic-models-for-customer-analytics.html#cb653-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">nrep=</span><span class="dv">1</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>, <span class="at">calc.se=</span><span class="cn">TRUE</span>)</span>
+<span id="cb653-7"><a href="probabilistic-models-for-customer-analytics.html#cb653-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb653-8"><a href="probabilistic-models-for-customer-analytics.html#cb653-8" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(lc<span class="sc">$</span>bic <span class="sc">&lt;</span> min_bic){</span>
+<span id="cb653-9"><a href="probabilistic-models-for-customer-analytics.html#cb653-9" aria-hidden="true" tabindex="-1"></a>   min_bic <span class="ot">&lt;-</span> lc<span class="sc">$</span>bic</span>
+<span id="cb653-10"><a href="probabilistic-models-for-customer-analytics.html#cb653-10" aria-hidden="true" tabindex="-1"></a>   LCA_best_model<span class="ot">&lt;-</span>lc</span>
+<span id="cb653-11"><a href="probabilistic-models-for-customer-analytics.html#cb653-11" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb653-12"><a href="probabilistic-models-for-customer-analytics.html#cb653-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb653-13"><a href="probabilistic-models-for-customer-analytics.html#cb653-13" aria-hidden="true" tabindex="-1"></a>LCA_best_model</span></code></pre></div>
+<pre><code>## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1     2     3    4    5
+## class 1:  0.95 0.052 0.000 0.00 0.00
+## class 2:  0.24 0.081 0.075 0.18 0.43
+## 
+## $V2
+##              1    2     3     4    5
+## class 1:  0.62 0.00 0.000 0.051 0.33
+## class 2:  0.37 0.54 0.095 0.000 0.00
+## 
+## $V3
+##              1    2     3     4     5
+## class 1:  0.00 0.00 0.000 0.079 0.921
+## class 2:  0.44 0.44 0.028 0.000 0.085
+## 
+## $V4
+##              1    2    4    5
+## class 1:  0.00 0.00 0.12 0.88
+## class 2:  0.31 0.46 0.00 0.23
+## 
+## Estimated class population shares 
+##  0.6 0.4 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.61 0.39 
+##  
+## ========================================================= 
+## Fit for 2 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 31 
+## residual degrees of freedom: 69 
+## maximum log-likelihood: -312 
+##  
+## AIC(2): 686
+## BIC(2): 767
+## G^2(2): 160 (Likelihood ratio/deviance statistic) 
+## X^2(2): 381 (Chi-square goodness of fit) 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1     2     3    4    5
+## class 1:  0.26 0.088 0.082 0.11 0.46
+## class 2:  0.37 0.300 0.000 0.33 0.00
+## class 3:  1.00 0.000 0.000 0.00 0.00
+## 
+## $V2
+##              1    2   3    4    5
+## class 1:  0.41 0.49 0.1 0.00 0.00
+## class 2:  0.00 0.22 0.0 0.22 0.56
+## class 3:  0.76 0.00 0.0 0.00 0.24
+## 
+## $V3
+##              1    2    3    4    5
+## class 1:  0.48 0.48 0.03 0.00 0.00
+## class 2:  0.00 0.00 0.00 0.28 0.72
+## class 3:  0.00 0.00 0.00 0.00 1.00
+## 
+## $V4
+##              1    2   4    5
+## class 1:  0.31 0.47 0.0 0.22
+## class 2:  0.00 0.00 0.5 0.50
+## class 3:  0.00 0.00 0.0 1.00
+## 
+## Estimated class population shares 
+##  0.37 0.15 0.48 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.36 0.14 0.5 
+##  
+## ========================================================= 
+## Fit for 3 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 47 
+## residual degrees of freedom: 53 
+## maximum log-likelihood: -298 
+##  
+## AIC(3): 691
+## BIC(3): 813
+## G^2(3): 140 (Likelihood ratio/deviance statistic) 
+## X^2(3): 310 (Chi-square goodness of fit) 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1    2    3    4    5
+## class 1:  1.00 0.00 0.00 0.00 0.00
+## class 2:  0.00 0.48 0.00 0.00 0.52
+## class 3:  0.27 0.00 0.12 0.17 0.44
+## class 4:  0.66 0.00 0.00 0.34 0.00
+## 
+## $V2
+##              1    2   3    4    5
+## class 1:  0.75 0.00 0.0 0.00 0.25
+## class 2:  0.00 0.30 0.3 0.00 0.40
+## class 3:  0.59 0.41 0.0 0.00 0.00
+## class 4:  0.00 0.51 0.0 0.25 0.24
+## 
+## $V3
+##              1    2    3    4    5
+## class 1:  0.00 0.00 0.00 0.00 1.00
+## class 2:  0.00 0.60 0.08 0.32 0.00
+## class 3:  0.61 0.39 0.00 0.00 0.00
+## class 4:  0.24 0.00 0.00 0.00 0.76
+## 
+## $V4
+##              1    2    4    5
+## class 1:  0.00 0.00 0.00 1.00
+## class 2:  0.00 0.30 0.00 0.70
+## class 3:  0.47 0.53 0.00 0.00
+## class 4:  0.00 0.00 0.63 0.37
+## 
+## Estimated class population shares 
+##  0.49 0.14 0.24 0.13 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.5 0.15 0.23 0.12 
+##  
+## ========================================================= 
+## Fit for 4 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 63 
+## residual degrees of freedom: 37 
+## maximum log-likelihood: -285 
+##  
+## AIC(4): 695
+## BIC(4): 859
+## G^2(4): 117 (Likelihood ratio/deviance statistic) 
+## X^2(4): 181 (Chi-square goodness of fit) 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1    2    3 4    5
+## class 1:  0.26 0.14 0.13 0 0.48
+## class 2:  0.00 1.00 0.00 0 0.00
+## class 3:  0.00 0.00 0.00 1 0.00
+## class 4:  1.00 0.00 0.00 0 0.00
+## class 5:  0.37 0.00 0.00 0 0.63
+## 
+## $V2
+##              1    2    3     4    5
+## class 1:  0.00 0.82 0.18 0.000 0.00
+## class 2:  0.00 0.00 0.00 0.000 1.00
+## class 3:  0.57 0.43 0.00 0.000 0.00
+## class 4:  0.67 0.00 0.00 0.055 0.28
+## class 5:  1.00 0.00 0.00 0.000 0.00
+## 
+## $V3
+##              1    2     3 4    5
+## class 1:  0.41 0.55 0.045 0 0.00
+## class 2:  0.00 0.00 0.000 1 0.00
+## class 3:  0.00 0.57 0.000 0 0.43
+## class 4:  0.00 0.00 0.000 0 1.00
+## class 5:  1.00 0.00 0.000 0 0.00
+## 
+## $V4
+##              1    2    4    5
+## class 1:  0.31 0.32 0.00 0.37
+## class 2:  0.00 0.00 0.00 1.00
+## class 3:  1.00 0.00 0.00 0.00
+## class 4:  0.00 0.00 0.13 0.87
+## class 5:  0.00 1.00 0.00 0.00
+## 
+## Estimated class population shares 
+##  0.23 0.048 0.07 0.55 0.094 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.22 0.05 0.07 0.56 0.1 
+##  
+## ========================================================= 
+## Fit for 5 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 79 
+## residual degrees of freedom: 21 
+## maximum log-likelihood: -271 
+##  
+## AIC(5): 699
+## BIC(5): 905
+## G^2(5): 90 (Likelihood ratio/deviance statistic) 
+## X^2(5): 124 (Chi-square goodness of fit) 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1    2   3 4    5
+## class 1:  0.66 0.34 0.0 0 0.00
+## class 2:  0.00 0.00 0.5 0 0.50
+## class 3:  0.00 0.00 0.0 1 0.00
+## class 4:  0.56 0.00 0.0 0 0.44
+## class 5:  0.20 0.22 0.0 0 0.58
+## class 6:  1.00 0.00 0.0 0 0.00
+## 
+## $V2
+##              1    2    3    4    5
+## class 1:  0.00 0.00 0.00 0.24 0.76
+## class 2:  0.00 1.00 0.00 0.00 0.00
+## class 3:  0.57 0.43 0.00 0.00 0.00
+## class 4:  0.72 0.28 0.00 0.00 0.00
+## class 5:  0.00 0.67 0.33 0.00 0.00
+## class 6:  0.79 0.00 0.00 0.00 0.21
+## 
+## $V3
+##           1    2     3    4    5
+## class 1:  0 0.00 0.000 0.32 0.68
+## class 2:  1 0.00 0.000 0.00 0.00
+## class 3:  0 0.57 0.000 0.00 0.43
+## class 4:  1 0.00 0.000 0.00 0.00
+## class 5:  0 0.92 0.077 0.00 0.00
+## class 6:  0 0.00 0.000 0.00 1.00
+## 
+## $V4
+##           1    2    4    5
+## class 1:  0 0.00 0.46 0.54
+## class 2:  1 0.00 0.00 0.00
+## class 3:  1 0.00 0.00 0.00
+## class 4:  0 0.73 0.00 0.27
+## class 5:  0 0.61 0.00 0.39
+## class 6:  0 0.00 0.00 1.00
+## 
+## Estimated class population shares 
+##  0.14 0.06 0.07 0.12 0.15 0.46 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.11 0.06 0.07 0.1 0.16 0.5 
+##  
+## ========================================================= 
+## Fit for 6 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 95 
+## residual degrees of freedom: 5 
+## maximum log-likelihood: -259 
+##  
+## AIC(6): 708
+## BIC(6): 955
+## G^2(6): 72 (Likelihood ratio/deviance statistic) 
+## X^2(6): 79 (Chi-square goodness of fit) 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1   2    3    4    5
+## class 1:  1.00 0.0 0.00 0.00 0.00
+## class 2:  0.00 0.3 0.00 0.00 0.70
+## class 3:  0.43 0.0 0.00 0.57 0.00
+## class 4:  1.00 0.0 0.00 0.00 0.00
+## class 5:  0.00 1.0 0.00 0.00 0.00
+## class 6:  0.38 0.0 0.00 0.00 0.62
+## class 7:  0.00 0.0 0.28 0.38 0.34
+## 
+## $V2
+##              1    2   3    4    5
+## class 1:  0.74 0.00 0.0 0.00 0.26
+## class 2:  0.00 0.50 0.5 0.00 0.00
+## class 3:  0.00 0.36 0.0 0.36 0.27
+## class 4:  0.00 1.00 0.0 0.00 0.00
+## class 5:  0.00 0.00 0.0 0.00 1.00
+## class 6:  1.00 0.00 0.0 0.00 0.00
+## class 7:  0.44 0.56 0.0 0.00 0.00
+## 
+## $V3
+##              1    2    3 4 5
+## class 1:  0.00 0.00 0.00 0 1
+## class 2:  0.00 0.89 0.11 0 0
+## class 3:  0.00 0.00 0.00 0 1
+## class 4:  0.50 0.50 0.00 0 0
+## class 5:  0.00 0.00 0.00 1 0
+## class 6:  1.00 0.00 0.00 0 0
+## class 7:  0.57 0.43 0.00 0 0
+## 
+## $V4
+##           1   2 4   5
+## class 1:  0 0.0 0 1.0
+## class 2:  0 0.5 0 0.5
+## class 3:  0 0.0 1 0.0
+## class 4:  0 0.4 0 0.6
+## class 5:  0 0.0 0 1.0
+## class 6:  0 1.0 0 0.0
+## class 7:  1 0.0 0 0.0
+## 
+## Estimated class population shares 
+##  0.49 0.11 0.092 0.06 0.047 0.093 0.11 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.5 0.1 0.09 0.06 0.05 0.1 0.1 
+##  
+## ========================================================= 
+## Fit for 7 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 111 
+## residual degrees of freedom: -11 
+## maximum log-likelihood: -251 
+##  
+## AIC(7): 724
+## BIC(7): 1013
+## G^2(7): 65 (Likelihood ratio/deviance statistic) 
+## X^2(7): 72 (Chi-square goodness of fit) 
+##  
+## ALERT: number of parameters estimated ( 111 ) exceeds number of observations ( 100 ) 
+##  
+## ALERT: negative degrees of freedom; respecify model 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1   2    3    4      5
+## class 1:  1.00 0.0 0.00 0.00 0.0000
+## class 2:  0.34 0.0 0.00 0.00 0.6648
+## class 3:  0.00 0.0 0.33 0.33 0.3333
+## class 4:  1.00 0.0 0.00 0.00 0.0000
+## class 5:  0.00 1.0 0.00 0.00 0.0000
+## class 6:  0.50 0.5 0.00 0.00 0.0003
+## class 7:  0.00 0.0 0.00 0.40 0.6000
+## class 8:  0.75 0.0 0.00 0.00 0.2500
+## 
+## $V2
+##              1 2    3    4    5
+## class 1:  0.75 0 0.00 0.00 0.25
+## class 2:  1.00 0 0.00 0.00 0.00
+## class 3:  0.00 1 0.00 0.00 0.00
+## class 4:  0.00 0 0.00 0.54 0.46
+## class 5:  0.00 0 0.00 0.00 1.00
+## class 6:  0.00 1 0.00 0.00 0.00
+## class 7:  0.57 0 0.43 0.00 0.00
+## class 8:  0.00 1 0.00 0.00 0.00
+## 
+## $V3
+##              1 2    3 4    5
+## class 1:  0.00 0 0.00 0 1.00
+## class 2:  1.00 0 0.00 0 0.00
+## class 3:  0.67 0 0.00 0 0.33
+## class 4:  0.00 0 0.00 0 1.00
+## class 5:  0.00 0 0.00 1 0.00
+## class 6:  0.00 1 0.00 0 0.00
+## class 7:  0.00 1 0.00 0 0.00
+## class 8:  0.75 0 0.25 0 0.00
+## 
+## $V4
+##              1 2 4    5
+## class 1:  0.00 0 0 1.00
+## class 2:  0.00 1 0 0.00
+## class 3:  1.00 0 0 0.00
+## class 4:  0.00 0 1 0.00
+## class 5:  0.00 0 0 1.00
+## class 6:  0.00 1 0 0.00
+## class 7:  0.57 0 0 0.43
+## class 8:  0.00 0 0 1.00
+## 
+## Estimated class population shares 
+##  0.49 0.11 0.09 0.066 0.05 0.06 0.1 0.04 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.5 0.1 0.09 0.06 0.05 0.06 0.1 0.04 
+##  
+## ========================================================= 
+## Fit for 8 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 127 
+## residual degrees of freedom: -27 
+## maximum log-likelihood: -242 
+##  
+## AIC(8): 737
+## BIC(8): 1068
+## G^2(8): 41 (Likelihood ratio/deviance statistic) 
+## X^2(8): 40 (Chi-square goodness of fit) 
+##  
+## ALERT: number of parameters estimated ( 127 ) exceeds number of observations ( 100 ) 
+##  
+## ALERT: negative degrees of freedom; respecify model 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1    2    3    4     5
+## class 1:  1.00 0.00 0.00 0.00 0.000
+## class 2:  0.00 1.00 0.00 0.00 0.000
+## class 3:  0.00 0.00 0.23 0.00 0.767
+## class 4:  0.00 0.00 0.00 1.00 0.000
+## class 5:  1.00 0.00 0.00 0.00 0.000
+## class 6:  0.00 0.00 0.00 0.37 0.633
+## class 7:  0.48 0.48 0.00 0.00 0.039
+## class 8:  1.00 0.00 0.00 0.00 0.000
+## class 9:  1.00 0.00 0.00 0.00 0.000
+## 
+## $V2
+##              1    2    3    4    5
+## class 1:  0.90 0.00 0.00 0.00 0.10
+## class 2:  0.00 0.00 0.00 0.00 1.00
+## class 3:  0.44 0.56 0.00 0.00 0.00
+## class 4:  0.00 1.00 0.00 0.00 0.00
+## class 5:  0.00 0.00 0.00 0.54 0.46
+## class 6:  0.50 0.12 0.38 0.00 0.00
+## class 7:  0.00 1.00 0.00 0.00 0.00
+## class 8:  0.50 0.00 0.00 0.00 0.50
+## class 9:  0.54 0.46 0.00 0.00 0.00
+## 
+## $V3
+##           1    2     3 4 5
+## class 1:  0 0.00 0.000 0 1
+## class 2:  0 0.00 0.000 1 0
+## class 3:  1 0.00 0.000 0 0
+## class 4:  0 0.00 0.000 0 1
+## class 5:  0 0.00 0.000 0 1
+## class 6:  0 0.91 0.092 0 0
+## class 7:  0 1.00 0.000 0 0
+## class 8:  0 0.00 0.000 0 1
+## class 9:  1 0.00 0.000 0 0
+## 
+## $V4
+##              1    2 4   5
+## class 1:  0.00 0.00 0 1.0
+## class 2:  0.00 0.00 0 1.0
+## class 3:  0.47 0.53 0 0.0
+## class 4:  0.00 0.00 1 0.0
+## class 5:  0.00 0.00 1 0.0
+## class 6:  0.50 0.00 0 0.5
+## class 7:  0.00 1.00 0 0.0
+## class 8:  0.00 0.00 0 1.0
+## class 9:  0.00 0.50 0 0.5
+## 
+## Estimated class population shares 
+##  0.3 0.05 0.13 0.034 0.062 0.11 0.062 0.19 0.065 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.37 0.05 0.13 0.03 0.06 0.11 0.06 0.13 0.06 
+##  
+## ========================================================= 
+## Fit for 9 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 143 
+## residual degrees of freedom: -43 
+## maximum log-likelihood: -251 
+##  
+## AIC(9): 787
+## BIC(9): 1160
+## G^2(9): 65 (Likelihood ratio/deviance statistic) 
+## X^2(9): 95 (Chi-square goodness of fit) 
+##  
+## ALERT: number of parameters estimated ( 143 ) exceeds number of observations ( 100 ) 
+##  
+## ALERT: negative degrees of freedom; respecify model 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##               1    2   3 4    5
+## class 1:   0.00 0.00 0.5 0 0.50
+## class 2:   0.00 0.00 0.0 1 0.00
+## class 3:   1.00 0.00 0.0 0 0.00
+## class 4:   0.36 0.00 0.0 0 0.64
+## class 5:   0.00 0.00 0.0 0 1.00
+## class 6:   1.00 0.00 0.0 0 0.00
+## class 7:   1.00 0.00 0.0 0 0.00
+## class 8:   0.00 1.00 0.0 0 0.00
+## class 9:   1.00 0.00 0.0 0 0.00
+## class 10:  0.34 0.35 0.0 0 0.32
+## 
+## $V2
+##               1    2 3    4      5
+## class 1:   0.00 1.00 0 0.00 0.0000
+## class 2:   0.57 0.43 0 0.00 0.0000
+## class 3:   0.00 0.00 0 0.54 0.4636
+## class 4:   1.00 0.00 0 0.00 0.0000
+## class 5:   0.00 0.00 1 0.00 0.0000
+## class 6:   0.74 0.00 0 0.00 0.2597
+## class 7:   1.00 0.00 0 0.00 0.0043
+## class 8:   0.00 0.00 0 0.00 1.0000
+## class 9:   0.00 1.00 0 0.00 0.0000
+## class 10:  0.00 1.00 0 0.00 0.0000
+## 
+## $V3
+##            1    2    3 4    5
+## class 1:   1 0.00 0.00 0 0.00
+## class 2:   0 0.57 0.00 0 0.43
+## class 3:   0 0.00 0.00 0 1.00
+## class 4:   1 0.00 0.00 0 0.00
+## class 5:   0 1.00 0.00 0 0.00
+## class 6:   0 0.00 0.00 0 1.00
+## class 7:   0 0.00 0.00 0 1.00
+## class 8:   0 0.00 0.00 1 0.00
+## class 9:   1 0.00 0.00 0 0.00
+## class 10:  0 0.87 0.13 0 0.00
+## 
+## $V4
+##            1    2 4    5
+## class 1:   1 0.00 0 0.00
+## class 2:   1 0.00 0 0.00
+## class 3:   0 0.00 1 0.00
+## class 4:   0 1.00 0 0.00
+## class 5:   0 0.00 0 1.00
+## class 6:   0 0.00 0 1.00
+## class 7:   0 0.00 0 1.00
+## class 8:   0 0.00 0 1.00
+## class 9:   0 0.00 0 1.00
+## class 10:  0 0.84 0 0.16
+## 
+## Estimated class population shares 
+##  0.06 0.07 0.066 0.097 0.05 0.48 0.011 0.049 0.03 0.089 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.06 0.07 0.06 0.1 0.06 0.5 0.05 0.03 0.07 
+##  
+## ========================================================= 
+## Fit for 10 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 159 
+## residual degrees of freedom: -59 
+## maximum log-likelihood: -233 
+##  
+## AIC(10): 784
+## BIC(10): 1198
+## G^2(10): 28 (Likelihood ratio/deviance statistic) 
+## X^2(10): 41 (Chi-square goodness of fit) 
+##  
+## ALERT: number of parameters estimated ( 159 ) exceeds number of observations ( 100 ) 
+##  
+## ALERT: negative degrees of freedom; respecify model 
+##  
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1     2     3    4    5
+## class 1:  0.95 0.052 0.000 0.00 0.00
+## class 2:  0.24 0.081 0.075 0.18 0.43
+## 
+## $V2
+##              1    2     3     4    5
+## class 1:  0.62 0.00 0.000 0.051 0.33
+## class 2:  0.37 0.54 0.095 0.000 0.00
+## 
+## $V3
+##              1    2     3     4     5
+## class 1:  0.00 0.00 0.000 0.079 0.921
+## class 2:  0.44 0.44 0.028 0.000 0.085
+## 
+## $V4
+##              1    2    4    5
+## class 1:  0.00 0.00 0.12 0.88
+## class 2:  0.31 0.46 0.00 0.23
+## 
+## Estimated class population shares 
+##  0.6 0.4 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.61 0.39 
+##  
+## ========================================================= 
+## Fit for 2 latent classes: 
+## ========================================================= 
+## number of observations: 100 
+## number of fully observed cases: 68 
+## number of estimated parameters: 31 
+## residual degrees of freedom: 69 
+## maximum log-likelihood: -312 
+##  
+## AIC(2): 686
+## BIC(2): 767
+## G^2(2): 160 (Likelihood ratio/deviance statistic) 
+## X^2(2): 381 (Chi-square goodness of fit) 
+## </code></pre>
+<p>We see that the best model is with 2 segments.</p>
+<p>For the best model we can look at the posterior probabilities.</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="probabilistic-models-for-customer-analytics.html#cb655-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(LCA_best_model<span class="sc">$</span>posterior) <span class="co"># matrix of posterior class membership probabilities</span></span></code></pre></div>
+<pre><code>##      [,1]    [,2]
+## [1,]    1 1.8e-64
+## [2,]    0 1.0e+00
+## [3,]    0 1.0e+00
+## [4,]    1 1.9e-24
+## [5,]    1 1.5e-10
+## [6,]    1 6.1e-10</code></pre>
+<p>Instead of looking at the probabilities we can also look at the actual class predictions.</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="probabilistic-models-for-customer-analytics.html#cb657-1" aria-hidden="true" tabindex="-1"></a>LCA_best_model<span class="sc">$</span>predclass <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co"># class membership</span></span>
+<span id="cb657-2"><a href="probabilistic-models-for-customer-analytics.html#cb657-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(LCA_best_model<span class="sc">$</span>predclass)</span>
+<span id="cb657-3"><a href="probabilistic-models-for-customer-analytics.html#cb657-3" aria-hidden="true" tabindex="-1"></a>LCA_best_model<span class="sc">$</span>P <span class="co"># size of each class</span></span></code></pre></div>
+<pre><code>## [1] 1 2 2 1 1 1
+## 
+##  1  2 
+## 61 39 
+## [1] 0.6 0.4</code></pre>
+<p>We see the different predictions, and the table shows the distribution. Lastly we have the proportions for each class.</p>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="probabilistic-models-for-customer-analytics.html#cb659-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">0</span>)</span>
+<span id="cb659-2"><a href="probabilistic-models-for-customer-analytics.html#cb659-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The estimated class-conditional response probabilities</span></span>
+<span id="cb659-3"><a href="probabilistic-models-for-customer-analytics.html#cb659-3" aria-hidden="true" tabindex="-1"></a>LCA_best_model<span class="sc">$</span>probs</span>
+<span id="cb659-4"><a href="probabilistic-models-for-customer-analytics.html#cb659-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ploting (graph=TRUE) them for better interpretation</span></span>
+<span id="cb659-5"><a href="probabilistic-models-for-customer-analytics.html#cb659-5" aria-hidden="true" tabindex="-1"></a>ch2 <span class="ot">&lt;-</span> <span class="fu">poLCA</span>(f, data, <span class="at">nclass =</span> <span class="dv">2</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-329-1.png" width="720" style="display: block; margin: auto;" /></p>
+<pre><code>## $V1
+##              1     2     3        4        5
+## class 1:  0.95 0.053 0.000 8.0e-262 1.0e-272
+## class 2:  0.24 0.080 0.075  1.8e-01  4.3e-01
+## 
+## $V2
+##              1        2     3       4       5
+## class 1:  0.62 6.5e-261 0.000 5.1e-02 3.3e-01
+## class 2:  0.37  5.4e-01 0.095 3.4e-65 2.7e-10
+## 
+## $V3
+##                  1        2     3       4     5
+## class 1:  7.1e-261 9.4e-272 0.000 7.9e-02 0.921
+## class 2:   4.4e-01  4.4e-01 0.028 1.7e-25 0.085
+## 
+## $V4
+##              1        2       4    5
+## class 1:  0.00 4.5e-262 1.2e-01 0.88
+## class 2:  0.31  4.6e-01 5.3e-16 0.23
+## 
+## Conditional item response (column) probabilities,
+##  by outcome variable, for each class (row) 
+##  
+## $V1
+##              1     2     3    4    5
+## class 1:  0.95 0.051 0.000 0.00 0.00
+## class 2:  0.35 0.069 0.069 0.14 0.38
+## 
+## $V2
+##              1    2   3     4    5
+## class 1:  0.79 0.00 0.0 0.000 0.21
+## class 2:  0.38 0.45 0.1 0.069 0.00
+## 
+## $V3
+##              1    2     3     4     5
+## class 1:  0.00 0.00 0.000 0.051 0.949
+## class 2:  0.52 0.38 0.034 0.000 0.071
+## 
+## $V4
+##              1    2     4    5
+## class 1:  0.00 0.00 0.000 1.00
+## class 2:  0.31 0.38 0.069 0.24
+## 
+## Estimated class population shares 
+##  0.57 0.43 
+##  
+## Predicted class memberships (by modal posterior prob.) 
+##  0.57 0.43 
+##  
+## ========================================================= 
+## Fit for 2 latent classes: 
+## ========================================================= 
+## number of observations: 68 
+## number of estimated parameters: 31 
+## residual degrees of freedom: 37 
+## maximum log-likelihood: -221 
+##  
+## AIC(2): 504
+## BIC(2): 572
+## G^2(2): 165 (Likelihood ratio/deviance statistic) 
+## X^2(2): 1662 (Chi-square goodness of fit) 
+## </code></pre>
+<p>We see the values for each variable, e.g., in class 1 V2, we primarily have 1’s and 2’s. Where the class 2 vector 2 has only values 1 and 5.</p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="probabilistic-models-for-customer-analytics.html#cb661-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the class</span></span>
+<span id="cb661-2"><a href="probabilistic-models-for-customer-analytics.html#cb661-2" aria-hidden="true" tabindex="-1"></a>data_copy <span class="ot">&lt;-</span> data</span>
+<span id="cb661-3"><a href="probabilistic-models-for-customer-analytics.html#cb661-3" aria-hidden="true" tabindex="-1"></a>data_copy<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(LCA_best_model<span class="sc">$</span>predclass)</span>
+<span id="cb661-4"><a href="probabilistic-models-for-customer-analytics.html#cb661-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_copy)</span></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="left">V2</th>
+<th align="left">V3</th>
+<th align="left">V4</th>
+<th align="left">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">5</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">NA</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Now we see that the class that we estimate the observation to be within is added.</p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="probabilistic-models-for-customer-analytics.html#cb662-1" aria-hidden="true" tabindex="-1"></a><span class="co"># learn a BN classifier considering the class as the root node</span></span>
+<span id="cb662-2"><a href="probabilistic-models-for-customer-analytics.html#cb662-2" aria-hidden="true" tabindex="-1"></a>mystructural <span class="ot">&lt;-</span> <span class="fu">structural.em</span>(data_copy, <span class="at">maximize =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">return.all =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb662-3"><a href="probabilistic-models-for-customer-analytics.html#cb662-3" aria-hidden="true" tabindex="-1"></a><span class="fu">graphviz.plot</span>(mystructural<span class="sc">$</span>dag)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-331-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p>We see that the hill climbing method actually sets V3 as an ancestor and not class. This we want to correct.</p>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb663-1"><a href="probabilistic-models-for-customer-analytics.html#cb663-1" aria-hidden="true" tabindex="-1"></a>mystructural<span class="sc">$</span>dag <span class="ot">&lt;-</span> <span class="fu">set.arc</span>(mystructural<span class="sc">$</span>dag, <span class="at">from =</span> <span class="st">&quot;class&quot;</span>, <span class="at">to =</span> <span class="st">&quot;V3&quot;</span>)</span>
+<span id="cb663-2"><a href="probabilistic-models-for-customer-analytics.html#cb663-2" aria-hidden="true" tabindex="-1"></a><span class="fu">graphviz.plot</span> (mystructural<span class="sc">$</span>dag)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-332-1.png" width="720" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="probabilistic-models-for-customer-analytics.html#cb664-1" aria-hidden="true" tabindex="-1"></a>bn.mle <span class="ot">&lt;-</span> <span class="fu">bn.fit</span> (mystructural<span class="sc">$</span>dag, <span class="at">data =</span> data_copy, <span class="at">method =</span> <span class="st">&quot;mle&quot;</span>)</span></code></pre></div>
+<p>Now we have corrected the DAG that is not correct. Hence, we are able to start making inference.</p>
+<p><em>Lets say we have a customer who has reported the following: V1 = 1, V2=5, V3=5. Then what would the rating for V4 be?</em></p>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb665-1"><a href="probabilistic-models-for-customer-analytics.html#cb665-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gRain)</span>
+<span id="cb665-2"><a href="probabilistic-models-for-customer-analytics.html#cb665-2" aria-hidden="true" tabindex="-1"></a>junction <span class="ot">&lt;-</span> <span class="fu">compile</span>(<span class="fu">as.grain</span>(bn.mle))</span>
+<span id="cb665-3"><a href="probabilistic-models-for-customer-analytics.html#cb665-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-4"><a href="probabilistic-models-for-customer-analytics.html#cb665-4" aria-hidden="true" tabindex="-1"></a><span class="co">#We set evidance</span></span>
+<span id="cb665-5"><a href="probabilistic-models-for-customer-analytics.html#cb665-5" aria-hidden="true" tabindex="-1"></a>V1V2V3 <span class="ot">&lt;-</span> <span class="fu">setEvidence</span>(junction, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;V1&quot;</span>, <span class="st">&quot;V2&quot;</span>, <span class="st">&quot;V3&quot;</span>)</span>
+<span id="cb665-6"><a href="probabilistic-models-for-customer-analytics.html#cb665-6" aria-hidden="true" tabindex="-1"></a>                      ,<span class="at">states =</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;5&quot;</span>))</span>
+<span id="cb665-7"><a href="probabilistic-models-for-customer-analytics.html#cb665-7" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(V1V2V3, <span class="at">nodes =</span> <span class="st">&quot;class&quot;</span>)</span></code></pre></div>
+<pre><code>## $class
+## class
+## 1 2 
+## 1 0</code></pre>
+<p>It is most likely that this person is in class 1.</p>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb667-1"><a href="probabilistic-models-for-customer-analytics.html#cb667-1" aria-hidden="true" tabindex="-1"></a><span class="fu">querygrain</span>(V1V2V3, <span class="at">nodes =</span> <span class="st">&quot;V4&quot;</span>) <span class="co">#estimated preference: 0.12*4 + 0.88*5 = 4.88</span></span></code></pre></div>
+<pre><code>## $V4
+## V4
+##    1    2    4    5 
+## 0.00 0.00 0.12 0.88</code></pre>
+<p>We see that there is 12% probability of rating 4, and 88% probability of rating 5, hence we can aggregate on those.</p>
+<p><span class="math inline">\(0.12 * 4 + 0.88 * 5 = 4.88\)</span></p>
 </div>
 </div>
 <div id="latent-models-for-cross-selling-and-acquisition-sequence" class="section level2" number="4.5">
@@ -2701,8 +3660,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="latent-trait-model---applying-the-ltm-package-in-r" class="section level3" number="4.5.1">
 <h3><span class="header-section-number">4.5.1</span> Latent Trait Model - Applying the LTM Package in R</h3>
 <p>The LSAT data is having 5 questions of increasing difficulty (although not in the actual order) (5 items) and we are going to make an analysis on this.</p>
-<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="probabilistic-models-for-customer-analytics.html#cb622-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ltm)</span>
-<span id="cb622-2"><a href="probabilistic-models-for-customer-analytics.html#cb622-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(LSAT) <span class="co">#We see that itmes are one hot encoded</span></span></code></pre></div>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="probabilistic-models-for-customer-analytics.html#cb669-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ltm)</span>
+<span id="cb669-2"><a href="probabilistic-models-for-customer-analytics.html#cb669-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(LSAT) <span class="co">#We see that itmes are one hot encoded</span></span></code></pre></div>
 <div class="kable-table">
 <table>
 <thead>
@@ -2760,9 +3719,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="probabilistic-models-for-customer-analytics.html#cb623-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Some summary descriptions</span></span>
-<span id="cb623-2"><a href="probabilistic-models-for-customer-analytics.html#cb623-2" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">descript</span>(LSAT)</span>
-<span id="cb623-3"><a href="probabilistic-models-for-customer-analytics.html#cb623-3" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="probabilistic-models-for-customer-analytics.html#cb670-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Some summary descriptions</span></span>
+<span id="cb670-2"><a href="probabilistic-models-for-customer-analytics.html#cb670-2" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">descript</span>(LSAT)</span>
+<span id="cb670-3"><a href="probabilistic-models-for-customer-analytics.html#cb670-3" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
 <pre><code>## 
 ## Descriptive statistics for the &#39;LSAT&#39; data-set
 ## 
@@ -2812,8 +3771,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6       2      5   0.009
 ## 7       1      3   0.003
 ## 8       4      5   0.002
-## 9       3      4  0.0007
-## 10      2      3  0.0004</code></pre>
+## 9       3      4   7e-04
+## 10      2      3   4e-04</code></pre>
 <p>We can see the frequency of the different scores etc.</p>
 <ul>
 <li>The important thing with the descriptive statistics</li>
@@ -2821,8 +3780,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The other important thing is the <em>pairwise associations</em>: where we see that if there is correlation between the different questions. High p = correlation, low correlation = low p-value. We want to find some high p-values, of not, the model does not make any sense.</li>
 </ul>
 <p>Now lets fit the model.</p>
-<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="probabilistic-models-for-customer-analytics.html#cb625-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ltm</span>(LSAT <span class="sc">~</span> z1) <span class="co">#z1 for the birnbaum model</span></span>
-<span id="cb625-2"><a href="probabilistic-models-for-customer-analytics.html#cb625-2" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="probabilistic-models-for-customer-analytics.html#cb672-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ltm</span>(LSAT <span class="sc">~</span> z1) <span class="co">#z1 for the birnbaum model</span></span>
+<span id="cb672-2"><a href="probabilistic-models-for-customer-analytics.html#cb672-2" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ltm(formula = LSAT ~ z1)
@@ -2843,8 +3802,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Dscrmn = the slope</li>
 </ul>
 <p>We can look at the different scores depending on the correct answers, that is for each of the persons.</p>
-<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="probabilistic-models-for-customer-analytics.html#cb627-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">factor.scores</span>(fit)</span>
-<span id="cb627-2"><a href="probabilistic-models-for-customer-analytics.html#cb627-2" aria-hidden="true" tabindex="-1"></a>res <span class="co">#Fore respondents</span></span></code></pre></div>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="probabilistic-models-for-customer-analytics.html#cb674-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">factor.scores</span>(fit)</span>
+<span id="cb674-2"><a href="probabilistic-models-for-customer-analytics.html#cb674-2" aria-hidden="true" tabindex="-1"></a>res <span class="co">#Fore respondents</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ltm(formula = LSAT ~ z1)
@@ -2889,15 +3848,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Now we can also plot the item response functions.</p>
 <p>I have added ablines in the plot, to visualize the latent scores of 50% probability of buying.</p>
-<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="probabilistic-models-for-customer-analytics.html#cb629-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span>
-<span id="cb629-2"><a href="probabilistic-models-for-customer-analytics.html#cb629-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Lets add plot the coefficient and check if it adds up to 50% prob.</span></span>
-<span id="cb629-3"><a href="probabilistic-models-for-customer-analytics.html#cb629-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
-<span id="cb629-4"><a href="probabilistic-models-for-customer-analytics.html#cb629-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="sc">-</span><span class="fl">0.280</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
-<span id="cb629-5"><a href="probabilistic-models-for-customer-analytics.html#cb629-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.0280</span>,<span class="at">y =</span> <span class="fl">0.024</span>,<span class="st">&quot;-0.0280 (coef)&quot;</span>,<span class="at">col =</span> <span class="st">&quot;green&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span>
-<span id="cb629-6"><a href="probabilistic-models-for-customer-analytics.html#cb629-6" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">1.9</span>,<span class="at">y =</span> <span class="fl">0.51</span>,<span class="st">&quot;50% prob.&quot;</span>,<span class="at">col =</span> <span class="st">&quot;green&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span>
-<span id="cb629-7"><a href="probabilistic-models-for-customer-analytics.html#cb629-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.606</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkred&quot;</span>) <span class="co">#Group 30 from the res</span></span>
-<span id="cb629-8"><a href="probabilistic-models-for-customer-analytics.html#cb629-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">1.0</span>,<span class="at">y =</span> <span class="fl">0.26</span>,<span class="st">&quot;Person 30&quot;</span>,<span class="at">col =</span> <span class="st">&quot;darkred&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div>
-<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-312-1.png" width="720" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb676-1"><a href="probabilistic-models-for-customer-analytics.html#cb676-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span>
+<span id="cb676-2"><a href="probabilistic-models-for-customer-analytics.html#cb676-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Lets add plot the coefficient and check if it adds up to 50% prob.</span></span>
+<span id="cb676-3"><a href="probabilistic-models-for-customer-analytics.html#cb676-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
+<span id="cb676-4"><a href="probabilistic-models-for-customer-analytics.html#cb676-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="sc">-</span><span class="fl">0.280</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
+<span id="cb676-5"><a href="probabilistic-models-for-customer-analytics.html#cb676-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.0280</span>,<span class="at">y =</span> <span class="fl">0.024</span>,<span class="st">&quot;-0.0280 (coef)&quot;</span>,<span class="at">col =</span> <span class="st">&quot;green&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb676-6"><a href="probabilistic-models-for-customer-analytics.html#cb676-6" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">1.9</span>,<span class="at">y =</span> <span class="fl">0.51</span>,<span class="st">&quot;50% prob.&quot;</span>,<span class="at">col =</span> <span class="st">&quot;green&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb676-7"><a href="probabilistic-models-for-customer-analytics.html#cb676-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.606</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col =</span> <span class="st">&quot;darkred&quot;</span>) <span class="co">#Group 30 from the res</span></span>
+<span id="cb676-8"><a href="probabilistic-models-for-customer-analytics.html#cb676-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">1.0</span>,<span class="at">y =</span> <span class="fl">0.26</span>,<span class="st">&quot;Person 30&quot;</span>,<span class="at">col =</span> <span class="st">&quot;darkred&quot;</span>,<span class="at">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-338-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>We see that at the visualize maturity, there is almost certinaty that the person is correctly answering item 1 (Q1).</p>
 </div>
 <div id="the-latent-hidden-markov-model" class="section level3" number="4.5.2">

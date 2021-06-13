@@ -44,3 +44,8 @@ caTools
 msm
 polycor
 ltm
+BiocGenerics
+graph
+Rgraphviz
+scatterplot3d
+poLCA

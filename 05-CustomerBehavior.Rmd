@@ -118,7 +118,7 @@ The following is an example where we start in P3, then go to p13, P12, P4, P12, 
 
 *Notice that we did not do this during the class, although I did it for fun.*
 
-```{r,fig.cap="We see that we start on P3 and then we follow the path we will end up in defer"}
+```{r}
 library(ggdag)
 
 #Generating the relationships

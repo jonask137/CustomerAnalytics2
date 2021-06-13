@@ -380,7 +380,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#application-3-product-recommendation-using-probabilistic-models-bn"><i class="fa fa-check"></i><b>4.4</b> Application 3: Product Recommendation using Probabilistic Models (BN)</a>
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-1-learn-the-probabilistic-relationships-using-a-bayesian-network-learning"><i class="fa fa-check"></i><b>4.4.1</b> Method 1: Learn the probabilistic relationships using a Bayesian network learning</a></li>
-<li class="chapter" data-level="4.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-2-it-works-on-the-assumption-that-the-active-user-belongs-to"><i class="fa fa-check"></i><b>4.4.2</b> Method 2: It works on the assumption that the active user belongs to</a></li>
+<li class="chapter" data-level="4.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-2-finding-latent-segments"><i class="fa fa-check"></i><b>4.4.2</b> Method 2: Finding latent segments</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#latent-models-for-cross-selling-and-acquisition-sequence"><i class="fa fa-check"></i><b>4.5</b> Latent models for cross selling and acquisition sequence</a>
 <ul>
@@ -2417,6 +2417,7 @@ measured</li>
 <p class="caption">EPSI</p>
 </div>
 <p>If we take a look at the dataset (help(mobi) we can see that there are 24 items all in all. One question is about complaints (CUSCO). Complaints is not part of the model, so we do not include that one.</p>
+<p>We see that the measurement model is all the relationships between the questions (the yellow boxes) to the constructs. They are called the <em>measurement model</em>, as these are the variables that you can measure.</p>
 <p>Next step is to formulate the model. In semPLS we use a matrix format and not equations like in Lavaan.</p>
 <p>We describe the measurement model and the structural model separately and in this case we should end up with two matrices like the following:</p>
 <div class="figure">
