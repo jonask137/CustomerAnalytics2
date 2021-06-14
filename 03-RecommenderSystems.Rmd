@@ -332,10 +332,14 @@ confidence #Hence a very stron relationship from woobly chicken to decoration
 
 **Now we can inspect the rules after they are sorted**
 
-```{r}
+```{r sortedRules,eval=FALSE}
 sortedRules <- sort(association.rules,by="lift",decreasing=TRUE)
-inspect(sortedRules[1:10])
+inspect(sortedRules[c(1:10)])
 ```
+
+*Notice that bookdown gave an error so I just manually inserted the output*
+
+![Sorted Rules Output](images/sortedRulesOutput.png)
 
 The conclusions are the same, it is just sorted now.
 

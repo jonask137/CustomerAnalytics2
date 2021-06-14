@@ -246,6 +246,8 @@ We are going to apply integrated models. **What is integrated models?**:
 
 These models apply the the different combinations seen in the first table. Hence we want a distribution both for estimating no. of transactions but also a model to describe when a customer will leave and that is why we both use NBD with BG and Pareto.
 
+We see that the integrated models yields two distributions, one for the dropout (Pareto or BG) and one for the transactions (NBD).
+
 We see that from the table above:
 
 + If we are in a continuous setting and want to count no. of transactions, then we go with **NBD**. This is reflected by the poisson distribution and the heterogenirty of the customers can be estimated by a gamma distribution.
@@ -275,7 +277,11 @@ Therefore we also see in the last table, we see that we observe a customer in 10
 
 We see that the more recent the customer has placed a purchase, the greater is the expected number of purchases in a 24 period. Hence implying that the longer time since the last purchase, the greater is the probability it is just because the customer is lost.
 
+In the CDNow case, he compared the two models, and we see that they are very similar.
 
+![Pareto/NBD vs. BG/NBD](images/ParetoNBDvs.BGNBD.png)
+
+We see that they are very similar in the way they replicate the actual data.
 
 ### Pareto/NBD
 
