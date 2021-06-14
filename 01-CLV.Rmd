@@ -6,7 +6,34 @@ editor_options:
 
 # Customer Lifetime Value
 
-## The matrix formulation
+Contractual vs. non contractual:
+
++ Contractual setting: We see that a customer pays a constant amount each month. Notice that one may also buy extra stuff.
++ Non contractual setting: We see that a customer can buy at any given time, e.g., a supermarket.
++ Discrete purchase: That is when a person makes purchase for a given time period, that is for instance subscriptions
++ Continuous purchase: That is a person is able to make a purchase at any given time.
+
+In the following we see an example of placing orders either in the beginning or at the end of the period. The difference between case 1 and 2, is that in case 2 it is not a new customer, as we do not have a purchase in time period 0.
+
+![Discrete purchases](images/Descrete purchases.png)
+
+See section *CLV continuous time accounting for when you get the money* in the CLV templates.
+
+
+
+## Non-contractual The matrix formulation
+
+This is for a __non contractual setting.__
+
+This comes in relation to having different states, where the last state is an absorbing state, which indicates a lost customer. It can be shown with a Markov Chain.
+
+![Different states](images/cohorts.png)
+
+We see that there are different probabilities of starting in the different states. Then for that given state you can either move one down or move up to state one. Where state 1 = most recent purchase.
+
+Notice that this illustration has four states, state one equal the most recent purchasers while state 5 is the absorbing state. In this state there is 0 probability of moving up to state 1, hence the customer is lost.
+
+In the following example we have a scenario of the cost being 4 and a purchase giving a margin og 40
 
 __For an infinite period__
 
@@ -98,15 +125,28 @@ CLV
   # Now we see that we do not loose money on cohort 4
 ```
 
+__Finite period__
+
 Notice that the following is just for a finite period, where the calculations above are infinite. We see that the result is not really different, just as we saw in the example in excel.
 
 ```{r}
 # 4 periods **
-p2 <- P %*% P
-p3 <- p2 %*% P
-p4 <-p3 %*% P
+p2 <- P %*% P #P = the first period
+p3 <- p2 %*% P #By matrix multiplication can we find the proportions in consecutive periods
+p4 <- p3 %*% P
+P
+p4
+```
 
-res1 <- G + 1/discount_factor * P %*% 
+What do we see from this. We see that in period 1 recency 1, we have 30% stayers and 70% that moves to recency 2, notice that the stayers, will be those that actually buy something.
+
+Then by matrix multiplication we can see that 13.97% of those originally in state 1 is still in state 1. On the other hand can we see that 45% of the customers are lost. That is because in this scenario, there is always a greater chance of loosing the customer rather than them staying. Thus if we had more than 50% of staying, then naturally we would have more people staying in state one (repetitive buys) compared to completely lost customers (those in the absorbing state.)
+
+In the following we can replicate the lifetime value through matrix multiplication as well.
+
+```{r}
+res1 <- 
+  G + 1/discount_factor * P %*% 
   G + 1/discount_factor^2 * p2 %*% 
   G + 1/discount_factor^3 * p3 %*% 
   G + 1/discount_factor^4 * p4 %*% 
@@ -115,26 +155,139 @@ res1 <- G + 1/discount_factor * P %*%
 res1
 ```
 
+## Contractual - Valuing customer base + residual lifetime value
 
+We see that the customer base can be estimated with the sBG approach. In this scenario we have different cohorts, for instance all those that that signed up in a given period. Hence we are working in a contratual setting.
 
-## BTYD
+We see that we are able to measure how many customers that are actually left in the different cohorts.
+
+![Customer base](images/customerbase.png)
+
+Then we can also show the retention rates for the given cohorts.
+
+![Customer base retention rates](images/sbgRetentionRate.png)
+
+We see that the retention rate is actually increasing. Two explanations could be:
+
+1. Getting more loyal customers
+2. Filtering out in the heterogeneous customer base - *this also implies that we assume heterogeneity*
+
+Then you may ask, how do we get the retention rates and hence the survival rates? This is estimated with the sBG (Shifted-Beta-Geometric model), with a beta distribution you are able to reflect many different shapes, hence we can also replicate the retention rates. Examples of different outcomes can be seen in the following picture.
+
+*Why is it called 'shifted'? That is because a customer cannot leave in time period 0, as they have paid for that period.*
+
+![Shifted-Beta-Geometric model (sBG)](images/ShiftedBetaGeometricModel.png)
+
+Application of this is made in the excel sheet.
+
+The following also simulate two different scenarios.
 
 ```{r}
-library(BTYD)
+alpha1 <- 0.676
+beta1 <- 3.86
+alpha2 <- 0.7009
+beta2 <- 1.1712
+
+theta <- (1:99)/100
+p.beta_high = dbeta(theta,alpha1,beta1)
+p.beta.reg = dbeta(theta,alpha2,beta2)
+matplot(theta,cbind(p.beta_high,p.beta.reg),xlab = "Churn probability"
+        ,ylab = "Density",type = "l",col = c("blue","red")
+        ,main = "Composition of customers with respect to churn")
+legend(0.7,7,legend = c("High_end","Regular"),pch = c(16,1)
+       ,col = c("blue","red"),cex = 0.7)
 ```
 
+We can also calculate the amount of people that are expected to churn in period one, for this we just need the alpha and the beta values (or at least the estimated values).
 
-Buy till you die.
+That is done with $P = \frac{\alpha}{\alpha + \beta}$
 
-I have put notes to to BG/NBD, hence one may go directly to that section to see some details. It is put as a note to describe the other approaches.
+```{r,results='hold'}
+options(digits = 3)
+alpha1/(alpha1 + beta1) #0.149
+alpha2/(alpha2 + beta2) #0.374
+```
+
+Hence we see that 37% of the regular customers will churn, while only 15% of the high end customers will churn (leave). That is as expected as we see the greatest density of the of regular churners is higher than the high end, where we see that most lie in the lower region.
+
+
+## Non-Contractual Setting - Probabilitic Models
+
+```{r}
+library(BTYD) #Buy till you die.
+```
+
+Now we are going to move into non-contractual models estimate the lifetime value of such a customer base, we are going to apply probabilistic models to estimate the churn rate but also the rate of purchase (transaction rate).
 
 We are working with a non-contratual setting. Also these models are specifically applicable when the company is not able to point out the exact time, that the customer will drop out, so the opposite of when we have a contratual setting, where we know exactly if the customer does not renew his contract.
 
+*I have put notes to to BG/NBD, hence one may go directly to that section to see some details. It is put as a note to describe the other approaches.*
+
+
+**Summary of the models:**
+
+We see the following summary:
+
+![Summary of probability models](images/CLVProbabilityModels.png)
+
+*Individual level = drop out of a given customer*
+
+*Heterogeneity = difference in customers, hence difference in when customers tend to drop out, e.g., some drops out quickly while others will stay long.*
+
+*Counting = about estimating no. of transactions*
+
+*Timing = Estimating when a customer will leave in the future*
+
+*__What defines the model?__ We see that the individual level and heterogeneity are described by different distributions. These combinations make up the model, e.g., Poisson and Gamma distrbution combination to estimate respectively Individual level and Heterogeneity, is called the NBD (negative binomial distribution). And the combination of Exponential and Gamma distribution is called the Pareto distribution. Hence to estimate the Pareto distribution, you naturally need the parameters estimating both the Exponential and Gamma distribution.*
+
+**Notice that we are not going to look at the BB distribution!!**
+
+We are going to apply integrated models. **What is integrated models?**:
+
+These models apply the the different combinations seen in the first table. Hence we want a distribution both for estimating no. of transactions but also a model to describe when a customer will leave and that is why we both use NBD with BG and Pareto.
+
+We see that from the table above:
+
++ If we are in a continuous setting and want to count no. of transactions, then we go with **NBD**. This is reflected by the poisson distribution and the heterogenirty of the customers can be estimated by a gamma distribution.
+
++ If we have a discrete time period (hence not continous purchase = contractual), we can estimate the transaction rate with a shifted geometirc model and the heterogenity (dropout rate) can be estimated with a Beta distribution. This is applied with the **sBG** model.
+
++ If we have a timing model, this is basically where we do not know when a customer makes a purchase and they can dropout at any given time. We assume that any customer is having lifetime, and this can be estimated with an exponential distribution. We also assume heterogeneity in the customers, i.e., different tendencies to drop out, this is estimated with a beta distribution. We use the **Pareto** model for this approach.
+
+
+### Pareto/NBD vs. BG/NBD
+
+The difference between these is the timing, meaning when a customer will leave. In the Pareto estimate of timing, a customer can leave at any point in time, where the BG model only allows to leave after a purchase.
+
+That makes the Pareto model more flexible than the BG model.
+
+Lets take an example of the BG/NBD:
+
+![BG/NBD Example](images/BGNBDExample.png)
+
+We see in section (a), that the higher the death rate the fewer purchases do we expect a customer to make, and the higher the purchase rate, the more transactions do we estimate him to have.
+
+Although, the probability of customer being alive is is actually decreasing when we increase purchase rate while holding death rate constant. That is due to how the model is build, as the BG model only allows for a customer dying after a purchase.
+
+Therefore when the purchase rate is higher, then he will also make more purchases, but for each purchase there is also a probability of dying.
+
+Therefore we also see in the last table, we see that we observe a customer in 10 periods, 1 being the first and 10 the last.
+
+We see that the more recent the customer has placed a purchase, the greater is the expected number of purchases in a 24 period. Hence implying that the longer time since the last purchase, the greater is the probability it is just because the customer is lost.
+
+
+
 ### Pareto/NBD
 
-Here we have a model, that aim to predict (or estimate) the transaction rate and the dropout rate. Also the model allows for heterogeneity in the customers, meaning that all are not the same and soo will the dropout not be. We are working with 4 parameters, two for estimating the transaction rate and two for estimating the dropout rate.
+*NBD = Negative Binomial Distribution*
 
-Notice that the model is similar to the e.g., thne BG/NBD, that is because this is the foundation hereof.
+Here we have a model, that aim to predict (or estimate) the transaction rate and the dropout rate. Also the model allows for heterogeneity in the customers, meaning that all are not the same and so will the dropout not be. We are working with 4 parameters, two for estimating the transaction rate and two for estimating the dropout rate.
+
+Notice that the model is similar to the e.g., the BG/NBD, that is because this is the foundation hereof.
+
+We see that the Pareto/NBD is from 1959 and the BG/NBD is from 2005, hence it builds on the Pareto/NBD.
+
+The reason for making the BG/NDB is to make it less cumbersome to estimate, although with the computing power now, we see that the Pareto/NBD model can easily be estimated. Therefore the Pareto/NBD is often preferred over the BG/NBD.
 
 \
 

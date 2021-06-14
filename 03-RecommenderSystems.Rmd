@@ -286,7 +286,9 @@ We see that:
 
 + Support = $\frac{TotalInvoices}{AbsoluteNo.OfTransactions} = Support$
 + Coverage = $\frac{Support}{Confidence} = Coverage$
-+ Lift = 
++ Lift = $\frac{P(A|B)}{P(A)} = Lift$, we see with lift, that we actually need to find out how the pairs appear. See an example in the following.
+
+![Lift example](images/LiftExample.png)
 
 **Manual calculation of support, coverage and confidence**
 
