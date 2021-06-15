@@ -49,3 +49,12 @@ graph
 Rgraphviz
 scatterplot3d
 poLCA
+igraph
+reshape2
+clickstream
+foreach
+iterators
+doParallel
+arulesSequences
+pwr
+contextual

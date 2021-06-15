@@ -258,6 +258,8 @@ ___
 
 #### A. Building the structure and parameters manually
 
+There are three different approaches
+
 ##### Approaches to make the network
 
 **Three approaches:** we are going to see three different approaches to making this.
@@ -272,7 +274,7 @@ Notice that this corresponds with the graph in the slides:
 
 ![](images/paste-E8DBE844.png)
 
-###### First approach
+###### (i) First approach
 
 ```{r,results='hold'}
 library(bnlearn)
@@ -326,7 +328,7 @@ _Notice that throughout the code, the `Rgraphviz` package is applied to better l
 # graphviz.plot(dag)
 ```
 
-######  Second approach
+######  (ii) Second approach
 
 Another way to build a large network from scratch is to define the nodes and create a matrix to set the whole arc set at once:
 
@@ -344,7 +346,7 @@ plot(dag2)
 
 We see that we get the exact same plot.
 
-######  Third approach
+######  (iii) Third approach
 
 An even easier way to build the DAG when we know the structure:
 
@@ -902,9 +904,9 @@ We see that we get likelihood of the different states where attitude is set to l
 
 ```{r,results='hold'}
 # Summary (only for Atti)
-AttiHigh <-c(A1$Atti[[3]], A2$Atti[[3]], A3$Atti[[3]])
-AttiLow <- c(A1$Atti[[1]], A2$Atti[[1]], A3$Atti[[1]])
-AttiMed <- c(A1$Atti[[2]], A2$Atti[[2]], A3$Atti[[2]])
+AttiHigh <-c(A1$Atti[[1]], A2$Atti[[1]], A3$Atti[[1]])
+AttiLow <- c(A1$Atti[[2]], A2$Atti[[2]], A3$Atti[[2]])
+AttiMed <- c(A1$Atti[[3]], A2$Atti[[3]], A3$Atti[[3]])
 df1 <- data.frame(Fuse = c("Low", "Med", "High"), AttiLow, AttiMed, AttiHigh)
 df1
 matplot(rownames(df1), df1
@@ -917,7 +919,7 @@ legend('topright'
        ,inset = .01
        ,legend = colnames(df1[,2:4]) #"AttiLow"  "AttiMed"  "AttiHigh"
        ,pch = 1,horiz = T
-       ,col = 2:4)
+       ,col = c("blue","red","green"))
 ```
 
 ***Discussion***
@@ -927,32 +929,32 @@ legend('topright'
    - the medium state of attitude shows a decreasing trend,
    - the low state of attitude shows a constant trend. 
 
-+ it depicts that when functional usefulness is low, the probability of attitude medium is quite high (0.80) and thus functional usefulness does not radically affect the customer´s attitude.  
++ it depicts that when functional usefulness is low, the probability of attitude medium is quite high (0.80) and thus functional usefulness does not radically affect the customer´s attitude. And when the attitude is just low, then the functional usefullness does not change anything. 
 
 ##### *let us repeat the same analysis by setting evidence in Pleasure*
 
 We can do the same graphs, just where we see the relationship between pleasure and attitude.
 
 ```{r,results='hold'}
-# new ctp 
+# new cpt
 jLow <- setEvidence (junction, nodes = "Plea", states = "Low")
 A1 = querygrain(jLow, nodes = "Atti")
 C1 = querygrain(jLow, nodes = "Comm")
 
-# New ctp
+# New cpt
 jMed <- setEvidence (junction, nodes = "Plea", states = "Med")
 A2 = querygrain(jMed, nodes = "Atti")
 C2 = querygrain(jMed, nodes = "Comm")
 
-# New ctp
+# New cpt
 jHigh <- setEvidence (junction, nodes = "Plea", states = "High")
 A3 = querygrain(jHigh, nodes = "Atti")
 C3 = querygrain(jHigh, nodes = "Comm")
 
 # summary
-AttiHigh <- c(A1$Atti[[3]], A2$Atti[[3]], A3$Atti[[3]])
-AttiLow <- c(A1$Atti[[1]], A2$Atti[[1]], A3$Atti[[1]])
-AttiMed <- c(A1$Atti[[2]], A2$Atti[[2]], A3$Atti[[2]])
+AttiHigh <- c(A1$Atti[[1]], A2$Atti[[1]], A3$Atti[[1]])
+AttiLow <- c(A1$Atti[[2]], A2$Atti[[2]], A3$Atti[[2]])
+AttiMed <- c(A1$Atti[[3]], A2$Atti[[3]], A3$Atti[[3]])
 df2 <- data.frame(Plea = c("Low", "Med", "High"), AttiLow, AttiMed, AttiHigh)
 
 options(scipen = 999)
@@ -961,7 +963,7 @@ matplot(rownames(df2), df2, type = 'l', xlab = 'Plea'
         ,ylab = 'Probability', ylim = c(0,1)
         ,col = c(3,4,2))
 legend('topright', inset=.01, legend=colnames(df2[,2:4]), 
-       pch=1, horiz=T, col=2:4)
+       pch=1, horiz=T, col = c("blue","red","green"))
 ```
 
 We see that the probability of a high attitude increases as pleasure increases. Although we see that the low attitude probability decrease as pleasure increases, and at some point, the low attitude will 
@@ -976,7 +978,7 @@ as Plea changes from low to medium to high,
 
 When pleasure is low, the probability of attitude being low is high (0.8592). This means pleasure has a stronger relationship with attitude; hence, to increase the attitude of customers, it is more important to enhance their perceived pleasure than to enhance functional usefulness.
 
-Similar influences of changes of FUSE, PLEA and ATTI on commitment can be similarly explored. To conclude, the above inference is called forward inference because we set evidence in the parent and look at ctp changes in the child. Next, we look at backward inference - a great type of inference offered by BN models.
+Similar influences of changes of FUSE, PLEA and ATTI on commitment can be similarly explored. To conclude, the above inference is called forward inference because we set evidence in the parent and look at cpt changes in the child. Next, we look at backward inference - a great type of inference offered by BN models.
 
 #### Diagnostic (Backward inference)
 
@@ -985,11 +987,11 @@ Here we are going to go against the arrows.
 Let’s assume that the evidence given is that the customer’s attitude towards VC is high. This information is fed to the network by setting the probability of attitude being high (that is, as 1.00) and observing the changes in the parent variables (Fuse and Plea)
 
 ```{r,results='hold'}
-# Prior ctp
+# Prior cpt
 querygrain(junction, nodes = "Fuse")
 querygrain(junction, nodes = "Plea")
 
-# New ctp
+# New cpt
 jHigh <- setEvidence (junction, nodes = "Atti", states = "High") 
 querygrain(jHigh, nodes = "Fuse")
 querygrain(jHigh, nodes = "Plea")
@@ -1004,14 +1006,14 @@ __An example__
 _Assume that the online vendor observes decreasing commitment towards participation_ among its customers. He can set evidence to the network that the probability of commitment is low and see the effect of the parent variables (attitude, functional usefulness and pleasure).
 
 ```{r,results='hold'}
-#Prior ctp 
+#Prior cpt 
 querygrain(junction, nodes = "Atti")
 querygrain(junction, nodes = "Fuse")
 querygrain(junction, nodes = "Plea")
 ```
 
 ```{r,results='hold'}
-# New ctp
+# New cpt
 CLow <- setEvidence (junction, nodes = "Comm", states = "Low") #We set commitment to low
 querygrain(CLow, nodes = "Atti")
 querygrain(CLow, nodes = "Fuse")

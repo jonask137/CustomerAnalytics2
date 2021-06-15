@@ -55,6 +55,9 @@
 <script src="libs/viz-1.8.2/viz.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
 
 
 <style type="text/css">
@@ -330,9 +333,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.2.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#approaches-to-make-the-network"><i class="fa fa-check"></i><b>4.2.1.1.1</b> Approaches to make the network</a>
 <ul>
-<li class="chapter" data-level="4.2.1.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#first-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.1</b> First approach</a></li>
-<li class="chapter" data-level="4.2.1.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#second-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.2</b> Second approach</a></li>
-<li class="chapter" data-level="4.2.1.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#third-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.3</b> Third approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#i-first-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.1</b> (i) First approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#ii-second-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.2</b> (ii) Second approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#iii-third-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.3</b> (iii) Third approach</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#loadingentering-data"><i class="fa fa-check"></i><b>4.2.1.1.2</b> Loading/entering data</a></li>
 <li class="chapter" data-level="4.2.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#conditional-probability-table-cpt"><i class="fa fa-check"></i><b>4.2.1.1.3</b> Conditional probability table (CPT)</a></li>
@@ -442,9 +445,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We see that association rules looks at transactions and assess what products there appear to be on the same transaction, and thus creates association rules based on these.</p>
 <p>With these rules you can start making recommendations or generate ideas of what products should be marketed together. For instance one of the fun examples is where you see that beers and diapers often comes together. When you think about it, it is very logical, because people with small kids cant go out, but they might still enjoy a beer, thus they have to do it at home.</p>
 <p><strong><em>Collaborative filtering</em></strong></p>
-<p>Then we have collaborative filtering. Here we will work on two different approaches, item-based and user-based.
-+ User-based: we want to predict one users ratings of a given product/service based on similarity with other users.
-+ item-based: we want to predict one users ratings of a given product/service based on its similarity with other products, e.g., if one consistenly rate thai food high, then he may also like other thai food, this is in principle also what I have explored with the recommender system on the DSP.</p>
+<p>Then we have collaborative filtering. Here we will work on two different approaches, item-based and user-based.</p>
+<ul>
+<li><p>User-based: we want to predict one users ratings of a given product/service based on similarity with other users.</p></li>
+<li><p>item-based: we want to predict one users ratings of a given product/service based on its similarity with other products, e.g., if one consistenly rate thai food high, then he may also like other thai food, this is in principle also what I have explored with the recommender system on the DSP.</p></li>
+</ul>
 <p>This is very much used for making recommender system. This was also very much applied in the Netflix competition.</p>
 <p>With this, we have the term cold start, that is when you have a new user, you must make some recommendations before you can use the contents, e.g., what you are doing at Netflix, so it starts knowing your preferences.</p>
 <p><strong><em>Latent factor models</em></strong></p>
@@ -455,20 +460,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="association-rule" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Association rule</h2>
 <p>Basically the method looks at what products that appear in the same transaction and the finds pairs, or items that come together.</p>
-<p>Terms:
-+ Items: these are the different products that can be bought, can also be a product group
-+ Itemset: this is the dataset containing a list of all of the items
-+ Syntatic Constrains: constraints involving restrictions on items that can appear in a rule. E.g., one may say, that we only want to evaluate one item (product) or an itemrange.
-+ Support Constraints: constraints the number of transactions in T that support a rule. Notice that in R there are default values for this.
-+ Minsupport: This is the threshold assigned to item pairs, used in procedure 1.
+<p>Terms:</p>
+<ul>
+<li>Items: these are the different products that can be bought, can also be a product group</li>
+<li>Itemset: this is the dataset containing a list of all of the items</li>
+<li>Syntatic Constrains: constraints involving restrictions on items that can appear in a rule. E.g., one may say, that we only want to evaluate one item (product) or an itemrange.</li>
+<li>Support Constraints: constraints the number of transactions in T that support a rule. Notice that in R there are default values for this.</li>
+<li>Minsupport: This is the threshold assigned to item pairs, used in procedure 1.
 + Large itemssets: Item combinations that meets the minsupport. This is denoted with I1,I2,…Ik.
-+ Small itemssets: Item combinations that does not meet the minsupport</p>
-<p>Procedure:
-1. Generate all combinations of items that have fractional transactinos support. Perhaps above a certain threshold.
-a. We group all combinations in two groups:
-i. Large itemsets. Examples: 1) Diaper and beer, 2) Milk, Bread –&gt; Eggs, Coke.
-ii. Small itemsets.
-For a large itemset generate all rules, that use items from the large itemsets (I1,I2,…Ik). We call all of these rules subsets (X) of Y.</p>
++ Small itemssets: Item combinations that does not meet the minsupport</li>
+</ul>
+<p>Procedure:</p>
+<pre><code>1. Generate all combinations of items that have fractional transactinos support. Perhaps above a certain threshold.
+    a. We group all combinations in two groups:
+        i. Large itemsets. Examples: 1) Diaper and beer, 2) Milk, Bread --&gt; Eggs, Coke.
+        ii. Small itemsets.
+        </code></pre>
+<p>For a large itemset generate all rules, that use items from the large itemsets (I1,I2,…Ik). We call all of these rules subsets (X) of Y.</p>
 <div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="recommender-systems-and-customer-targeting.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.datacamp.com/community/tutorials/market-basket-analysis-r</span></span>
 <span id="cb391-2"><a href="recommender-systems-and-customer-targeting.html#cb391-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb391-3"><a href="recommender-systems-and-customer-targeting.html#cb391-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install and load package arules</span></span>
@@ -1059,17 +1067,21 @@ For a large itemset generate all rules, that use items from the large itemsets (
 <p>We see that the higher the confidence the higher the lift, so there appears to be a strong relationship between these.</p>
 <p>We can also show it in the following.</p>
 <div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="recommender-systems-and-customer-targeting.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot SubRules</span></span>
-<span id="cb439-2"><a href="recommender-systems-and-customer-targeting.html#cb439-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(subRules)</span></span></code></pre></div>
+<span id="cb439-2"><a href="recommender-systems-and-customer-targeting.html#cb439-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(subRules)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-190-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>We see that usually the lift is the greatest in the top left corner, where the confidence is high and support is low.</p>
 <p>This makes sense, as you cannot lift (boost) the sales of another product, if their relationship is already rather high.</p>
 <p>Now we can plot the length of the rule with respect to confidence</p>
 <div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="recommender-systems-and-customer-targeting.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The order is the number of items in the rule</span></span>
-<span id="cb440-2"><a href="recommender-systems-and-customer-targeting.html#cb440-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(subRules,method=&quot;two-key plot&quot;)</span></span></code></pre></div>
+<span id="cb440-2"><a href="recommender-systems-and-customer-targeting.html#cb440-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(subRules,<span class="at">method=</span><span class="st">&quot;two-key plot&quot;</span>)</span></code></pre></div>
+<p><img src="Customer-Analytics-Notes_files/figure-html/unnamed-chunk-191-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>The following is supposed to be an interactive plot. But does not appear to work, missing a library.</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="recommender-systems-and-customer-targeting.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plotly_arules(subRules)</span></span></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="recommender-systems-and-customer-targeting.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plotly_arules(subRules)</span></span></code></pre></div>
 <p>Now we can plot some interactive plot, where one can explore the rules.</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="recommender-systems-and-customer-targeting.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="co">#top10subRules &lt;- head(subRules, n = 10, by = &quot;confidence&quot;)</span></span>
-<span id="cb442-2"><a href="recommender-systems-and-customer-targeting.html#cb442-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(top10subRules, method = &quot;graph&quot;,  engine = &quot;htmlwidget&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="recommender-systems-and-customer-targeting.html#cb442-1" aria-hidden="true" tabindex="-1"></a>top10subRules <span class="ot">&lt;-</span> <span class="fu">head</span>(subRules, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">by =</span> <span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb442-2"><a href="recommender-systems-and-customer-targeting.html#cb442-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(top10subRules, <span class="at">method =</span> <span class="st">&quot;graph&quot;</span>,  <span class="at">engine =</span> <span class="st">&quot;htmlwidget&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-244938df9da821113a18" style="width:720px;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-244938df9da821113a18">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],"label":["WOBBLY CHICKEN","DECOUPAGE","BILLBOARD FONTS DESIGN","WOBBLY RABBIT","ART LIGHTS","FUNK MONKEY","BLACK TEA","DECORATION","METAL","GREETING CARD","WRAP","SUGAR JARS","COFFEE","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10"],"group":["item","item","item","item","item","item","item","item","item","item","item","item","item","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule"],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,22.5217391304348,22.5217391304348,1,26.8260869565217,48.3478260869565,48.3478260869565,65.5652173913044,65.5652173913044,100,100],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EE8484","#EE8484","#EE9797","#EE1B1B","#EE8484","#EE8484","#EE5050","#EE5050","#EEB8B8","#EEDCDC"],"title":["WOBBLY CHICKEN","DECOUPAGE","BILLBOARD FONTS DESIGN","WOBBLY RABBIT","ART LIGHTS","FUNK MONKEY","BLACK TEA","DECORATION","METAL","GREETING CARD","WRAP","SUGAR JARS","COFFEE","<B>[1]<\/B><BR><B>{WOBBLY CHICKEN}<\/B><BR>&nbsp;&nbsp; => <B>{DECORATION}<\/B><BR><BR>support = 0.00126<BR>confidence = 1<BR>coverage = 0.00126<BR>lift = 444<BR>count = 28<BR>order = 2","<B>[2]<\/B><BR><B>{WOBBLY CHICKEN}<\/B><BR>&nbsp;&nbsp; => <B>{METAL}<\/B><BR><BR>support = 0.00126<BR>confidence = 1<BR>coverage = 0.00126<BR>lift = 444<BR>count = 28<BR>order = 2","<B>[3]<\/B><BR><B>{DECOUPAGE}<\/B><BR>&nbsp;&nbsp; => <B>{GREETING CARD}<\/B><BR><BR>support = 0.00104<BR>confidence = 1<BR>coverage = 0.00104<BR>lift = 389<BR>count = 23<BR>order = 2","<B>[4]<\/B><BR><B>{BILLBOARD FONTS DESIGN}<\/B><BR>&nbsp;&nbsp; => <B>{WRAP}<\/B><BR><BR>support = 0.00131<BR>confidence = 1<BR>coverage = 0.00131<BR>lift = 716<BR>count = 29<BR>order = 2","<B>[5]<\/B><BR><B>{WOBBLY RABBIT}<\/B><BR>&nbsp;&nbsp; => <B>{DECORATION}<\/B><BR><BR>support = 0.00153<BR>confidence = 1<BR>coverage = 0.00153<BR>lift = 444<BR>count = 34<BR>order = 2","<B>[6]<\/B><BR><B>{WOBBLY RABBIT}<\/B><BR>&nbsp;&nbsp; => <B>{METAL}<\/B><BR><BR>support = 0.00153<BR>confidence = 1<BR>coverage = 0.00153<BR>lift = 444<BR>count = 34<BR>order = 2","<B>[7]<\/B><BR><B>{ART LIGHTS}<\/B><BR>&nbsp;&nbsp; => <B>{FUNK MONKEY}<\/B><BR><BR>support = 0.00171<BR>confidence = 1<BR>coverage = 0.00171<BR>lift = 584<BR>count = 38<BR>order = 2","<B>[8]<\/B><BR><B>{FUNK MONKEY}<\/B><BR>&nbsp;&nbsp; => <B>{ART LIGHTS}<\/B><BR><BR>support = 0.00171<BR>confidence = 1<BR>coverage = 0.00171<BR>lift = 584<BR>count = 38<BR>order = 2","<B>[9]<\/B><BR><B>{BLACK TEA}<\/B><BR>&nbsp;&nbsp; => <B>{SUGAR JARS}<\/B><BR><BR>support = 0.00207<BR>confidence = 1<BR>coverage = 0.00207<BR>lift = 239<BR>count = 46<BR>order = 2","<B>[10]<\/B><BR><B>{BLACK TEA}<\/B><BR>&nbsp;&nbsp; => <B>{COFFEE}<\/B><BR><BR>support = 0.00207<BR>confidence = 1<BR>coverage = 0.00207<BR>lift = 69.3<BR>count = 46<BR>order = 2"],"shape":["box","box","box","box","box","box","box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[0.668920237681522,-0.320411217215932,1,0.238612061749243,-0.870905658431672,-0.541240980206201,-0.67811210618543,0.0943731126118859,0.837166148948968,0.234296885875382,0.578286811166204,-1,-0.140709073445363,0.380755686910226,0.863121372931853,-0.0377266978130534,0.808248670612366,0.0793667245287841,0.539373609371534,-0.818758290523715,-0.584782719883501,-0.964608534020099,-0.417868341087654],"y":[-0.83880408962753,0.995275227635468,0.346535261988181,-0.257488472396744,-0.488832656310422,-0.827682931054995,0.223513712547011,-0.90248119616094,-0.252050633126836,1,0.668441242845922,0.501945075496856,0.399923425383007,-1,-0.569175656845108,0.997293596504212,0.537560020987206,-0.564407575807868,-0.127291880020746,-0.780412566010676,-0.521703121100904,0.2202994981935,0.363030525631226]},"edges":{"from":[1,1,2,3,4,4,5,6,7,7,14,15,16,17,18,19,20,21,22,23],"to":[14,15,16,17,18,19,20,21,22,23,8,9,10,11,8,9,6,5,12,13],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","scaling":{"label":{"enabled":true}},"physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true}},"groups":["item","rule"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="recommender-systems-and-customer-targeting.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code></pre></div>
 </div>
 </div>

@@ -130,9 +130,9 @@ application-1-explaining-and-predicting-customer-retention-in-a-virtual-communit
 getting-the-structure
 a.-building-the-structure-and-parameters-manually
 approaches-to-make-the-network
-first-approach
-second-approach
-third-approach
+i-first-approach
+ii-second-approach
+iii-third-approach
 loadingentering-data
 conditional-probability-table-cpt
 b.-learning-the-structure-and-parameters-from-observational-data

@@ -55,6 +55,9 @@
 <script src="libs/viz-1.8.2/viz.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
 
 
 <style type="text/css">
@@ -330,9 +333,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.2.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#approaches-to-make-the-network"><i class="fa fa-check"></i><b>4.2.1.1.1</b> Approaches to make the network</a>
 <ul>
-<li class="chapter" data-level="4.2.1.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#first-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.1</b> First approach</a></li>
-<li class="chapter" data-level="4.2.1.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#second-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.2</b> Second approach</a></li>
-<li class="chapter" data-level="4.2.1.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#third-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.3</b> Third approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#i-first-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.1</b> (i) First approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#ii-second-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.2</b> (ii) Second approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#iii-third-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.3</b> (iii) Third approach</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#loadingentering-data"><i class="fa fa-check"></i><b>4.2.1.1.2</b> Loading/entering data</a></li>
 <li class="chapter" data-level="4.2.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#conditional-probability-table-cpt"><i class="fa fa-check"></i><b>4.2.1.1.3</b> Conditional probability table (CPT)</a></li>
@@ -5724,7 +5727,7 @@ example, five characteristics of HBAT customers are available:</li>
 <li>region of the customer(x4)</li>
 <li>distribution system(X5)</li>
 </ul>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="customer-satisfaction-and-loyalty.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-classification table allows us to profile the clusters based on these categorical  variables </span></span>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="customer-satisfaction-and-loyalty.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-classification table allows us to profile the clusters based on these categorical variables </span></span>
 <span id="cb386-2"><a href="customer-satisfaction-and-loyalty.html#cb386-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-square test</span></span>
 <span id="cb386-3"><a href="customer-satisfaction-and-loyalty.html#cb386-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)       </span>
 <span id="cb386-4"><a href="customer-satisfaction-and-loyalty.html#cb386-4" aria-hidden="true" tabindex="-1"></a>tblx1 <span class="ot">=</span> <span class="fu">table</span>(HBAT<span class="sc">$</span>x1, HBAT_CLU<span class="sc">$</span>clustersK) </span>
@@ -5734,28 +5737,22 @@ example, five characteristics of HBAT customers are available:</li>
 ##   Less than 1 year  2  5 25
 ##   1 to 5 years      8 22  5
 ##   Over 5 years     29  3  1</code></pre>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="customer-satisfaction-and-loyalty.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tblx1) </span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="customer-satisfaction-and-loyalty.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tblx1)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  tblx1
 ## X-squared = 85.369, df = 4, p-value &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="customer-satisfaction-and-loyalty.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Significant chi-square value reveals for example that x1 (customer type) tends to be associated with certain clusters. In my output observe that customers of &quot;Over 5 years&quot; tend to be concentrated in cluster 1 (recall these were customers that were also most likely to recommend and to purchase). Cluster 2 consists predominantly of customers of &quot;less than 1 year&quot; (they were the customers least likely to recommend and ourchase in the future); and cluster 3 consists predominantly of customers between 1 to 5 years. Idem, we can evaluate x2, x3, x4 and x5. From these qualitative variables, distinctive profiles can be developed for each cluster. These profiles support the distinctiveness of the clusters on variables not used in the analysis at any prior point.</span></span></code></pre></div>
+<p>Significant chi-square value reveals for example that x1 (customer type) tends to be associated with certain clusters. In my output observe that customers of “Over 5 years” tend to be concentrated in cluster 1 (recall these were customers that were also most likely to recommend and to purchase). Cluster 2 consists predominantly of customers of “less than 1 year” (they were the customers least likely to recommend and purchase in the future); and cluster 3 consists predominantly of customers between 1 to 5 years. Idem, we can evaluate x2, x3, x4 and x5. From these qualitative variables, distinctive profiles can be developed for each cluster. These profiles support the distinctiveness of the clusters on variables not used in the analysis at any prior point.</p>
 </div>
 </div>
 <div id="final-remarks" class="section level4" number="2.5.3.7">
 <h4><span class="header-section-number">2.5.3.7</span> 7. Final remarks</h4>
 <ul>
-<li>The clustering techniques discussed (hierarchical and K-means) can
-be applied to numeric (continuous) variables. This course focuses
-exclusively on these two methods.</li>
-<li>For clustering with categorical variables, one option is to use
-Expectation Maximization algorithm, which yields probabilistic
+<li>The clustering techniques discussed (hierarchical and K-means) can be applied to numeric (continuous) variables. This course focuses exclusively on these two methods.</li>
+<li>For clustering with categorical variables, one option is to use Expectation Maximization algorithm, which yields probabilistic
 classes (clusters).</li>
-<li>Finally, if interested in clustering with both categorical and
-continous variables, refer to a new package in R called
-‘clustMixType’ (k-Prototypes Clustering for Mixed Variable-Type
-Data) which can handle mixed data.</li>
+<li>Finally, if interested in clustering with both categorical and continous variables, refer to a new package in R called ‘clustMixType’ (k-Prototypes Clustering for Mixed Variable-Type Data) which can handle mixed data.</li>
 </ul>
 
 </div>

@@ -24,7 +24,9 @@ With these rules you can start making recommendations or generate ideas of what 
 ***Collaborative filtering***
 
 Then we have collaborative filtering. Here we will work on two different approaches, item-based and user-based.
+
 + User-based: we want to predict one users ratings of a given product/service based on similarity with other users.
+
 + item-based: we want to predict one users ratings of a given product/service based on its similarity with other products, e.g., if one consistenly rate thai food high, then he may also like other thai food, this is in principle also what I have explored with the recommender system on the DSP.
 
 This is very much used for making recommender system. This was also very much applied in the Netflix competition.
@@ -47,6 +49,7 @@ Notice that in the very end of this chapter a comparison between IBCF, UBCF, lat
 Basically the method looks at what products that appear in the same transaction and the finds pairs, or items that come together.
 
 Terms:
+
 + Items: these are the different products that can be bought, can also be a product group
 + Itemset: this is the dataset containing a list of all of the items
 + Syntatic Constrains:  constraints involving restrictions on items that can appear in a rule. E.g., one may say, that we only want to evaluate one item (product) or an itemrange.
@@ -56,10 +59,12 @@ Terms:
 		+ Small itemssets: Item combinations that does not meet the minsupport
 
 Procedure:
+
 	1. Generate all combinations of items that have fractional transactinos support. Perhaps above a certain threshold.
 		a. We group all combinations in two groups:
 			i. Large itemsets. Examples: 1) Diaper and beer, 2) Milk, Bread --> Eggs, Coke.
 			ii. Small itemsets.
+			
 For a large itemset generate all rules, that use items from the large itemsets (I1,I2,…Ik). We call all of these rules subsets (X) of Y.
 
 
@@ -405,7 +410,7 @@ We can also show it in the following.
 
 ```{r}
 #Plot SubRules
-#plot(subRules)
+plot(subRules)
 ```
 
 We see that usually the lift is the greatest in the top left corner, where the confidence is high and support is low.
@@ -416,20 +421,20 @@ Now we can plot the length of the rule with respect to confidence
 
 ```{r}
 #The order is the number of items in the rule
-#plot(subRules,method="two-key plot")
+plot(subRules,method="two-key plot")
 ```
 
 The following is supposed to be an interactive plot. But does not appear to work, missing a library.
 
 ```{r}
-#plotly_arules(subRules)
+# plotly_arules(subRules)
 ```
 
 Now we can plot some interactive plot, where one can explore the rules.
 
 ```{r}
-#top10subRules <- head(subRules, n = 10, by = "confidence")
-#plot(top10subRules, method = "graph",  engine = "htmlwidget")
+top10subRules <- head(subRules, n = 10, by = "confidence")
+plot(top10subRules, method = "graph",  engine = "htmlwidget")
 ```
 
 ```{r}
