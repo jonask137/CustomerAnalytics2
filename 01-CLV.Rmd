@@ -21,7 +21,7 @@ See section *CLV continuous time accounting for when you get the money* in the C
 
 
 
-## Non-contractual The matrix formulation
+## Non-contractual: The matrix formulation (Migration model)
 
 This is for a __non contractual setting.__
 
@@ -45,9 +45,9 @@ discount_factor <- 1.2
 states <- 5
 
 #Transition probabilities
-p1 <- 0.3
-p2 <- 0.2
-p3 <- 0.15
+p1 <- 0.3 #30% of starting here
+p2 <- 0.2 #20% of starting here
+p3 <- 0.15 #15% of starting here
 p4 <- 0.05
 p5 <- 0
 
@@ -98,7 +98,7 @@ We can also calculate the infinite _modified_ solution, where we apply the trans
 p1=0.3
 p2=0.2
 p3=0.15
-p4=0 #Notice, that we discovered above that recency state 4 where negative, so we will not invest in these. Then we also assume, that they will not buy anything. One may also have kept p = 0.05
+p4= #Notice, 0that we discovered above that recency state 4 where negative, so we will not invest in these. Then we also assume, that they will not buy anything. One may also have kept p = 0.05
 p5=0
 
 # Transition probability matrix
@@ -155,7 +155,9 @@ res1 <-
 res1
 ```
 
-## Contractual - Valuing customer base + residual lifetime value
+Notice that the results are a bit closdr to 0, that is because we go for a fixed period and not an infinate period.
+
+## Contractual: Valuing customer base + residual lifetime value
 
 We see that the customer base can be estimated with the sBG approach. In this scenario we have different cohorts, for instance all those that that signed up in a given period. Hence we are working in a contratual setting.
 
@@ -211,7 +213,7 @@ alpha2/(alpha2 + beta2) #0.374
 Hence we see that 37% of the regular customers will churn, while only 15% of the high end customers will churn (leave). That is as expected as we see the greatest density of the of regular churners is higher than the high end, where we see that most lie in the lower region.
 
 
-## Non-Contractual Setting - Probabilitic Models
+## Non-Contractual Setting: Probabilitic Models
 
 ```{r}
 library(BTYD) #Buy till you die.
@@ -230,6 +232,8 @@ We see the following summary:
 
 ![Summary of probability models](images/CLVProbabilityModels.png)
 
+***Notice that we are not going to look at the BB distribution!!***
+
 *Individual level = drop out of a given customer*
 
 *Heterogeneity = difference in customers, hence difference in when customers tend to drop out, e.g., some drops out quickly while others will stay long.*
@@ -240,8 +244,6 @@ We see the following summary:
 
 *__What defines the model?__ We see that the individual level and heterogeneity are described by different distributions. These combinations make up the model, e.g., Poisson and Gamma distrbution combination to estimate respectively Individual level and Heterogeneity, is called the NBD (negative binomial distribution). And the combination of Exponential and Gamma distribution is called the Pareto distribution. Hence to estimate the Pareto distribution, you naturally need the parameters estimating both the Exponential and Gamma distribution.*
 
-**Notice that we are not going to look at the BB distribution!!**
-
 We are going to apply integrated models. **What is integrated models?**:
 
 These models apply the the different combinations seen in the first table. Hence we want a distribution both for estimating no. of transactions but also a model to describe when a customer will leave and that is why we both use NBD with BG and Pareto.
@@ -250,7 +252,7 @@ We see that the integrated models yields two distributions, one for the dropout 
 
 We see that from the table above:
 
-+ If we are in a continuous setting and want to count no. of transactions, then we go with **NBD**. This is reflected by the poisson distribution and the heterogenirty of the customers can be estimated by a gamma distribution.
++ If we are in a continuous setting and want to count no. of transactions, then we go with **NBD**. This is reflected by the poisson distribution and the heterogenirty of the customers can be estimated by a gamma distribution. Meaning that a given customer has a fixed transaction rate although the customers are also assumed to be heterogenous, hence 1 customer 1 transaction rate.
 
 + If we have a discrete time period (hence not continous purchase = contractual), we can estimate the transaction rate with a shifted geometirc model and the heterogenity (dropout rate) can be estimated with a Beta distribution. This is applied with the **sBG** model.
 
@@ -283,6 +285,8 @@ In the CDNow case, he compared the two models, and we see that they are very sim
 
 We see that they are very similar in the way they replicate the actual data.
 
+In the following sections I will go through the Pareto/NBD and the BG/NBD model.
+
 ### Pareto/NBD
 
 *NBD = Negative Binomial Distribution*
@@ -295,11 +299,17 @@ We see that the Pareto/NBD is from 1959 and the BG/NBD is from 2005, hence it bu
 
 The reason for making the BG/NDB is to make it less cumbersome to estimate, although with the computing power now, we see that the Pareto/NBD model can easily be estimated. Therefore the Pareto/NBD is often preferred over the BG/NBD.
 
+**Assumptions:**
+
+1. The **transaction** rate is the same for a customer, but is (may be) different for each customer, hence we have heterogeneity
+2. About **timing**: A customer can be lost a any given time. E.g., if the average dropout rate = 0.1, then we expect that customer to survive 10 periods. Hence $E(\tau)=1/\mu$
+3. We assume that the transaction rate and dropout rate is independent of each other. Although this assumption can be questioned.
+
 \
 
 #### Data preparation
 
-We only need three pieces of information for every person:
+We only need three pieces of information for every person, this is also called the *CBS* (Customer-by-sufficient-statistics):
 
 1. How many transactions the customer in the training period - **Frequency**
     a. Denoted as $x$
@@ -313,6 +323,7 @@ Thus we must construct a data frame with a row for each customer and the informa
 We use `dc.ReadLines`, this is basically the same as `read.csv`. Notice that elog is a file with a lot of transactions. Thus we have customer identifier, date and amount.
 
 ```{r}
+library(BTYD) #Buy till you die.
 cdnowElog <- system.file("data/cdnowElog.csv", package = "BTYD")
 elog <- dc.ReadLines(cdnowElog, cust.idx = 2
                      ,date.idx = 3, sales.idx = 5)
@@ -342,8 +353,6 @@ Now we can **split the data** to get a train (calibration) and test period.
 end.of.cal.period <- as.Date("1997-09-30") #Insert the last date in the train period.
 elog.cal <- elog[which(elog$date <= end.of.cal.period), ]
 ```
-
-___Notice, the BG/NBD model deals with repeat transactions, hence the first transaction is ignored.___
 
 ```{r}
 split.data <- dc.SplitUpElogForRepeatTrans(elog.cal);
@@ -400,6 +409,28 @@ params <- pnbd.EstimateParameters(cal.cbs);
 params
 ```
 
+We see that the parameters are  r, $\alpha$, s, and $\beta$, where: 
+
++ r and $\alpha$ relates to the NBD model, i.e., transactions
++ s and $\beta$ relates to the Pareto model, i.e., the dropout
+
+Based on this information we can calculate the dropout rate, being $\frac{s}{\beta}=$ Dropout rate. Hence it being
+
+```{r}
+names(params) <- c("r","alpha","s","beta")
+
+#Dropoutrate and dropout rate varaince
+params["s"]/params["beta"] #Dropout rate = 0.052
+params["s"]/params["beta"]^2 #Variance of 0.00446
+
+#Average transaction
+params["r"]/params["alpha"] #Dropout rate = 0.0523
+params["r"]/params["alpha"]^2 #Variance of 0.00494
+
+#Average lifetime
+params["beta"]/params["s"] #19.2 periods
+```
+
 
 ```{r}
 LL <- pnbd.cbs.LL(params, cal.cbs);
@@ -412,8 +443,10 @@ In the following we run consecutive estimations with its own output as its start
 
 ```{r}
 p.matrix <- c(params, LL);
+params <- unname(params) #Previously I named them, if so, the functions does not work
+
 for (i in 1:2){
-  params <- pnbd.EstimateParameters(cal.cbs, params);
+  params <- pnbd.EstimateParameters(cal.cbs, params)
   LL <- pnbd.cbs.LL(params, cal.cbs);
   p.matrix.row <- c(params, LL);
   p.matrix <- rbind(p.matrix, p.matrix.row);
@@ -423,7 +456,7 @@ rownames(p.matrix) <- 1:3;
 p.matrix
 ```
 
-We see that the log-likelihood, hence the fit, is the same, but some of the parameters are changing slightly. We have the following parameters:
+We see that the log-likelihood, hence the fit, is the same, but some of the parameters are changing slightly. We see that the solution is stable. We have the following parameters:
 
 __Describing the the gamma mixing distribution of the NBD transaction process__
 
@@ -466,7 +499,7 @@ pnbd.Expectation(params
                  )
 ```
 
-We expect a newly acquired customer to make 1.47 repeat purchases in a time period of one year.
+We expect a newly acquired customer to make 1.47 repeat purchases in a time period of one year (one period).
 
 Calling information from an individual customer.
 
@@ -481,13 +514,14 @@ x <- cal.cbs["1516", "x"]
 t.x <- cal.cbs["1516", "t.x"]
 T.cal <- cal.cbs["1516", "T.cal"]
 pnbd.ConditionalExpectedTransactions(params
-                                     ,T.star = 52
-                                     ,x
-                                     ,t.x
-                                     ,T.cal)
+                                     ,T.star = 52 #The holdout period
+                                     ,x #Frequency
+                                     ,t.x #Recency
+                                     ,T.cal #Length of train period
+                                     )
 ```
 
-We expect 25 purchases in the hold out period.
+We expect 25.5 purchases in the hold out period. We see that the hold out is 52 weeks, as we have data on 78 weeks.
 
 __Second__ we can calculate the probability that the customer is still alive in the end of the hold out period.
 
@@ -499,17 +533,25 @@ We see that there is a probability of 99%, hence it is almost certain.
 
 __Conditional expectation function__
 
-We see the increasing frequency paradox in action: (__What ever this is__)
+We see the increasing frequency paradox in action:
 
 ```{r}
 for (i in seq(10, 25, 5)){
   cond.expectation <- pnbd.ConditionalExpectedTransactions(
-  params, T.star = 52, x = i,
+  params, T.star = 52, 
+  x = i, #We iterate through Frequency, holding other params fixed
   t.x = 20, T.cal = 39)
   cat ("x:",i,"\t Expectation:",cond.expectation, fill = TRUE)
 }
 ```
 
+We see that the higher the frequency holding recency fixed at 20, the greater is the possibility of a customer being dead. The table shows expected transactions in the hold out period.
+
+That is because if we have a customer with 25 transactions in the train period, but the last transaction is in period 20 (week 20), we would have expected him to place a purchase in the most recent weeks, because that is how his buying patterns has looked previously. Although he has not, hence he is probably lost.
+
+On the other hand a customer with 10 transactions in a 39 week calibration period, it is not very unlikely that he just hasn't placed an order between week 20 and 39, hence there is a greater chance of an active/sleeping customer, than a lost customer.
+
+We see that the same happens in the BG model variate, as there they are only able to leave after a purchase and not at any given time as in the Pareto/NBD.
 
 #### Plotting / Goodness-of-fit
 
@@ -530,10 +572,10 @@ We see that the model estimates the actual transactions very well.
 **The hold out period**
 
 ```{r}
-elog <- dc.SplitUpElogForRepeatTrans(elog)$repeat.trans.elog;
-x.star <- rep(0, nrow(cal.cbs));
-cal.cbs <- cbind(cal.cbs, x.star);
-elog.custs <- elog$cust;
+elog <- dc.SplitUpElogForRepeatTrans(elog)$repeat.trans.elog
+x.star <- rep(0, nrow(cal.cbs))
+cal.cbs <- cbind(cal.cbs, x.star)
+elog.custs <- elog$cust
 for (i in 1:nrow(cal.cbs)){
   current.cust <- rownames(cal.cbs)[i]
   tot.cust.trans <- length(which(elog.custs == current.cust))
@@ -547,10 +589,12 @@ Now we can plot the expected frequency.
 
 ```{r}
 T.star <- 39 # length of the holdout period
-censor <- 7 # This censor serves the same purpose described above
+censor <- 7 #No. of bins for transactions
 x.star <- cal.cbs[,"x.star"]
-comp <- pnbd.PlotFreqVsConditionalExpectedFrequency(params, T.star,
-cal.cbs, x.star, censor)
+comp <- pnbd.PlotFreqVsConditionalExpectedFrequency(params, T.star
+                                                    ,cal.cbs, x.star
+                                                    ,censor #Bins of transactions
+                                                    )
 ```
 
 We see that the hold out period is estimated very well in this example. Instead of looking at the plot, we can also show a matrix containing the numbers.
@@ -595,13 +639,16 @@ inc.tracking[,20:25]
 We can also show a cummulated sum over the weeks, notice that the hold period and the training period is separated by the dashed line.
 
 ```{r}
-cum.tracking.data <- cumsum(w.track.data)
+cum.tracking.data <- cumsum(w.track.data) #Cumulative transaction
 cum.tracking <- pnbd.PlotTrackingCum(params
-                                     ,T.cal
-                                     ,T.tot
-                                     ,cum.tracking.data
-                                     ,n.periods.final)
+                                     ,T.cal #Lengths of cal period
+                                     ,T.tot #78, total length 
+                                     ,cum.tracking.data #Cumulative transactions pr. week whole period
+                                     ,n.periods.final#78 calibration legnth + hold out length
+                                     )
 ```
+
+We can also manually assess the predicted and actual no. of transactions.
 
 ```{r}
 cum.tracking[,20:25]
@@ -611,6 +658,8 @@ cum.tracking[,20:25]
 ### BG/NBD
 
 Used in a non-contractual situation in which customers can make a purchase at any time. The model describes the rate at which customers make purchases and the rate at which they drop out. This is done with four parameters and also allowing for heterogeneity.
+
+This is a simplified version of the Pareto/NBD, where a customer can only dropout immediately after placing a purchase and not at any given time as in the Pareto/NBD.
 
 The following is the BG/NBD model on the CDNow data.
 
@@ -660,20 +709,23 @@ Now we can **split the data** to get a train (calibration) and test period.
 ```{r}
 end.of.cal.period <- as.Date("1997-09-30") #Insert the last date in the train period.
 elog.cal <- elog[which(elog$date <= end.of.cal.period), ]
+elog.cal[1:3,]
 ```
+
+We see that customer 1 has three orders with different amounts in the snippet.
 
 ___Notice, the BG/NBD model deals with repeat transactions, hence the first transaction is ignored.___
 
 ```{r}
 split.data <- dc.SplitUpElogForRepeatTrans(elog.cal);
-clean.elog <- split.data$repeat.trans.elog;
+clean.elog <- split.data$repeat.trans.elog #50% of the total data
 ```
 
 Now we are going to create a customer-by-time matrix. That is simply a matrix with each customer on each row and then days as columns. The following is just a snip.
 
 ```{r}
 #Customer-by-time: Repeatitive transactions
-freq.cbt <- dc.CreateFreqCBT(clean.elog);
+freq.cbt <- dc.CreateFreqCBT(clean.elog)
 freq.cbt[1:3,1:5]
 ```
 
@@ -687,6 +739,7 @@ tot.cbt <- dc.CreateFreqCBT(elog)
 cal.cbt <- dc.MergeCustomers(tot.cbt, freq.cbt)
 ```
 
+Now we have constructed the data frame for analysis.
 
 ```{r}
 birth.periods <- split.data$cust.data$birth.per
@@ -713,8 +766,10 @@ We use the following formula to estiamte the parameters. They take starting poin
 
 ```{r}
 params <- bgnbd.EstimateParameters(cal.cbs);
-params
+params #this is respecitvely r, alpha, a and beta
 ```
+
+See Pareto/NBD for manual calculation of average transaction and dropout rate.
 
 ```{r}
 #Log-Likelyhood of parameters
@@ -735,6 +790,8 @@ colnames(p.matrix) <- c("r", "alpha", "a", "b", "LL");
 rownames(p.matrix) <- 1:3;
 p.matrix
 ```
+
+We see that all rows are basically the same, the model must then be stable.
 
 We have the following parameters:
 
@@ -765,7 +822,7 @@ bgnbd.Expectation(params
 
 We see that he is expected to make 1.44 purchases.
 
-The follwing show customer 1516.
+The following show customer 1516, which is the same as we used in the previous example.
 
 ```{r}
 cal.cbs["1516",]
@@ -791,7 +848,9 @@ bgnbd.ConditionalExpectedTransactions(params
                                       ,T.cal = T.cal) #Length of cal. period.
 ```
 
-We see that the customer is expected to make 25.76 purchases in the hold-out-period.
+We see that the customer is expected to make 25.76 purchases in the hold-out-period. Notice that we had 25.5 in the Pareto/NBD, hence they are very similar.
+
+We can calculate the probability of a person buying alive, notice that for this we don't use a specific customer, although we use the transactions and recency for the customer, if we are having similar customer we would expect them to be equal. 
 
 ```{r}
 bgnbd.PAlive(params = params
@@ -811,7 +870,9 @@ for (i in seq(10, 25, 5)){
 }
 ```
 
-__I am not entirely sure what is meant by the 'increasing frequency paradox' as of the conditional expectation__
+*As with P/NBD we simulate different frequencies given the same recency and end of calibration period.*
+
+__increasing frequency paradox:__ We see that this example is even more extreme, as we in this model only allow a customer to leave immediately after a purchase and not at any given time, So if we say that a customer has 25 transactions in the hold out period, but he has not bought anything after week 20, then we are almost certain that it is not a sleeping customer, but he is dead, as we do not expect to place any transactions.
 
 #### Plotting / Goodness-of-fit
 
@@ -826,14 +887,14 @@ bgnbd.PlotFrequencyInCalibration(params = params
 
 We see that the model replicates the variance that we observe in the data very well.
 
-What we see is amount of customers on y and amount of transactinos in training period.
+What we see is amount of customers on y and amount of transactions in training period.
 
 Now we construct the hold/out period.
 
 ```{r}
-elog <- dc.SplitUpElogForRepeatTrans(elog)$repeat.trans.elog;
-x.star <- rep(0, nrow(cal.cbs));
-cal.cbs <- cbind(cal.cbs, x.star);
+elog <- dc.SplitUpElogForRepeatTrans(elog)$repeat.trans.elog
+x.star <- rep(0, nrow(cal.cbs))
+cal.cbs <- cbind(cal.cbs, x.star)
 elog.custs <- elog$cust;
 for (i in 1:nrow(cal.cbs)){
   current.cust <- rownames(cal.cbs)[i]
@@ -857,6 +918,8 @@ comp <- bgnbd.PlotFreqVsConditionalExpectedFrequency(params
                                                      ,censor)
 ```
 
+We see that it is good at replicating the model, perhaps a bit worse than the Pareto/NBD.
+
 ```{r}
 rownames(comp) <- c("act", "exp", "bin")
 comp
@@ -869,6 +932,8 @@ First, we need to convert the total transactions pr. day into a customer-by-time
 ```{r}
 tot.cbt <- dc.CreateFreqCBT(elog)
 ```
+
+We can also plot per week instead of binning transactions.
 
 ```{r}
 d.track.data <- rep(0,7 * 78) #Corresponding to the amount of daily transactions in the holdout
@@ -909,29 +974,24 @@ _Notice that the dashed line show the shift from calibration to hold out sample.
 
 We see that our model fits the data very well! And also captures the trend.
 
-### BG/BB
+### BG/BB - Not curicullum
 
-__I am not sure if this is a part of the curriculum__
+__This is a part of the curriculum, but it was given, I am just leaving it here__
+
+```{r,eval=FALSE}
 
 #### Data Preparation
-
-```{r}
 simElog <- system.file("data/discreteSimElog.csv"
                        ,package = "BTYD")
 elog <- dc.ReadLines(simElog, cust.idx = 1, date.idx = 2)
 elog[1:3,]
-```
 
-```{r}
 elog$date <- as.Date(elog$date, "%Y-%m-%d")
 max(elog$date);
-```
 
-```{r}
+
 min(elog$date);
-```
 
-```{r}
 # let's make the calibration period end somewhere in-between
 T.cal <- as.Date("1977-01-01")
 
@@ -943,11 +1003,10 @@ rec <- cal.cbs[,"t.x"]
 trans.opp <- 7 # transaction opportunities
 cal.rf.matrix <- dc.MakeRFmatrixCal(freq, rec, trans.opp)
 cal.rf.matrix[1:5,]
-```
+
 
 #### Parameter Estimation
 
-```{r}
 data(donationsSummary);
 rf.matrix <- donationsSummary$rf.matrix
 params <- bgbb.EstimateParameters(rf.matrix);
@@ -963,15 +1022,12 @@ for (i in 1:2){
 colnames(p.matrix) <- c("alpha", "beta", "gamma", "delta", "LL");
 rownames(p.matrix) <- 1:3;
 p.matrix;
-```
+
 
 #### Individual Level Estimations
 
-```{r}
 bgbb.Expectation(params, n=10);
-```
 
-```{r}
 # customer A
 n.cal = 6
 n.star = 10
@@ -980,75 +1036,50 @@ x = 0
 t.x = 0
 bgbb.ConditionalExpectedTransactions(params, n.cal
                                      ,n.star, x, t.x)
-```
 
-```{r}
 # customer B
 x = 4
 t.x = 5
 bgbb.ConditionalExpectedTransactions(params, n.cal
                                      ,n.star, x, t.x)
-```
 
 #### Plotting / Goodness-of-fit
-
-```{r}
 bgbb.PlotFrequencyInCalibration(params, rf.matrix)
-```
 
-```{r}
 holdout.cbs <- simData$holdout$cbs
 x.star <- holdout.cbs[,"x.star"]
-```
 
-```{r}
 n.star <- 5 # length of the holdout period
 x.star <- donationsSummary$x.star
 comp <- bgbb.PlotFreqVsConditionalExpectedFrequency(params, n.star,
 rf.matrix, x.star)
-```
 
-```{r}
 rownames(comp) <- c("act", "exp", "bin")
 comp
-```
 
-```{r}
 comp <- bgbb.PlotRecVsConditionalExpectedFrequency(params, n.star,
 rf.matrix, x.star)
-```
 
-```{r}
 rownames(comp) <- c("act", "exp", "bin")
 comp
-```
 
-```{r}
 inc.track.data <- donationsSummary$annual.trans
 n.cal <- 6
 xtickmarks <- 1996:2006
 inc.tracking <- bgbb.PlotTrackingInc(params, rf.matrix
                                      ,inc.track.data
                                      ,xticklab = xtickmarks)
-```
 
-```{r}
 rownames(inc.tracking) <- c("act", "exp")
 inc.tracking
-```
 
-```{r}
 cum.track.data <- cumsum(inc.track.data)
 cum.tracking <- bgbb.PlotTrackingCum(params, rf.matrix, cum.track.data
                                      ,xticklab = xtickmarks)
-```
 
-
-```{r}
 rownames(cum.tracking) <- c("act", "exp")
 cum.tracking
 ```
-
 
 
 ### Examples from the lecture
@@ -1300,6 +1331,7 @@ res <- data.frame(diff(as.matrix(df)))
 print(res)
 ```
 
+#### DERT Calculation
 
 ```{r}
 # DERT discounted expected residual no. of transactions
@@ -1330,9 +1362,24 @@ pnbd.DERT(params2, x=1:10, t.x = 30.43, T.cal=38.86, d)
 We see that x iterates form 1 to 10, hence customers with 10 repeatative purchases in the calibration has a discounted expected residual no. of transactions that is increasing.
 
 ```{r}
-pnbd.Plot.DERT(params2, x=0:14, t.x=0:38, T.cal=38.86, d, type="contour")
+pnbd.Plot.DERT(params2, x = 0:14 #Frequencies
+               ,t.x = 0:38 #Recencies
+               ,T.cal = 38.86 #Length training period
+               ,d #The discount rate
+               ,type = "contour")
+abline(h = 1,col = "darkred",cex = 0.8,lty = 2)
+abline(h = 12,col = "darkblue",cex = 0.8,lty = 2)
 ```
 
+We see from the plot that if the recency is high, then we in general expect a customer to make many transactions, we see that all scenarios on the same line are worth the same. Lets take two examples.
+
+1. A customer with 1 transaction (red line): Has purchased something in approximately week 5, we expect him to do one more transaction, although if we look at a customer with 12 transactions, he must have a recency between week 15-20 to expect that he is going to place an order. That is because for the low frequency customer, it is not unusual to not buy something, to we think he is just sleeping and eventually come back one last time. Where the buying pattern for the other customer has drastically changed.
+
+2. Then we have a scenario of a customer making a lot of orders, we see that if he also pruchased very recently we will also expect him to place many orders in the future.
+
+Notice as the no. of transactions are already discounted, one can merely multiply the margin by the no. of transactions to find CLV.
+
+Now we can also look at a given customer to see if he is still alive.
 
 ```{r}
 # P(alive) 
