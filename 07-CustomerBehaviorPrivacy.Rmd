@@ -4,7 +4,7 @@
 
 We have different eras of privacy research,
 
-![Privacy eras](privacy)
+![Privacy eras](images/privacy.png)
 
 We see that we have 8 different data concerns:
 
@@ -17,7 +17,11 @@ We see that we have 8 different data concerns:
 7. Inequitable exchange: This is basically that customer dont feel that the information they give, is returned in better adds and recommendations.
 8. Fear of errors: Customers are afraid that the wrong information is stored on them.
 
-We see that research has found that :
+These are solutions to the concerns:
+
+![Solutions to privacy concerns](images/SolutionsToPrivacyConcers.png)
+
+We see that research has found that:
 
 1. 17% are very concerned about websites collecting data and dont want to give any information.
 2. 56% of customers are concerned about privacy but also feel it can be legislated through regulations.
@@ -25,7 +29,7 @@ We see that research has found that :
 
 Another study generalize with the following:
 
-![Fletcher 2003](fletcher2003)
+![Fletcher 2003](images/fletcher2003.png)
 
 Where we see that are four poles and most will find themselved somewhere inbetween.
 
@@ -42,4 +46,25 @@ GDPR terms and defaults:
 + Profiling: that is when a company is collecting information about you, to tailor the experience.
   + Negative effects of profiling:
     a. Making stereotypes
-    b. 
+    b. Social segregation
+    c. Undermine freedom to choose certain products (if a tailored experience is made from the profiling)
+    d. Inaccurate predictions
+    e. Denial of services
+    f. Discrimination
+
+*Definition of profiling:* any form of *automated processing* of *personal data* consisting of the use of personal data to *evaluate certain personal aspects* relating to a natural person, in particular *to analyses* or *predict aspects* concerning that natural persons performance at work, economic situation, health, personal preferences, interests, reliability, behaviour, location or movements.
+
+Hence we see that profiling often comes with automation. Although automation also comes without profiling. For instance a speeding ticket is automated, atlhough you don't need profiling to judge on such.
+
+**Targeted advertising and GDPR**
+
+We see that online commercials are automated. In most cases it does not have an effect on the individual, although it depends on:
+
+a. The intrusiveness of the profiling process
+b. the expectations and wishes of the individuals concerned
+c. the way the advert is delivered
+d. the particular vulnerabilities of the data subjects targeted.
+
+***What is coming in the future?*** We see that is going to cluster you based on recent browser history to generate ads for these groups instead of individual marketing. The same is applied at Facebook right now.
+
+One should stay aware of data persistance, data spillovers, repurposing nad IoT. There are a lot of unknown consequences.

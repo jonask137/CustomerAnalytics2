@@ -202,15 +202,58 @@ Then we can infer for each predictor and take the largest value. *A rule of thum
 ```
 
 
-## CFA and SEM Application Lavann
+## EFA, CFA and SEM
 
 *Data source: Hair et al., Multivariate Data Analysis, Pearson Education*
+
+SEM is also referred to as a *Covariance Structure Analysis*
+
+We see that these models has the following workflow:
+
+1. Define the individual constructs
+2. Develop measurement model
+3. Design a study to produce empirical results
+4. Measurement model validity
+5. Specify SEM
+6. SEM Validity
+
+To go through that workflow we are going to apply three different tools:
+
+1. EFA,
+2. CFA, and
+3. SEM
+
+Where **EFA** aims to explore the data to get an idea of how many constructs we need, unless we already have a hypothesis hereof. Although the latent variables cannot be directly measured so we need a good foundation for these.
+
+We see that the **CFA** aims to verify the relationships and validate the model. We need to meet a lot of criteria to get an optimal model, such as 
+
+**Model fit:**
+a. Information criteria such as TLI, CFI, RMSEA
+
+**Construct validty**
+
+b. Convergent validity: we look at loadings we want them to be higher than 50% and ideally 70%. We also look at item reliability, where we want to look at the AVE pr. factor and CR.
+c. Discriminant validity: We want constructs to represent each own variables, hence we dont want to have too much of multicollinearity, e.g., if the correlation between two constructs is near 1, then we can just disregard one of them, as they just say the same
+d. Nomological validity: That is if there is an actual relationship between constructs. The Matrix of construct correlations can be use for this.
+e. Face validity: You must selection a metric that reflects the overall purpose, hence choosing the right scale to measure your overall model, this should be chosen prior to the study.
+
+**Model diagnostics**
+
+f. Standardized residuals: We want to see if the model is able to explain the observations. In general we want the standardized residuals to be lower than 2.5 and not higher than 4. The interval inbetween one should consider these observations, perhaps see what they are.
+
+After all these checks we are going to *impose structure on the model*, that is when we are reaching SEM! When we impose structure we do:
+
+1. Set directions between latent variables. In EFA and CFA these are merely bidirections.
+2. Decision of recursive / nonrecursive model. We must consider whether we want a recursive model, where endogenous latent variables cannot be exogenous to each other, hence no feedback loops. On the other hand, if we allow for a nonrecursive model, we see that we have feedback loops and variance in one endogenous latent variable explains a lot of variance in another latent variable. Usually we want to avoid nonrecursive models, as the LV's will be explaining each other (hence can we just use one?) and also we need more identification constraints.
+
+
+## Application with Lavann and HBAT data
 
 ### Business Problem & Objectives
 
 HBAT is a manufacturer of paper products who sells products to two market segments: the newsprint industry and the magazine industry. The current market is very competitive, so the manufacturer wants to understand how its customers perceive the company and make purchasing decisions, in order to enforce customers loyalty. The manufacturer commissioned a study asking its customers to complete a questionnaire on a secure website. In total, 100 customers - purchasing managers from different firms - buying from HBAT completed the questionnaire. The data consist of three main pieces of information:
 
-• A 1st type of information is available from HBAT ́s data warehouse and includes information on:
+• A 1st type of information is available from HBAT's data warehouse and includes information on:
 
 -   customer type in terms of length of purchase relationship (X1)
 -   industry type(X2)

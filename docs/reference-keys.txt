@@ -37,7 +37,8 @@ pretesting-and-measurement-validity
 questionnaire-design
 simple-size
 nps
-cfa-and-sem-application-lavann
+efa-cfa-and-sem
+application-with-lavann-and-hbat-data
 business-problem-objectives
 data
 efa
