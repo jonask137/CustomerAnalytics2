@@ -2,14 +2,15 @@ fig:pnbd1
 fig:pnbd2
 fig:bgnbd1
 fig:bgnbd2
-fig:unnamed-chunk-55
-fig:unnamed-chunk-59
-fig:unnamed-chunk-60
-fig:unnamed-chunk-136
-fig:unnamed-chunk-137
+fig:unnamed-chunk-58
+fig:unnamed-chunk-62
+fig:unnamed-chunk-63
+fig:unnamed-chunk-139
+fig:unnamed-chunk-140
 customer-lifetime-value
 non-contractual-the-matrix-formulation-migration-model
 contractual-valuing-customer-base-residual-lifetime-value
+sbg-shifted-beta-geometric-model
 non-contractual-setting-probabilitic-models
 paretonbd-vs.-bgnbd
 paretonbd
@@ -62,7 +63,7 @@ revised-code
 segmentation-clustering
 what-is-clustering
 clustering-techniques
-an-example
+an-example-with-hbat
 background
 the-primary-objective-is
 the-data-data-understanding-phase
@@ -80,6 +81,10 @@ assessing-cluster-stability
 assessing-criterion-predictive-validity
 profiling-the-final-cluster-solution
 final-remarks
+an-example-with-mcdonalds-data
+loading-and-exploring-the-data
+k-means-clustering
+interpreting-the-clusters
 recommender-systems-and-customer-targeting
 association-rule
 loading-and-data-exploration
@@ -180,3 +185,4 @@ what-is-it-and-when-to-apply-it
 how-to-perform-an-ab-test
 pitfalls-and-challenges.
 ab-tests-and-bandits.
+privacy

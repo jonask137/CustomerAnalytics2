@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Privacy | Customer Analytics</title>
+  <meta name="description" content="6 Privacy | Customer Analytics" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Privacy | Customer Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Privacy | Customer Analytics" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="customer-behavior.html"/>
+
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>setup</a></li>
+<li class="chapter" data-level="1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html"><i class="fa fa-check"></i><b>1</b> Customer Lifetime Value</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#non-contractual-the-matrix-formulation-migration-model"><i class="fa fa-check"></i><b>1.1</b> Non-contractual: The matrix formulation (Migration model)</a></li>
+<li class="chapter" data-level="1.2" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#contractual-valuing-customer-base-residual-lifetime-value"><i class="fa fa-check"></i><b>1.2</b> Contractual: Valuing customer base + residual lifetime value</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#sbg-shifted-beta-geometric-model"><i class="fa fa-check"></i><b>1.2.1</b> sBG (Shifted Beta Geometric model)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#non-contractual-setting-probabilitic-models"><i class="fa fa-check"></i><b>1.3</b> Non-Contractual Setting: Probabilitic Models</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#paretonbd-vs.-bgnbd"><i class="fa fa-check"></i><b>1.3.1</b> Pareto/NBD vs. BG/NBD</a></li>
+<li class="chapter" data-level="1.3.2" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#paretonbd"><i class="fa fa-check"></i><b>1.3.2</b> Pareto/NBD</a>
+<ul>
+<li class="chapter" data-level="1.3.2.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#data-preparation"><i class="fa fa-check"></i><b>1.3.2.1</b> Data preparation</a></li>
+<li class="chapter" data-level="1.3.2.2" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#parameter-estimation"><i class="fa fa-check"></i><b>1.3.2.2</b> Parameter Estimation</a></li>
+<li class="chapter" data-level="1.3.2.3" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#individual-level-estimations"><i class="fa fa-check"></i><b>1.3.2.3</b> Individual Level Estimations</a></li>
+<li class="chapter" data-level="1.3.2.4" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#plotting-goodness-of-fit"><i class="fa fa-check"></i><b>1.3.2.4</b> Plotting / Goodness-of-fit</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3.3" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#bgnbd"><i class="fa fa-check"></i><b>1.3.3</b> BG/NBD</a>
+<ul>
+<li class="chapter" data-level="1.3.3.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#data-preparation-1"><i class="fa fa-check"></i><b>1.3.3.1</b> Data Preparation</a></li>
+<li class="chapter" data-level="1.3.3.2" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#parameter-estimation-1"><i class="fa fa-check"></i><b>1.3.3.2</b> Parameter Estimation</a></li>
+<li class="chapter" data-level="1.3.3.3" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#individual-level-estimation"><i class="fa fa-check"></i><b>1.3.3.3</b> Individual Level Estimation</a></li>
+<li class="chapter" data-level="1.3.3.4" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#plotting-goodness-of-fit-1"><i class="fa fa-check"></i><b>1.3.3.4</b> Plotting / Goodness-of-fit</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3.4" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#bgbb---not-curicullum"><i class="fa fa-check"></i><b>1.3.4</b> BG/BB - Not curicullum</a></li>
+<li class="chapter" data-level="1.3.5" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#examples-from-the-lecture"><i class="fa fa-check"></i><b>1.3.5</b> Examples from the lecture</a>
+<ul>
+<li class="chapter" data-level="1.3.5.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#paretonbd-1"><i class="fa fa-check"></i><b>1.3.5.1</b> Pareto/NBD</a>
+<ul>
+<li class="chapter" data-level="1.3.5.1.1" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#estimate-parameters-for-paretonbd-model-based-upon-calibration-data"><i class="fa fa-check"></i><b>1.3.5.1.1</b> Estimate parameters for Pareto/NBD model based upon calibration data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3.5.2" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#dert-calculation"><i class="fa fa-check"></i><b>1.3.5.2</b> DERT Calculation</a></li>
+<li class="chapter" data-level="1.3.5.3" data-path="customer-lifetime-value.html"><a href="customer-lifetime-value.html#bgnbg-example"><i class="fa fa-check"></i><b>1.3.5.3</b> BG/NBG example</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html"><i class="fa fa-check"></i><b>2</b> Customer Satisfaction and Loyalty</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#customer-surveys"><i class="fa fa-check"></i><b>2.1</b> Customer surveys</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#concepts-and-examples"><i class="fa fa-check"></i><b>2.1.1</b> (1) Concepts and examples</a></li>
+<li class="chapter" data-level="2.1.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#sampling-and-response-rate"><i class="fa fa-check"></i><b>2.1.2</b> (2) Sampling and response rate</a></li>
+<li class="chapter" data-level="2.1.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#pretesting-and-measurement-validity"><i class="fa fa-check"></i><b>2.1.3</b> (3) Pretesting and measurement validity</a></li>
+<li class="chapter" data-level="2.1.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#questionnaire-design"><i class="fa fa-check"></i><b>2.1.4</b> (4) Questionnaire design</a></li>
+<li class="chapter" data-level="2.1.5" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#simple-size"><i class="fa fa-check"></i><b>2.1.5</b> (5) Simple size</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#nps"><i class="fa fa-check"></i><b>2.2</b> NPS</a></li>
+<li class="chapter" data-level="2.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#cfa-and-sem-application-lavann"><i class="fa fa-check"></i><b>2.3</b> CFA and SEM Application Lavann</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#business-problem-objectives"><i class="fa fa-check"></i><b>2.3.1</b> Business Problem &amp; Objectives</a></li>
+<li class="chapter" data-level="2.3.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#data"><i class="fa fa-check"></i><b>2.3.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="2.3.2.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#efa"><i class="fa fa-check"></i><b>2.3.2.1</b> EFA</a></li>
+<li class="chapter" data-level="2.3.2.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#cfa-model"><i class="fa fa-check"></i><b>2.3.2.2</b> CFA model</a>
+<ul>
+<li class="chapter" data-level="2.3.2.2.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#initial-model"><i class="fa fa-check"></i><b>2.3.2.2.1</b> Initial model</a></li>
+<li class="chapter" data-level="2.3.2.2.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#second-model"><i class="fa fa-check"></i><b>2.3.2.2.2</b> Second model</a>
+<ul>
+<li class="chapter" data-level="2.3.2.2.2.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#intepretation-of-the-model"><i class="fa fa-check"></i><b>2.3.2.2.2.1</b> Intepretation of the model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.3.2.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#sem"><i class="fa fa-check"></i><b>2.3.2.3</b> SEM</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#plotting-the-model"><i class="fa fa-check"></i><b>2.3.3</b> Plotting the model</a></li>
+<li class="chapter" data-level="2.3.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#consider-a-more-complex-sem-model-involving-a-mediating-effect."><i class="fa fa-check"></i><b>2.3.4</b> Consider a more complex SEM model involving a mediating effect.</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#pls"><i class="fa fa-check"></i><b>2.4</b> PLS</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#definition-of-pls"><i class="fa fa-check"></i><b>2.4.1</b> Definition of PLS</a></li>
+<li class="chapter" data-level="2.4.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#when-to-use-pls-and-when-to-use-sem"><i class="fa fa-check"></i><b>2.4.2</b> When to use PLS and when to use SEM</a></li>
+<li class="chapter" data-level="2.4.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#model-construction"><i class="fa fa-check"></i><b>2.4.3</b> Model construction</a></li>
+<li class="chapter" data-level="2.4.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#model-estimation"><i class="fa fa-check"></i><b>2.4.4</b> Model Estimation</a></li>
+<li class="chapter" data-level="2.4.5" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#model-evaluation"><i class="fa fa-check"></i><b>2.4.5</b> Model evaluation</a></li>
+<li class="chapter" data-level="2.4.6" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#example-for-the-lecture"><i class="fa fa-check"></i><b>2.4.6</b> Example for the lecture</a>
+<ul>
+<li class="chapter" data-level="2.4.6.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#making-structural--and-measurement-model"><i class="fa fa-check"></i><b>2.4.6.1</b> Making structural- and measurement model</a></li>
+<li class="chapter" data-level="2.4.6.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#now-we-can-estimate-the-model"><i class="fa fa-check"></i><b>2.4.6.2</b> Now we can estimate the model</a></li>
+<li class="chapter" data-level="2.4.6.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#measuring-quality-of-the-constructs"><i class="fa fa-check"></i><b>2.4.6.3</b> Measuring quality of the constructs</a></li>
+<li class="chapter" data-level="2.4.6.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#are-the-coefficients-significant"><i class="fa fa-check"></i><b>2.4.6.4</b> Are the coefficients significant?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4.7" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#revised-code"><i class="fa fa-check"></i><b>2.4.7</b> Revised code</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#segmentation-clustering"><i class="fa fa-check"></i><b>2.5</b> Segmentation (Clustering)</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#what-is-clustering"><i class="fa fa-check"></i><b>2.5.1</b> What is clustering</a></li>
+<li class="chapter" data-level="2.5.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#clustering-techniques"><i class="fa fa-check"></i><b>2.5.2</b> Clustering techniques</a></li>
+<li class="chapter" data-level="2.5.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#an-example-with-hbat"><i class="fa fa-check"></i><b>2.5.3</b> An example with HBAT</a>
+<ul>
+<li class="chapter" data-level="2.5.3.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#background"><i class="fa fa-check"></i><b>2.5.3.1</b> 1. Background</a>
+<ul>
+<li class="chapter" data-level="2.5.3.1.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#the-primary-objective-is"><i class="fa fa-check"></i><b>2.5.3.1.1</b> 1.1. The primary objective is:</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5.3.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#the-data-data-understanding-phase"><i class="fa fa-check"></i><b>2.5.3.2</b> 2. The data (Data Understanding Phase)</a>
+<ul>
+<li class="chapter" data-level="2.5.3.2.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#load-data-correctly"><i class="fa fa-check"></i><b>2.5.3.2.1</b> 2.1 Load data correctly</a></li>
+<li class="chapter" data-level="2.5.3.2.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#check-if-the-data-is-numerical-or-categorical"><i class="fa fa-check"></i><b>2.5.3.2.2</b> 2.2 Check if the data is numerical or categorical</a></li>
+<li class="chapter" data-level="2.5.3.2.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#missing-treatment"><i class="fa fa-check"></i><b>2.5.3.2.3</b> 2.3 Missing treatment</a></li>
+<li class="chapter" data-level="2.5.3.2.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#select-relevant-variables"><i class="fa fa-check"></i><b>2.5.3.2.4</b> 2.4 Select relevant variables</a></li>
+<li class="chapter" data-level="2.5.3.2.5" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#identify-extreme-outliers-the-most-dissimilar-customers"><i class="fa fa-check"></i><b>2.5.3.2.5</b> 2.5.Identify extreme outliers (the most dissimilar customers)</a></li>
+<li class="chapter" data-level="2.5.3.2.6" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#standardize-the-variables-mean0-std.dev1"><i class="fa fa-check"></i><b>2.5.3.2.6</b> 2.6 Standardize the variables (mean=0, std.dev=1)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5.3.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#hierarchical-clustering-using-variables"><i class="fa fa-check"></i><b>2.5.3.3</b> 3. Hierarchical clustering (using variables)</a></li>
+<li class="chapter" data-level="2.5.3.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#hierarchical-clustering-using-pcs-score-vectors"><i class="fa fa-check"></i><b>2.5.3.4</b> 4. Hierarchical clustering (using PCs score vectors)</a></li>
+<li class="chapter" data-level="2.5.3.5" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#k-means"><i class="fa fa-check"></i><b>2.5.3.5</b> 5. K-means</a></li>
+<li class="chapter" data-level="2.5.3.6" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#validation-and-profiling-the-clusters"><i class="fa fa-check"></i><b>2.5.3.6</b> 6. Validation and profiling the clusters</a>
+<ul>
+<li class="chapter" data-level="2.5.3.6.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#assessing-cluster-stability"><i class="fa fa-check"></i><b>2.5.3.6.1</b> 6.1. Assessing cluster stability</a></li>
+<li class="chapter" data-level="2.5.3.6.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#assessing-criterion-predictive-validity"><i class="fa fa-check"></i><b>2.5.3.6.2</b> 6.2. Assessing criterion (predictive) validity</a></li>
+<li class="chapter" data-level="2.5.3.6.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#profiling-the-final-cluster-solution"><i class="fa fa-check"></i><b>2.5.3.6.3</b> 6.3. Profiling the final cluster solution</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5.3.7" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#final-remarks"><i class="fa fa-check"></i><b>2.5.3.7</b> 7. Final remarks</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5.4" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#an-example-with-mcdonalds-data"><i class="fa fa-check"></i><b>2.5.4</b> An example with McDonalds data</a>
+<ul>
+<li class="chapter" data-level="2.5.4.1" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#loading-and-exploring-the-data"><i class="fa fa-check"></i><b>2.5.4.1</b> Loading and exploring the data</a></li>
+<li class="chapter" data-level="2.5.4.2" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#k-means-clustering"><i class="fa fa-check"></i><b>2.5.4.2</b> k-Means clustering</a></li>
+<li class="chapter" data-level="2.5.4.3" data-path="customer-satisfaction-and-loyalty.html"><a href="customer-satisfaction-and-loyalty.html#interpreting-the-clusters"><i class="fa fa-check"></i><b>2.5.4.3</b> Interpreting the clusters</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html"><i class="fa fa-check"></i><b>3</b> Recommender Systems and Customer Targeting</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#association-rule"><i class="fa fa-check"></i><b>3.1</b> Association rule</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#loading-and-data-exploration"><i class="fa fa-check"></i><b>3.1.1</b> Loading and data exploration</a></li>
+<li class="chapter" data-level="3.1.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#data-preprocessing"><i class="fa fa-check"></i><b>3.1.2</b> Data preprocessing</a>
+<ul>
+<li class="chapter" data-level="3.1.2.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#encoding-to-correct-data-types"><i class="fa fa-check"></i><b>3.1.2.1</b> Encoding to correct data types</a></li>
+<li class="chapter" data-level="3.1.2.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#create-a-data-frame-with-one-row-pr.-invoice"><i class="fa fa-check"></i><b>3.1.2.2</b> Create a data frame with one row pr. invoice</a></li>
+</ul></li>
+<li class="chapter" data-level="3.1.3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#loading-transactions"><i class="fa fa-check"></i><b>3.1.3</b> Loading transactions</a></li>
+<li class="chapter" data-level="3.1.4" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#plotting"><i class="fa fa-check"></i><b>3.1.4</b> Plotting</a></li>
+<li class="chapter" data-level="3.1.5" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#apriori-calculation"><i class="fa fa-check"></i><b>3.1.5</b> Apriori calculation</a>
+<ul>
+<li class="chapter" data-level="3.1.5.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#another-example-where-maxlen-3"><i class="fa fa-check"></i><b>3.1.5.1</b> Another example where maxlen = 3</a></li>
+<li class="chapter" data-level="3.1.5.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#filtering-on-right-hand-side.-an-example-with-the-item-metal"><i class="fa fa-check"></i><b>3.1.5.2</b> Filtering on right hand side. An example with the item {METAL}</a></li>
+<li class="chapter" data-level="3.1.5.3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#filtering-on-left-hand-side.-an-example-with-the-item-metal"><i class="fa fa-check"></i><b>3.1.5.3</b> Filtering on left hand side. An example with the item {METAL}</a></li>
+</ul></li>
+<li class="chapter" data-level="3.1.6" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#plotting-association-rules"><i class="fa fa-check"></i><b>3.1.6</b> Plotting association rules</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#colaborative-filtering"><i class="fa fa-check"></i><b>3.2</b> Colaborative filtering</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#loading-and-formatting-data"><i class="fa fa-check"></i><b>3.2.1</b> Loading and formatting data</a>
+<ul>
+<li class="chapter" data-level="3.2.1.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#loading-metadata-that-gets-loaded-with-main-dataset"><i class="fa fa-check"></i><b>3.2.1.1</b> Loading metadata that gets loaded with main dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#data-exploration"><i class="fa fa-check"></i><b>3.2.2</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="3.2.2.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#plotting-1"><i class="fa fa-check"></i><b>3.2.2.1</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#what-models-can-we-use"><i class="fa fa-check"></i><b>3.2.3</b> What models can we use?</a></li>
+<li class="chapter" data-level="3.2.4" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#training-and-test-set"><i class="fa fa-check"></i><b>3.2.4</b> Training and test set</a></li>
+<li class="chapter" data-level="3.2.5" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#a-small-example-with-ibcf-item-based"><i class="fa fa-check"></i><b>3.2.5</b> A small example with IBCF (item based)</a></li>
+<li class="chapter" data-level="3.2.6" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#ubcf---user-based-collaborative-based"><i class="fa fa-check"></i><b>3.2.6</b> UBCF - User based collaborative based</a>
+<ul>
+<li class="chapter" data-level="3.2.6.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#fitting-the-model"><i class="fa fa-check"></i><b>3.2.6.1</b> Fitting the model</a></li>
+<li class="chapter" data-level="3.2.6.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#predicting-making-recommendations"><i class="fa fa-check"></i><b>3.2.6.2</b> Predicting (making) recommendations</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.7" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#cross-validation"><i class="fa fa-check"></i><b>3.2.7</b> Cross validation</a></li>
+<li class="chapter" data-level="3.2.8" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#ibcf---item-based-collaborative-based"><i class="fa fa-check"></i><b>3.2.8</b> IBCF - Item based collaborative based</a>
+<ul>
+<li class="chapter" data-level="3.2.8.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#fitting-the-model-using-cv"><i class="fa fa-check"></i><b>3.2.8.1</b> Fitting the model (using CV)</a></li>
+<li class="chapter" data-level="3.2.8.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#making-predictions"><i class="fa fa-check"></i><b>3.2.8.2</b> Making predictions</a></li>
+<li class="chapter" data-level="3.2.8.3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#performance-metrics"><i class="fa fa-check"></i><b>3.2.8.3</b> Performance metrics</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.9" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#building-roc-curve-and-precision-recall-rate"><i class="fa fa-check"></i><b>3.2.9</b> Building ROC curve and precision / recall rate</a></li>
+<li class="chapter" data-level="3.2.10" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#comparing-ubcf-and-ibcf"><i class="fa fa-check"></i><b>3.2.10</b> Comparing UBCF and IBCF</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#latent-factor-models"><i class="fa fa-check"></i><b>3.3</b> Latent Factor Models</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#fitting-the-model-1"><i class="fa fa-check"></i><b>3.3.1</b> Fitting the model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="recommender-systems-and-customer-targeting.html"><a href="recommender-systems-and-customer-targeting.html#making-predictions-1"><i class="fa fa-check"></i><b>3.3.2</b> Making predictions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html"><i class="fa fa-check"></i><b>4</b> Probabilistic Models for Customer Analytics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#bayesian-networks"><i class="fa fa-check"></i><b>4.1</b> Bayesian Networks</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#why-bayesian"><i class="fa fa-check"></i><b>4.1.1</b> <strong><em>Why Bayesian?</em></strong></a>
+<ul>
+<li class="chapter" data-level="4.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#many-names-for-bayesian-networks"><i class="fa fa-check"></i><b>4.1.1.1</b> <strong>Many names for Bayesian Networks</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#terms-and-explanatory-examples"><i class="fa fa-check"></i><b>4.1.2</b> Terms and explanatory examples</a>
+<ul>
+<li class="chapter" data-level="4.1.2.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#types-of-connections"><i class="fa fa-check"></i><b>4.1.2.1</b> Types of connections</a></li>
+<li class="chapter" data-level="4.1.2.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#variable-selection-based-on-a-bayesian-network"><i class="fa fa-check"></i><b>4.1.2.2</b> Variable selection based on a Bayesian Network</a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#independence"><i class="fa fa-check"></i><b>4.1.3</b> Independence</a></li>
+<li class="chapter" data-level="4.1.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#methods-for-identifying-the-network"><i class="fa fa-check"></i><b>4.1.4</b> Methods for identifying the network</a>
+<ul>
+<li class="chapter" data-level="4.1.4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#algorithms-focused-on-causality-discovery"><i class="fa fa-check"></i><b>4.1.4.1</b> 1. <strong><em>Algorithms focused on causality discovery</em></strong></a></li>
+<li class="chapter" data-level="4.1.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#algorithms-focused-on-prediction"><i class="fa fa-check"></i><b>4.1.4.2</b> 2. <strong><em>Algorithms focused on prediction</em></strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.5" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#real-life-application"><i class="fa fa-check"></i><b>4.1.5</b> <strong>Real life application</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#application-1-explaining-and-predicting-customer-retention-in-a-virtual-community"><i class="fa fa-check"></i><b>4.2</b> Application 1: Explaining and Predicting Customer Retention in a Virtual Community</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#getting-the-structure"><i class="fa fa-check"></i><b>4.2.1</b> 1. Getting the structure</a>
+<ul>
+<li class="chapter" data-level="4.2.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#a.-building-the-structure-and-parameters-manually"><i class="fa fa-check"></i><b>4.2.1.1</b> A. Building the structure and parameters manually</a>
+<ul>
+<li class="chapter" data-level="4.2.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#approaches-to-make-the-network"><i class="fa fa-check"></i><b>4.2.1.1.1</b> Approaches to make the network</a>
+<ul>
+<li class="chapter" data-level="4.2.1.1.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#i-first-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.1</b> (i) First approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#ii-second-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.2</b> (ii) Second approach</a></li>
+<li class="chapter" data-level="4.2.1.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#iii-third-approach"><i class="fa fa-check"></i><b>4.2.1.1.1.3</b> (iii) Third approach</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2.1.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#loadingentering-data"><i class="fa fa-check"></i><b>4.2.1.1.2</b> Loading/entering data</a></li>
+<li class="chapter" data-level="4.2.1.1.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#conditional-probability-table-cpt"><i class="fa fa-check"></i><b>4.2.1.1.3</b> Conditional probability table (CPT)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2.1.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#b.-learning-the-structure-and-parameters-from-observational-data"><i class="fa fa-check"></i><b>4.2.1.2</b> B. Learning the structure and parameters from observational data</a>
+<ul>
+<li class="chapter" data-level="4.2.1.2.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#grow-shrink-gs---learning-a-structure-using-a-constrained-based-algorithm"><i class="fa fa-check"></i><b>4.2.1.2.1</b> Grow-shrink (gs) - Learning a structure using a constrained-based algorithm</a>
+<ul>
+<li class="chapter" data-level="4.2.1.2.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#identifying-undirectred-links"><i class="fa fa-check"></i><b>4.2.1.2.1.1</b> Identifying undirectred links</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2.1.2.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#hill-climbing-hc---learning-the-structure-using-a-score-based-algorithm"><i class="fa fa-check"></i><b>4.2.1.2.2</b> Hill-Climbing (hc) - Learning the structure using a score-based algorithm</a></li>
+<li class="chapter" data-level="4.2.1.2.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#fitting-the-model-to-the-data-learning-the-probabilities"><i class="fa fa-check"></i><b>4.2.1.2.3</b> Fitting the model to the data (learning the probabilities)</a></li>
+<li class="chapter" data-level="4.2.1.2.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#alternatives-to-grow-shrink-and-hc"><i class="fa fa-check"></i><b>4.2.1.2.4</b> Alternatives to Grow-Shrink and HC</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.2.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#model-evaluation-1"><i class="fa fa-check"></i><b>4.2.2</b> 2. Model evaluation</a>
+<ul>
+<li class="chapter" data-level="4.2.2.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#i.-metrics-of-model-complexity"><i class="fa fa-check"></i><b>4.2.2.1</b> I. Metrics of model complexity</a></li>
+<li class="chapter" data-level="4.2.2.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#ii.-metrics-of-model-sensitivity"><i class="fa fa-check"></i><b>4.2.2.2</b> II. Metrics of model sensitivity</a></li>
+<li class="chapter" data-level="4.2.2.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#iii.-evaluate-the-arc.strength"><i class="fa fa-check"></i><b>4.2.2.3</b> III. Evaluate the arc.strength()</a>
+<ul>
+<li class="chapter" data-level="4.2.2.3.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#for-the-growth-shrink"><i class="fa fa-check"></i><b>4.2.2.3.1</b> For the growth shrink</a></li>
+<li class="chapter" data-level="4.2.2.3.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#for-the-hill-climbing-structure"><i class="fa fa-check"></i><b>4.2.2.3.2</b> For the hill-climbing structure</a></li>
+<li class="chapter" data-level="4.2.2.3.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#different-information-criteria-evaluations"><i class="fa fa-check"></i><b>4.2.2.3.3</b> Different information criteria evaluations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2.2.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#iv.-metrics-of-predictive-accuracy-error-rate-confusion-matrix-auc"><i class="fa fa-check"></i><b>4.2.2.4</b> IV. Metrics of predictive accuracy (error rate, confusion matrix, AUC)</a>
+<ul>
+<li class="chapter" data-level="4.2.2.4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#cross-validation-1"><i class="fa fa-check"></i><b>4.2.2.4.1</b> Cross validation</a></li>
+<li class="chapter" data-level="4.2.2.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#alternative-approach-to-fit-and-predict-without-grain"><i class="fa fa-check"></i><b>4.2.2.4.2</b> Alternative approach to fit and predict (Without gRain)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.2.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#making-inference-and-queries-based-on-the-model"><i class="fa fa-check"></i><b>4.2.3</b> 3. Making inference and queries based on the model</a>
+<ul>
+<li class="chapter" data-level="4.2.3.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#diagnostics-forward-inference"><i class="fa fa-check"></i><b>4.2.3.1</b> Diagnostics (Forward inference)</a>
+<ul>
+<li class="chapter" data-level="4.2.3.1.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#let-us-repeat-the-same-analysis-by-setting-evidence-in-pleasure"><i class="fa fa-check"></i><b>4.2.3.1.1</b> <em>let us repeat the same analysis by setting evidence in Pleasure</em></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2.3.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#diagnostic-backward-inference"><i class="fa fa-check"></i><b>4.2.3.2</b> Diagnostic (Backward inference)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#application-2-identifying-populations-with-positive-expected-lift-in-profit-elp-and-targeting"><i class="fa fa-check"></i><b>4.3</b> Application 2: Identifying populations with Positive Expected Lift in Profit (ELP) and targeting</a></li>
+<li class="chapter" data-level="4.4" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#application-3-product-recommendation-using-probabilistic-models-bn"><i class="fa fa-check"></i><b>4.4</b> Application 3: Product Recommendation using Probabilistic Models (BN)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-1-learn-the-probabilistic-relationships-using-a-bayesian-network-learning"><i class="fa fa-check"></i><b>4.4.1</b> Method 1: Learn the probabilistic relationships using a Bayesian network learning</a></li>
+<li class="chapter" data-level="4.4.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#method-2-finding-latent-segments"><i class="fa fa-check"></i><b>4.4.2</b> Method 2: Finding latent segments</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#latent-models-for-cross-selling-and-acquisition-sequence"><i class="fa fa-check"></i><b>4.5</b> Latent models for cross selling and acquisition sequence</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#latent-trait-model---applying-the-ltm-package-in-r"><i class="fa fa-check"></i><b>4.5.1</b> Latent Trait Model - Applying the LTM Package in R</a></li>
+<li class="chapter" data-level="4.5.2" data-path="probabilistic-models-for-customer-analytics.html"><a href="probabilistic-models-for-customer-analytics.html#the-latent-hidden-markov-model"><i class="fa fa-check"></i><b>4.5.2</b> The latent (hidden) Markov model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="customer-behavior.html"><a href="customer-behavior.html"><i class="fa fa-check"></i><b>5</b> Customer behavior</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="customer-behavior.html"><a href="customer-behavior.html#characteristics-of-cliskstream"><i class="fa fa-check"></i><b>5.1</b> Characteristics of cliskstream</a></li>
+<li class="chapter" data-level="5.2" data-path="customer-behavior.html"><a href="customer-behavior.html#applications-with-clickstream-data"><i class="fa fa-check"></i><b>5.2</b> Applications with clickstream data</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="customer-behavior.html"><a href="customer-behavior.html#a-motivating-example"><i class="fa fa-check"></i><b>5.2.1</b> A motivating example</a>
+<ul>
+<li class="chapter" data-level="5.2.1.1" data-path="customer-behavior.html"><a href="customer-behavior.html#i-predict-either-the-next-click-or-the-ﬁnal-click-state-of-a-customer."><i class="fa fa-check"></i><b>5.2.1.1</b> i) Predict either the next click or the ﬁnal click (state) of a customer.</a></li>
+<li class="chapter" data-level="5.2.1.2" data-path="customer-behavior.html"><a href="customer-behavior.html#ii-clustering-and-generalizing-upon-clickstreams"><i class="fa fa-check"></i><b>5.2.1.2</b> ii) Clustering and generalizing upon clickstreams</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2.2" data-path="customer-behavior.html"><a href="customer-behavior.html#second-exercise-clickstream-more-extensive"><i class="fa fa-check"></i><b>5.2.2</b> Second exercise (clickstream) more extensive</a></li>
+<li class="chapter" data-level="5.2.3" data-path="customer-behavior.html"><a href="customer-behavior.html#a-concrete-eaxmple-with-real-data"><i class="fa fa-check"></i><b>5.2.3</b> A concrete eaxmple with real data</a>
+<ul>
+<li class="chapter" data-level="5.2.3.1" data-path="customer-behavior.html"><a href="customer-behavior.html#markov-chain"><i class="fa fa-check"></i><b>5.2.3.1</b> (1) Markov Chain</a></li>
+<li class="chapter" data-level="5.2.3.2" data-path="customer-behavior.html"><a href="customer-behavior.html#using-association-rule-mining"><i class="fa fa-check"></i><b>5.2.3.2</b> (2) Using association rule mining</a></li>
+<li class="chapter" data-level="5.2.3.3" data-path="customer-behavior.html"><a href="customer-behavior.html#use-frequencies-instead-of-the-sequence"><i class="fa fa-check"></i><b>5.2.3.3</b> (3) Use frequencies instead of the sequence</a></li>
+<li class="chapter" data-level="5.2.3.4" data-path="customer-behavior.html"><a href="customer-behavior.html#neural-networks"><i class="fa fa-check"></i><b>5.2.3.4</b> (4) Neural networks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2.4" data-path="customer-behavior.html"><a href="customer-behavior.html#optional-exercise"><i class="fa fa-check"></i><b>5.2.4</b> Optional exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="customer-behavior.html"><a href="customer-behavior.html#ab-testing"><i class="fa fa-check"></i><b>5.3</b> AB Testing</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="customer-behavior.html"><a href="customer-behavior.html#what-is-it-and-when-to-apply-it"><i class="fa fa-check"></i><b>5.3.1</b> (1 + 2): What is it and when to apply it</a></li>
+<li class="chapter" data-level="5.3.2" data-path="customer-behavior.html"><a href="customer-behavior.html#how-to-perform-an-ab-test"><i class="fa fa-check"></i><b>5.3.2</b> (3): How to perform an A/B test</a></li>
+<li class="chapter" data-level="5.3.3" data-path="customer-behavior.html"><a href="customer-behavior.html#pitfalls-and-challenges."><i class="fa fa-check"></i><b>5.3.3</b> (4): Pitfalls and challenges.</a></li>
+<li class="chapter" data-level="5.3.4" data-path="customer-behavior.html"><a href="customer-behavior.html#ab-tests-and-bandits."><i class="fa fa-check"></i><b>5.3.4</b> (5): A/B tests and bandits.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="privacy.html"><a href="privacy.html"><i class="fa fa-check"></i><b>6</b> Privacy</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Customer Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="privacy" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Privacy</h1>
+<p>We have different eras of privacy research,</p>
+<div class="figure">
+<img src="" alt="" />
+<p class="caption">Privacy eras</p>
+</div>
+<p>We see that we have 8 different data concerns:</p>
+<ol style="list-style-type: decimal">
+<li>Data security: Customers fearing what happens with their data and how might get access to your data, e.g., from hacking.</li>
+<li>Secretive data collection: That governments and companies are secretaely storing information about you.</li>
+<li>Junk mail and spam: Some customers fear that entering personal information at webpages leads to all kinds of junk and spam mail.</li>
+<li>Third-party access:</li>
+</ol>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="customer-behavior.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

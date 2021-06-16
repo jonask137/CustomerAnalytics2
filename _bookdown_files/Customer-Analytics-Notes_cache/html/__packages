@@ -58,3 +58,5 @@ doParallel
 arulesSequences
 pwr
 contextual
+modeltools
+flexclust

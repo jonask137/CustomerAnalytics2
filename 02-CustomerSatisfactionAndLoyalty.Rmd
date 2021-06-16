@@ -918,7 +918,6 @@ EPSI[["M"]] #The measurement model
 ```{r,results='hold'}
 #Estimation of model
 epsi <- sempls(model=EPSI,data=mobi)
-
 epsi
 ```
 
@@ -950,10 +949,18 @@ We want the coefficients be higher than 0.8 (***rule of thumb***), hence we see 
 
 ```{r}
 # AVE is average of communality for a construct
-communality(epsi)
+communality(epsi) #These are just the loadings squared
 ```
 
-now we can look at the inner relationtions.
+Commonality must be higher than correlation between the latent variables. If not, you can argue that two constructs should be merged.
+
+EXP = 0.47, meaning that on average EXP explains 47% of the variance in the items related to EXP. Therefore
+
+*Rule of thumb, should be higher than 50%, that is also why the loadings should be higher than 70% as $0.7^2 = 0.5$. Although 60% is a nice level as well*
+
+now we can look at the inner relations, relationships between latent variables.
+
+We see that in the following matrix we only get estimates for endogenous (dependent variables), that is the reason we dont see any for EXP, IMA and QUA, because they are only endogenous in the measurement models.
 
 ```{r}
 #Inner relations
@@ -961,11 +968,13 @@ pC <- pathCoeff(epsi)
 print(pC,abbreviate=TRUE,minlength=3)
 ```
 
+Example: if we increase EXP by 1 standard deviation, the VAL will increase by 0.036 standard deviations.
+
 we see that the coefficients are standardized.
 
 ```{r}
 #The total effects
-tE<- totalEffects(epsi)
+tE <- totalEffects(epsi)
 print(tE,abbreviate=TRUE,minlength=3)
 ```
 
@@ -1006,6 +1015,8 @@ plsWeights(epsi)
 ```
 
 These are the factor scores.
+
+*Notice, that this has nothing to do with the bootstrapping*
 
 ```{r,results='hold'}
 #Standardised observations for  (constructs)
@@ -1263,7 +1274,7 @@ We are gogin to focus on:
   + In principle k-means works only with continuous variables
   + it will always create the amount of groups, hence it is a good idea to see if you can visualize the data
 
-### An example
+### An example with HBAT
 
 #### 1. Background
 
@@ -1675,3 +1686,369 @@ Significant chi-square value reveals for example that x1 (customer type) tends t
 -   For clustering with categorical variables, one option is to use Expectation Maximization algorithm, which yields probabilistic
 classes (clusters).
 -   Finally, if interested in clustering with both categorical and continous variables, refer to a new package in R called 'clustMixType' (k-Prototypes Clustering for Mixed Variable-Type Data) which can handle mixed data.
+
+### An example with McDonalds data
+
+The following is seperated into several sections.
+
+#### Loading and exploring the data
+
+**Step 1: Deciding to segment or not**
+
+You are the manager of a fast food restaurant. The restaurant can take the position that it caters to the entire market. In such case, there is no need to understand systematic differences across market segments. Alternatively, the restaurant can take the position that, despite their market power, there is value in investigating systematic heterogeneity among customers annd harvest these differences with a differentiated marketing strategy. We go for the second alternative.
+
+
+**Step 2: Specifying the ideal target segment**
+
+Decide which are the key features that make a segment attractive?
+
+- homogeneous
+- substantially distinct 
+- large enough 
+- identifyiable
+- reachable (channels of communication and distribution exist to aim at that target)
+
+In terms of attractiveness, the obvious choice would be a segment with positive perception of our restaurant, which frequently eats out, and likes fast food. But, the manager can also decide that they not only want to solidify position, but rather wish to learn more about the market segments which are currently not fond of fast food.
+
+**Step 3: Collecting data**
+
+Data originally from Dolnicar (2018) contains responses from  1453 adult 
+
+Australian consumers relating to their perceptions of fast food restaurant with respect to different attributes (yummy, convenient, spicy, fattening greasy, fast, cheap, tasty, expensive, healthy, and disgusting). For each attribute, respondents provided either (Yes) or (No) response indicating whether the restaurant possesses this attribute. 
+
+Note1: data here is categorical, not continuous. In addition, respondents indicated age, gender, visit frequency, and likeliness. 
+
+Note2: Colecting additional data on dining out behavior and their use of information channels would allow the development of a more prosperous and more detailed description of our clusters. But this information is not available in the dataset. 
+
+**Step 4: Exploring data**
+
+```{r,results='hold'}
+mcdonalds <- read.csv ("Data/Clustering/mcdonalds.csv")
+str(mcdonalds)
+```
+
+We see that the categorical data is actually coded in words, this we need to transform.
+
+```{r}
+MD.x <- as.matrix(mcdonalds[, 1:11])
+MD.x <- (MD.x == "Yes") + 0
+head(MD.x)
+```
+
+Let us look at the colmeans.
+
+```{r}
+round(colMeans(MD.x), 2) %>% barplot(ylim = c(0,1),col = "darkgrey",main = "Variable means")
+abline(h = seq(0,1,0.1),col = "darkgrey",lty = 2)
+```
+
+We see that few people rate the food to be spicy and most think that it is convenient, fast and fattening.
+
+We are going to run **PCA** to see variables are correlated.
+
+```{r}
+MD.pca <- prcomp(MD.x)
+summary(MD.pca)
+```
+
+We see that the first three components reaches the 60% level.
+
+now lets look at the loadings
+
+```{r}
+print(MD.pca, digits = 1)
+```
+
+We see component 1 is highly influenced by yummy and tasty, hence something about the taste.
+
+Then the second component is hihgly described by cheap and expensive, hence something about price.
+
+Component 3 is more about the fattening and greasy-ness.
+
+Lets plot the first two components.
+
+```{r}
+library(flexclust)
+plot(predict(MD.pca), col = "grey") 
+projAxes(MD.pca)
+```
+
+Cheap and expensive play a key role in the evaluation of the restaurant disgusting, fattening and greasy point in the same direction (respondents who view the restauratnt fattening and disgusting are also likely to view it greasy) in the opposite direction are the positive attributes: fast, convenient, healthy, tasty, and yummy
+
+Notice how respondents (data points) are distributed:
+
+- a group of respondents at the top, close to cheap
+- a group of respondents at the bottom, close to expensive
+- a group of respondents in thee middle
+
+***Other preliminary remarks:***
+Results indicate that some attributes are strognly related to one another and that price dimension may be critical in differentiating between groups of consumer
+
+Next, one can perform the segmentation using the most important Pc, as in Lecture 1. That was one approach. Dolnicar and Grun (2008) Challenging factor-cluster segmentation. proposes using Pc in the exploration phase only, and afterwards work with raw data. We follow this approach here. 
+
+The clustering variables, in this case, are the dummy (0/1). Distance-based methods such as hierarchical and partitioning (e.g., k-means) work best with continuous variables. Still, in practice, K-means is often used with both categorical and continuous variables. 
+
+
+
+#### k-Means clustering
+
+First we are going to assess how many clusters. This will be based on 
+
+1. Global stability-based data structure analysis, make boxplots for each clusters through bootstrapping to see cluster stability/reporducability, and
+2. Segment Stability, to assess the stability of given segments (clusters)
+
+**STEP 5: Extracting segments**
+
+We are going to use k-means clustering.
+
+```{r}
+set.seed(1234)
+MD.km28 <- stepFlexclust(MD.x, 2:8
+                         ,nrep = 10 #nrep = 10 random starts, k = 2:8 possible clusters
+                         ,verbose = FALSE) 
+MD.km28 <- relabel(MD.km28)  # relabel segment numbers to be consistent across segmentation
+plot(MD.km28, xlab = "number of segments") # scree plot to compare different solutions
+```
+
+We see that the more clusters we have, the smaller is the within distance of the clusters, that makes sense, as each cluster is able to be more specific than in a fewer no. of cluster constellation.
+
+***What are we looking for?:***
+
+1. A big increase in heterogeneity. Although that is not visible.
+
+As we don't see any bigger changes, we will use the approach *Global stability-based data structure analysis.*
+
+*What is Global stability-based data structure analysis?*
+
+Global Stability (Dolnicar, 2010) 
+
+The fundamental idea is to conduct a large number of repeated computations
+with many bootstrap samples, with any chosen segmentation algorithm. 
+If the resulting cluster is the same across repeated computations,
+it can be assumed that clusters exist in the data.
+
+**The main steps**
+
+1. draw bootstrap samples
+2. compute the Rand index
+3. inspect boxplots to assess the reproducibility of cluster solutions
+    + if Rand index close to 1 => existence of reproducible clusters
+    + if Rand index clode to 0 => no structure in the data
+
+```{r}
+set.seed(1234)
+MD.b28 <- bootFlexclust(MD.x, 2:8, nrep = 10, nboot = 30) #She used 100
+# global stability plot:
+plot(MD.b28, xlab = "number of segments",
+     ylab = "adjusted Rand index"
+     ,main = "Global Stability Plot")
+```
+
+See the distribution of stability for each number of segments.
+
+*Median* in the black horizontal line. The higher the stability, the better. As noticed, *2- and 3-cluster solutions are pretty stable*. However, they do not offer a differentiated view of the market 4-cluster solution emerges as the solution containing most market segments which can still be reasonably well replicated (median adjusted Rand index is above 0.7). 
+
+***Hence this argue for a 2 or 3 cluster model.***
+
+Although before we take any conclusions, we can see what the segment stability suggests.
+
+*What is segment stability?*
+
+Segment Stability (Dolnicar, 2017)
+
+Global stability analysis explained before is based on a comparison of segmentation solutions with the same number of segments. Another way to explore that data before committing to the final market segmentation solution is to inspect how to segment memberships change each time an additional market segment is added, and to assess segment stability across solutions.
+    
+For this we use the `salsaplot` :-)
+
+```{r}
+slsaplot(MD.km28)
+```
+
+*Interpretation*: thick green lines indicate that many members of the segment to the left of the line move across to the segment on the right side of the line. For this data, we see that segment 2 in the two-segment solution (in the far left column of the plot) remains almost unchanged until the four-segment solution, then it starts losing members. (i.e. segment 2 displays high stability until 4 segment solution). similar with segment 1 in the two-segment solution.
+
+Segment 2 in the four-segment solution draws members from two segments. segment two might not be a good target segment because of the lack of stability. Similar segment 3 in the four-segment solution
+
+We dont want a cluster just to be splitting up and perhaps being clustered again etc. because that indicates that a model is unstable.
+
+***Hence this argue for a 2, 3 or 4 cluster model.***
+
+**We select a four cluster model**
+
+```{r}
+MD.k4 <- MD.km28[["4"]]
+MD.k4 
+```
+
+Now we are looking at the segment stability for the 4 cluster model.
+
+```{r}
+MD.r4 <- slswFlexclust(MD.x, MD.k4)
+plot(MD.r4, ylim = 0:1, xlab = "segment number",
+     ylab = "segment stability")
+```
+
+We see that cluster 1 nd 2 has the lowest stability.
+
+
+#### Interpreting the clusters
+
+**STEP 6: Profiling segments**
+
+The core of the segmentation analysis is now complete; but now we need to understand what the 4-segment k-means solution means. In lecture 1 we used anova; now we use a graphical representation to explore the clusters characteristics.
+                
+segment profile plot a trick to position similar attribute close to one another is to run hc on attributes (rather than consumers) before plotting
+
+```{r}
+MD.vclust <- hclust(dist(t(MD.x)))
+barchart(MD.k4, shade = TRUE, which = rev(MD.vclust$order))
+```
+
+This plot is easy to managers to interpret. They can see the four segments with the corresponding size. The barplot shows the % of respondents - within each segment, who associate each perception with the fast-food restaurant The line with the dot is the % of respondents - in the entire sample, who associate each perception with the fast-food restaurant.
+ 
+The marker variables differ from the overall sample percentage either by more than 25% points in absolute terms or by more than 50% in relative terms.
+
+To understand the market, the manager has to do two things: 
+ 
+a) to compare the bars for each segment with the horizontal line to see what makes each segment distinct from all consumers in the market
+b) compare the bars across segments to identify the difference between segments. 
+
+***Yet another visualization**
+
+```{r}
+# another helpful visualization for managers
+plot(MD.k4, project = MD.pca, data = MD.x, 
+     hull = FALSE, simlines = FALSE,
+     xlab = "principal component 1",
+     ylab = "principal component 2")
+projAxes(MD.pca)
+```
+
++ segment 1 and 4 see the restaurant cheap, with
++ segment 1 holding some negative beliefs and 
++ segment 4 some positive beliefs
++ segment 2 agrees that the restaurant is not cheap
+
+**STEP 7: Describing segments**
+
+analysis based on other variables not used in segmentation analysis
+
+*Looking into the Like variable*
+
+We show how it is liked and then see how that is reflected in the clusters.
+
+```{r}
+k4 <- clusters(MD.k4)
+mosaicplot(table(k4, mcdonalds$Like), shade = TRUE, main = "Relation between the clusters and Like",
+           xlab = "segment number")
+```
+
+colored cells indicate the deviation of observed frequencies from the expected frequencies 
+
++ red means that that sentiment is rarely expresed by that segment 
++ blue means that that sentiment is much expresed by that segment
+
+Notice that the Y labels are fitted to cluster 1, so it is a bit hard to see.
+
+That means for instance cluster 2, there are not any people who loves it, but there is a lot of people who hates it.
+
+*Looking into gender*
+
+```{r}
+k4 <- clusters(MD.k4)
+mosaicplot(table(k4, mcdonalds$Gender), shade = TRUE, main = "",
+           xlab = "segment number")
+```
+
+in my case, segment 2 contain significanty more men (blue box in the bottom of the second column) the rest have similar gender distribution (all white boxes)
+
+*Looking into age*
+
+```{r}
+# because age is metric
+boxplot(mcdonalds$Age ~ k4, varwidth = TRUE, notch = TRUE,
+        xlab = "segment number", ylab = "age")
+```
+
+the plot suggests significant differences in average age across segments
+
++ cluster 1 is dominated by older people; 
++ cluster 4 is dominated by the younger people. altternatively, Anova test can be implemented.
+
+
+**STEP 8: Selecting (the) target segment(s)**
+
+mean segment values for other variables and segment evaluation plot
+
+```{r Recode1,results='hold'}
+library(dplyr)
+table(mcdonalds$VisitFrequency)
+#conver VisitFrequency to numeric before
+mcdonalds$VisitFrequency <- as.factor(mcdonalds$VisitFrequency)
+# mcdonalds$VisitFrequency <- recode(mcdonalds$VisitFrequency
+#                                    ,"Never" ="1"
+#                                    ,"Once a year"="2"
+#                                    ,"Every three months" = "3"
+#                                    ,"Once a month" = "4"
+#                                    ,"Once a week"="5"
+#                                    ,"More than once a week" = "6"
+#                                    )
+visit <- tapply(as.numeric(mcdonalds$VisitFrequency), k4, mean)
+visit #Mean pr. cluster
+```
+
+We see that we have computed the mean for each cluster. Where cluster 4 is the lowest while cluster 1 the highest.
+
+*Doing the same, but for Like*
+
+```{r}
+table(mcdonalds$Like)
+mcdonalds$Like <- as.factor(mcdonalds$Like)
+# mcdonalds$Like<- recode(mcdonalds$Like
+#                         , "I hate it!-5"="-5"
+#                         , "I love it!+5" = "5") # conver Like to numeric
+like <- tapply(as.numeric(mcdonalds$Like), k4, mean)
+like
+```
+
+We see the means again for each cluster.
+
+*Doing the same, but for gender*
+
+1 = Female and 0 = Male
+
+```{r}
+female <- tapply((mcdonalds$Gender == "Female") + 0, k4, mean) # conver gender to numeric 
+female
+# prop.table(table(mcdonalds$Gender, k4), 2)
+```
+
+The same as above.
+
+
+***Plotting visit frquency against like***
+
+```{r}
+plot(visit, like
+     ,cex = 8 * female #This is a clever way to control the size of the cluster!
+     ,xlim = c(2, 4.5)
+     ,ylim = c(-4, 4))
+text(visit, like, 1:4)
+```
+
+The plot obtained is a segment evaluation plot. Market segments 1 and 3 are located in the attractive quadrant of the plot. Members of those segments like the fast-food restaurant and visit it frequently. These segments need to be retained, and their need must be satisfied in the future. 
+
+Segments 1 (in this run) is located in the least attractive position, they rarely eat there, making it unattractive as a potential market segment. they are, in general, older customers (median > 50 yrs. old).
+
+Segment 2 does not currently perceive the restaurant in a positive way. Still, it is a viable market segment (average "Like" is close to zero (neutral)). Manager action could attempt to address the negative perceptions of this segment (they feel it is "expensive") and reinforce positive perceptions (if any). 
+
+As a result, the fast-food restaurant can enlarge its customer base. Overall the segment evaluation plot serves as a decision support tool for the management to discuss which of the four segments should be targeted. 
+
+
+
+
+
+
+
+
+
+

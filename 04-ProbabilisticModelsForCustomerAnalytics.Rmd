@@ -1096,7 +1096,7 @@ That applies for any given population Y. We see that we have the following notat
 We can take the following assumptions.
 
 
-Now we need to do three different scenarios:
+Now we are goint to do three different scenarios:
 
 a. Compute the ELP for the population consisting of individuals with medium income who are male. Should we mail an ad to this population?
 

@@ -246,9 +246,8 @@ We will now start looking at association rules. To do so, we apply the apriori p
  We set the following:
 
 + supp = minimum support, where we see that the combinations must occur in at least 0.1% of the baskets
-+ conf = the describes the conditional relationship between the left-hand and right-hand side. Hence we want a relationship that is greater than 80%, as we want to avoid random pairs.
++ conf = the describes the conditional relationship between the left-hand and right-hand side. Hence we want a relationship that is greater than 80%, as we want to avoid random pairs. You can have a rate combination of items (low support) althought the confidence is high, if these pairs always come together.
 + maxlen = the maximum length of items in a basket.
-
 
 
 ```{r}
@@ -281,7 +280,15 @@ Now we can **inspect the first 10 combinations**
 inspect(association.rules[1:10])
 ```
 
-We see that the confidence is one in many examples, that is for instance because when you have bought wobbly chicken, the you also buy decoration and for this pair it also goes the other way around.
+We see that the confidence is one in many examples, that is for instance because when you have bought *wobbly chicken*, the you also buy *decoration* and for this pair it also goes the other way around *(actually cant remember why, we probably checked)*.
+
+Lets take the first row as an example:
+
++ We have wobbly chicken in the basket, then you will also buy decoration.
++ Support = this pair occurs in 0.0013% of the times.
++ Confidence = this is 1, meaning when we have WC then the decoration will always be there
++ Coverage = that is how often the lhs appear in total
++ Lift = an indication of how much it is boosting the sale. We see that when we have a lift of 444, it means that we are more than 400 times boosting the sale of decoration given a sale of wobbly chicken. If you had a lift of 1, then you would have equal probability of buying e.g., decoration given wobbly chicken is in the basket. On the other side, lets say that lift is less than 1, then you prone to not buying. See the equation in the following.
 
 We see an example where the coverage is not one, that is because when you buy one, then you do not always buy the other. That is calculated by:
 
@@ -295,7 +302,7 @@ We see that:
 
 ![Lift example](images/LiftExample.png)
 
-**Manual calculation of support, coverage and confidence**
+**Manual calculation of support, coverage and confidence and lift**
 
 We are going to do three things: 
 
@@ -306,8 +313,8 @@ We are going to do three things:
 ```{r}
 #We are going to look at the pair woobly chicken and decoration
 
-left <- "SUNSET CHECK HAMMOCK"
-right <- "UNION STRIPE WITH FRINGE  HAMMOCK"
+left <- "WRAP"
+right <- "BILLBOARD FONTS DESIGN"
 
 #Find row number of a given item
 idx <- which(t(t(as.vector(tr@itemInfo))) == left)
@@ -331,6 +338,15 @@ support
 
 confidence = support / coverage 
 confidence #Hence a very stron relationship from woobly chicken to decoration
+```
+
+lift
+
+```{r}
+p_WC_given_d <- 28/28 #because they are both there 28 times.
+p_WC <- 50/22191 #The support of WC
+
+p_WC_given_d/p_WC #444
 ```
 
 

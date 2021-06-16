@@ -180,7 +180,7 @@ Then you may ask, how do we get the retention rates and hence the survival rates
 
 ![Shifted-Beta-Geometric model (sBG)](images/ShiftedBetaGeometricModel.png)
 
-Application of this is made in the excel sheet.
+Application of this is made in the excel sheet and in the following.
 
 The following also simulate two different scenarios.
 
@@ -211,6 +211,67 @@ alpha2/(alpha2 + beta2) #0.374
 ```
 
 Hence we see that 37% of the regular customers will churn, while only 15% of the high end customers will churn (leave). That is as expected as we see the greatest density of the of regular churners is higher than the high end, where we see that most lie in the lower region.
+
+### sBG (Shifted Beta Geometric model)
+
+This is basically the same as the example we have seen in excel, just applied in R instead.
+
+The example is based on the Berry-Linoff data about some high-end customers.
+
+```{r}
+library(tidyverse)
+library(foreign)
+
+### LOADING THE DATA ###
+berrydata = read.spss("Data/sBG/berry_linoff_ext.sav", to.data.frame=TRUE)
+
+#First seven years chosen
+berry.sub <- berrydata %>% 
+  filter(year<8) 
+head(berry.sub)
+```
+
+We see that we have data on the year, survival on regular and high end customers and retention on both as well.
+
+**The sBG Model**
+
+First we must find the parameters
+
+```{r}
+#High end customers
+nls(ret_high~(beta+year-1)/(alpha+beta+year-1)
+    ,start=list(alpha=1,beta=1)
+    ,data=berry.sub)
+
+alpha <- 0.675
+beta <- 3.862
+
+# Estimated retention rates added to data file
+berry.subII <- berrydata %>% 
+  mutate(ret_est_high_sbg = (beta+year-1)/(alpha+beta+year-1)) 
+
+#Plot of observed and estimated retention rates
+ggplot(berry.subII, aes(year, y = value, color = variable)) + 
+  geom_point(aes(y = ret_high, col = "ret_high")) + 
+  geom_point(aes(y = ret_est_high_sbg, col = "ret_est_high_sbg"))
+```
+
+```{r}
+#Regular customers
+nls(ret_reg~(beta+year-1)/(alpha+beta+year-1),start=list(alpha=1,beta=1),data=berry.sub)
+
+alpha <- 0.701
+beta <- 1.171
+
+berry.subII <- berrydata %>% 
+  mutate(ret_est_reg_sbg = (beta+year-1)/(alpha+beta+year-1)) 
+
+ggplot(berry.subII, aes(year, y = value, color = variable)) + 
+  geom_line(aes(y = ret_reg, col = "ret_reg")) + 
+  geom_line(aes(y = ret_est_reg_sbg, col = "ret_est_reg_sbg"))
+```
+
+Here we see that the retention rates are increasing, but not reaching as high levels as the high earners.
 
 
 ## Non-Contractual Setting: Probabilitic Models

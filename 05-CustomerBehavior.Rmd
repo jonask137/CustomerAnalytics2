@@ -5,7 +5,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
 # Customer behavior
@@ -174,7 +174,7 @@ mc <- fitMarkovChain(clickstreamList = cls,order = order #= two-periods memory, 
 mc
 ```
 
-The otucome:
+The outcome:
 
 + the two transition probabilities matrices for the two lags
 + start probabilities for the states the corresponding clickstreams started 
@@ -259,10 +259,15 @@ Therefore, we can define cluster and generalize on the clusters instead of on al
 
 An alternative before running the model is to identify segments of customers by clustering clickstreams and afterwards building a model for each cluster (Huang, Ng, Ching, Ng, and Cheung, 2001, k-means alg. and Euclidean distance) 
 
-```{r,results='hold'}
+```{r,results='hold',eval=FALSE}
 set.seed(12345)
 clusters <- clusterClickstreams(clickstreamList = cls, order = 1,centers = 3)
 clusters
+saveRDS(clusters,"Saved Objects/clusters.rds")
+```
+
+```{r}
+clusters <- readRDS("Saved Objects/clusters.rds")
 ```
 
 We see that this creates three clusters. Notice that this is a list element, hence we could also look them up individually.
@@ -310,7 +315,7 @@ summary(cls)
 Here we want to select the right orders. Here we test all the models in order 1 to 5 and then we evaluate BIC for each.
 
 ```{r,results='hold'}
-maxOrder <- 5 #Max no. of previous steps to evaluate
+maxOrder <- 3 #Max no. of previous steps to evaluate
 result <- data.frame()
 for (k in 1:maxOrder) {
   mc <- fitMarkovChain(clickstreamList = cls, order = k)
@@ -353,7 +358,7 @@ We see that there is a 15% chance of visiting page 1, and 7% chance of buying.
 
 Now we do some **clustering.** Hence, we predict for clusters instead of depicted clickstreams.
 
-```{r,results='hold'}
+```{r ClickStreamClustering,results='hold',eval=FALSE}
 library(doParallel)
 CoreCount  <- makePSOCKcluster(detectCores()-1)
 registerDoParallel(CoreCount)
@@ -362,11 +367,17 @@ clusters_sim <- clusterClickstreams(clickstreamList = cls, order = 1, centers = 
 
 stopCluster(CoreCount)
 registerDoSEQ()
+saveRDS(clusters_sim,"Saved Objects/clusters_sim.rds")
 ```
+
+```{r}
+clusters_sim <- readRDS("Saved Objects/clusters_sim.rds")
+```
+
 
 Now we could look at each cluster, I choose not to. It is basically what we have seen before with the transition probabilities, start and end probabilities.
 
-```{r,results='hold',eval=FALSE}
+```{r,results='hold'}
 summary(clusters_sim$clusters[[1]]) 
 summary(clusters_sim$clusters[[2]]) 
 summary(clusters_sim$clusters[[3]])
@@ -376,7 +387,7 @@ Now we can loop through the the no. of steps to use for prediction. The followin
 
 ```{r,results='hold'}
 # mc for clu 1 
-maxOrder <- 5 
+maxOrder <- 3 
 result <- data.frame()
 for (k in 1:maxOrder) {
   mc <- fitMarkovChain(clickstreamList = clusters_sim$clusters[[1]], order = k)
@@ -386,7 +397,7 @@ names(result) <- c("Order", "AIC", "BIC")
 result
 ```
 
-We see that the best model is an order one, as BIC is closest to 0.
+We see that the best model is an order 1, as BIC is closest to 0.
 
 ```{r,results='hold'}
 mc_clu1 <- fitMarkovChain(clickstreamList = clusters_sim$clusters[[1]], order = 1) 
@@ -419,11 +430,12 @@ The following sections include four different options.
 Example with real data (A Danish company provided us with a file of clickstream data on their e-commerce customers).
 
 ```{r,results='hold'}
+library(clickstream)
 mydata  <- readClickstreams(file = "Data/Customer behavior/StepsDesktop.csv", sep=",",header = T)
 summary(mydata)
 ```
 
-We see that there are 37k observations and then we can see the frequencies of the different events.
+We see that there are 37k observations and then we can see the frequencies of the different events and 20 different pages.
 
 Now we are going to analyze which order to apply.
 
@@ -441,11 +453,14 @@ result
 We see that order of 1, i.e., looking one step back in time is the most appropriate.
 
 ```{r,results='hold'}
-mc <- fitMarkovChain(clickstreamList = mydata, order = 1,control = list(optimizer = "quadratic")) 
+mc <- fitMarkovChain(clickstreamList = mydata, order = 1
+                     ,control = list(optimizer = "quadratic")) 
 mc
 ```
 
 Since we have names on the rows and columns, it is a bit more confusion to read. Although the principle is the same as we have seen previously.
+
+We have to read it from column to row when interpreting probabilities of going from one page to another.
 
 Notice that we are not having any absorbing states.
 
@@ -473,7 +488,7 @@ We see that when you have visited the delivery page, then there is a 20% probabi
 
 Now we can cluster the different click streams and make predictions based on these.
 
-```{r,results='hold'}
+```{r ClusterEx,results='hold',eval=FALSE}
 # Clustering first 
 library(doParallel)
 CoreCount  <- makePSOCKcluster(detectCores()-1)
@@ -485,6 +500,11 @@ stopCluster(CoreCount)
 registerDoSEQ()
 
 summary(clusters_ex$clusters[[1]]) # clu 1
+saveRDS(clusters_ex,"Saved Objects/clusters_ex.rds")
+```
+
+```{r}
+clusters_ex <- readRDS("Saved Objects/clusters_ex.rds")
 ```
 
 We see that the first cluster contain approx. 3.100 observations out of the 37.644 observations.
@@ -507,33 +527,33 @@ Now we can do the same for the other clusters. Notice that I have commented out 
 ```{r,results='hold',eval=FALSE,include=TRUE}
 #summary(clusters_ex$clusters[[2]]) # clu 2
 # mc for clu 2 
-maxOrder <- 5 
+maxOrder <- 3
 result <- data.frame()
 for (k in 1:maxOrder) {
   mc <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[2]], order = k)
   result <- rbind(result, c(k, summary(mc)$aic, summary(mc)$bic))
 }
 names(result) <- c("Order", "AIC", "BIC")
-#result
+result
 
 #summary(clusters_ex$clusters[[3]]) # clu 3
 # mc for clu 3
-maxOrder <- 5 
+maxOrder <- 3
 result <- data.frame()
 for (k in 1:maxOrder) {
   mc <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[3]], order = k)
   result <- rbind(result, c(k, summary(mc)$aic, summary(mc)$bic))
 }
 names(result) <- c("Order", "AIC", "BIC")
-#result
+result
 ```
 
 Result = lag of 1 is the most appropriate.
 
 ```{r,results='hold'}
-mc_clu1 <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[1]], order = 1) 
+mc_clu1 <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[1]], order = 1)
 summary(mc_clu1)
-mc_clu2 <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[2]], order = 1) 
+mc_clu2 <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[2]], order = 1)
 mc_clu3 <- fitMarkovChain(clickstreamList = clusters_ex$clusters[[3]], order = 1)
 ```
 
@@ -615,8 +635,10 @@ plot(mc_clu3, order = 1, digits = 1, minProbability = 0.40,
 
 Characterizing the clusters. Who are the customers underlying the three patterns of movement within the website?
 
-+ cl.2 and cl.3 search a lot through Category page;
-+ cl.1 search more through Product page;
+*Notice that this does not apply to her notes*
+
++ cl.2 and cl.3 search a lot through Category page
++ cl.1 search more through Product page
 + cl.1 and cl.3 search more varied (use more channels than cl.2)
 + cl.3 are more likely to enter through DirectAccess -> Front page pattern than the other two clusterss.
 
@@ -642,8 +664,8 @@ resultPattern
 We see the following:
 
 + Cluster 1 has 25% probability of going to conversion
-+ Cluster 2 has 32% probability of going to the product page
-+ Cluster 3 has 22% probability of going to the product page
++ Cluster 2 has 22% probability of going to the product page
++ Cluster 3 has 21% probability of going to the product page
 
 #### (2) Using association rule mining
 
@@ -669,7 +691,7 @@ sequences_clu1 %>% head()
 We see the different rules in the rows above. The following runs the same for the other clusters.
 
 ```{r,results='hide'}
-trans_clu2<- as.transactions(clusters$clusters[[2]]) 
+trans_clu2 <- as.transactions(clusters$clusters[[2]]) 
 sequences_clu2 <- as(apriori(trans_clu2, parameter = list(support = 0.50)), "data.frame")
 #sequences_clu2
 
@@ -686,10 +708,10 @@ The corresponding output shows that pattern sequences are supported by at least 
 library("arulesViz")
 sequences_clu1 <- apriori(trans_clu1, parameter = list(support = 0.40))
 ruleExplorer(sequences_clu1)
-sequences_clu2 <- apriori(trans_clu2, parameter = list(support = 0.50))
-ruleExplorer(sequences_clu2)
-sequences_clu3 <- apriori(trans_clu3, parameter = list(support = 0.50))
-ruleExplorer(sequences_clu3)
+# sequences_clu2 <- apriori(trans_clu2, parameter = list(support = 0.50))
+# ruleExplorer(sequences_clu2)
+# sequences_clu3 <- apriori(trans_clu3, parameter = list(support = 0.50))
+# ruleExplorer(sequences_clu3)
 # this approach is also useful for discovering product/brands that are seen together
 ```
 
@@ -699,7 +721,7 @@ If we dont want to work with sequences, we just look at frequencies. This has th
 
 ```{r,results='hold'}
 frequencyDF <- frequencies(mydata)
-frequencyDF
+head(frequencyDF)
 ```
 
 Here we just get a table showing each IDs for visitors and then you just get to see how many times the given person has visited the page.
@@ -958,7 +980,7 @@ He talks about slowly scaling up the treatment group to find bugs. Then you shou
 + One must be aware of robots, we do not want to count these as a visitor.
 + Many managers don't let the tests run their course
 + Not keeping it simple. Too many changes on the website will make the conclusions vague, because you don't know what worked and what no.
-+ You must be aware of the sorroundings, like what dates are your comparing, different timezone? timeperiods? What browser? What device is used?
++ You must be aware of the surroundings, like what dates are your comparing, different timezone? time periods? What browser? What device is used?
 
 To deal with the latter, one could make clusters, for instance we only want to make the test on phone or tablet visitors.
 
