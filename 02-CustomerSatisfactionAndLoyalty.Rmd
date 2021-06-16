@@ -18,11 +18,11 @@ The following sections are separated into five subsections:
 2. Sampling and response rate
 3. Pretesting and measurement validity
 4. Questionnaire design
-  a. Question types
-  b. Scale labeling
-  c. Question style
-  d. Social desirability bias
-  e. Optimizing versus satisfaction
+    a. Question types
+    b. Scale labeling
+    c. Question style
+    d. Social desirability bias
+    e. Optimizing versus satisfaction
 5. Simple size
 
 ### (1) Concepts and examples
@@ -397,7 +397,7 @@ ev
 
 We defined the individual constructs based on the theory (Stage 1) and developed the overall measurement model making also a first exploration with EFA. The next stages (4 and 5) would be to assess the measurement  model validity (Confirmatory Factor Analsysis). Lastly, stages 5 and 6 implies to specify the structural model (SEM) and to asssess the structural model validity.
 
-Hence, the next two main operational tasks are:
+**Hence, the next two main operational tasks are:**
 
 1.  Set up a confirmatory factor analysis to confirm the measurement model
 2.  Given the measurement model has been examined and validated in the CFA analysis, set up a SEM model, to test the structural relationships between the four constructs identified and the customers´ likelihood to continue doing business with HBAT (X19-Satisfaction, X20-Likelihood of recommendation and X21-Likelihood of future purchase).

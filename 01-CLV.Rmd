@@ -41,7 +41,7 @@ __For an infinite period__
 #Facts
 margin <- 40
 costs <- 4
-discount_factor <- 1.2
+discount_factor <- 1.2 #That is 1 + discount rate (%)
 states <- 5
 
 #Transition probabilities
@@ -58,7 +58,7 @@ P <- matrix(nrow = states,byrow = TRUE
                p3,0,0,1-p3,0,
                p4,0,0,0,1-p4,
                p5,0,0,0,1-p5
-               )# NOTE, ADD STATES BELOW, AND EXTEND THE MATRIX
+               )# NOTE, ADD STATES BELOW, AND EXTEND THE MATRIX, remember to add or delete columns
             )
               
 
@@ -98,7 +98,7 @@ We can also calculate the infinite _modified_ solution, where we apply the trans
 p1=0.3
 p2=0.2
 p3=0.15
-p4= #Notice, 0that we discovered above that recency state 4 where negative, so we will not invest in these. Then we also assume, that they will not buy anything. One may also have kept p = 0.05
+p4= 0 #Notice, 0that we discovered above that recency state 4 where negative, so we will not invest in these. Then we also assume, that they will not buy anything. One may also have kept p = 0.05
 p5=0
 
 # Transition probability matrix
